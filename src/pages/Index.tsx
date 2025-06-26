@@ -135,7 +135,7 @@ const Index = () => {
                         onClick={() => handleLengthChange('قصير')}
                         className="font-tajawal text-xs"
                       >
-                        قصير (أقل من 400 حرف)
+                        قصير
                       </Button>
                       <Button
                         type="button"
@@ -144,7 +144,7 @@ const Index = () => {
                         onClick={() => handleLengthChange('متوسط')}
                         className="font-tajawal text-xs"
                       >
-                        متوسط (400-450 حرف)
+                        متوسط
                       </Button>
                       <Button
                         type="button"
@@ -153,7 +153,7 @@ const Index = () => {
                         onClick={() => handleLengthChange('طويل')}
                         className="font-tajawal text-xs"
                       >
-                        طويل (أكثر من 600 حرف)
+                        طويل
                       </Button>
                     </div>
                   </div>
