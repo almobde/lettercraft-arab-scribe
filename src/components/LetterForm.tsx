@@ -20,10 +20,10 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-6">
-        <div className="bg-green-800/90 p-6 rounded-xl border border-green-600">
-          <Label htmlFor="recipientName" className="text-right block mb-3 text-green-100 font-semibold text-lg">
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4">
+        <div className="space-y-3">
+          <Label htmlFor="recipientName" className="text-right block text-green-100 font-semibold text-lg flex items-center gap-2">
             📛 اسم المرسل إليه
           </Label>
           <Input
@@ -31,13 +31,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientName}
             onChange={(e) => handleInputChange('recipientName', e.target.value)}
             placeholder="مثال: محمد بن ناصر العتيبي"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white"
+            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white h-14 px-4"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-emerald-800/90 p-6 rounded-xl border border-emerald-600">
-          <Label htmlFor="recipientTitle" className="text-right block mb-3 text-emerald-100 font-semibold text-lg">
+        <div className="space-y-3">
+          <Label htmlFor="recipientTitle" className="text-right block text-emerald-100 font-semibold text-lg flex items-center gap-2">
             🏷️ منصبه أو وظيفته
           </Label>
           <Input
@@ -45,13 +45,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientTitle}
             onChange={(e) => handleInputChange('recipientTitle', e.target.value)}
             placeholder="مثال: مدير إدارة التعليم - مشرف تربوي - رئيس قسم"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white"
+            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white h-14 px-4"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-teal-800/90 p-6 rounded-xl border border-teal-600">
-          <Label htmlFor="occasion" className="text-right block mb-3 text-teal-100 font-semibold text-lg">
+        <div className="space-y-3">
+          <Label htmlFor="occasion" className="text-right block text-teal-100 font-semibold text-lg flex items-center gap-2">
             🎯 المناسبة أو الغرض من الخطاب
           </Label>
           <Input
@@ -59,13 +59,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.occasion}
             onChange={(e) => handleInputChange('occasion', e.target.value)}
             placeholder="مثال: شكر على جهوده المتميزة في تطوير العملية التعليمية"
-            className="text-right font-tajawal text-lg border-teal-300 focus:border-teal-500 bg-white"
+            className="text-right font-tajawal text-lg border-teal-300 focus:border-teal-500 bg-white h-14 px-4"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-green-800/90 p-6 rounded-xl border border-green-600">
-          <Label htmlFor="senderOrganization" className="text-right block mb-3 text-green-100 font-semibold text-lg">
+        <div className="space-y-3">
+          <Label htmlFor="senderOrganization" className="text-right block text-green-100 font-semibold text-lg flex items-center gap-2">
             🏢 اسم الجهة المرسِلة
           </Label>
           <Input
@@ -73,13 +73,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderOrganization}
             onChange={(e) => handleInputChange('senderOrganization', e.target.value)}
             placeholder="مثال: إدارة التعليم بمحافظة الخرج - وزارة التعليم"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white"
+            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white h-14 px-4"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-emerald-800/90 p-6 rounded-xl border border-emerald-600">
-          <Label htmlFor="senderName" className="text-right block mb-3 text-emerald-100 font-semibold text-lg">
+        <div className="space-y-3">
+          <Label htmlFor="senderName" className="text-right block text-emerald-100 font-semibold text-lg flex items-center gap-2">
             🧑‍💼 اسم المرسِل
           </Label>
           <Input
@@ -87,13 +87,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderName}
             onChange={(e) => handleInputChange('senderName', e.target.value)}
             placeholder="مثال: خالد العتيبي - مدير الإدارة"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white"
+            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white h-14 px-4"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-gradient-to-r from-green-800/90 to-emerald-800/90 p-6 rounded-xl border border-green-600">
-          <Label className="text-right block mb-4 text-green-100 font-bold text-lg">
+        <div className="space-y-4">
+          <Label className="text-right block text-green-100 font-bold text-lg flex items-center gap-2">
             🎨 نغمة الخطاب المطلوبة
           </Label>
           <div className="grid grid-cols-2 gap-3">
@@ -102,7 +102,7 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
                 key={tone}
                 variant={letterData.tone === tone ? 'default' : 'outline'}
                 onClick={() => handleInputChange('tone', tone)}
-                className={`text-base font-tajawal py-3 ${
+                className={`text-base font-tajawal py-3 h-12 ${
                   letterData.tone === tone 
                     ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg' 
                     : 'border-green-300 text-green-700 hover:bg-green-50'
@@ -114,8 +114,8 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-teal-800/90 to-green-800/90 p-6 rounded-xl border border-teal-600 space-y-4">
-          <div className="flex items-center gap-4 p-4 bg-white/60 rounded-lg border border-teal-200">
+        <div className="space-y-4">
+          <div className="flex items-center gap-4 p-4 bg-white/90 rounded-lg border border-teal-200">
             <input
               type="checkbox"
               id="needsTranslation"
@@ -128,7 +128,7 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             </Label>
           </div>
 
-          <div className="flex items-center gap-4 p-4 bg-white/60 rounded-lg border border-teal-200">
+          <div className="flex items-center gap-4 p-4 bg-white/90 rounded-lg border border-teal-200">
             <input
               type="checkbox"
               id="needsCreativeVersion"
@@ -141,7 +141,7 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             </Label>
           </div>
 
-          <div className="flex items-center gap-4 p-4 bg-white/60 rounded-lg border border-teal-200">
+          <div className="flex items-center gap-4 p-4 bg-white/90 rounded-lg border border-teal-200">
             <input
               type="checkbox"
               id="needsDiacritics"
