@@ -147,10 +147,18 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
       {/* Arabic Version */}
       <Card className="p-8 bg-gradient-to-br from-green-50/50 to-white border-2 border-green-200 shadow-xl">
         <div className="whitespace-pre-line text-right leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
-          <div className="prose-letter text-center">
+          <div className="prose-letter">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
-              // Center the recipient name and title
-              if (line.includes('سعادة')) {
+              // Always right-align the date
+              if (line.includes('التاريخ')) {
+                return (
+                  <div key={index} className="text-right font-medium text-green-600 mb-4">
+                    {line}
+                  </div>
+                );
+              }
+              // Center recipient name and greeting lines
+              if (line.includes('سعادة') || line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                 return (
                   <div key={index} className="text-center font-bold text-xl text-green-800 mb-2">
                     {line}
@@ -158,7 +166,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                 );
               }
               // Center job title
-              if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('التاريخ') && line.length < 50 && !line.includes('نتوجه') && !line.includes('يطيب')) {
+              if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('التاريخ') && line.length < 50 && !line.includes('نتوجه') && !line.includes('يطيب') && !line.includes('في رحاب') && !line.includes('تحت ظلال')) {
                 return (
                   <div key={index} className="text-center font-semibold text-lg text-green-700 mb-4">
                     {line}
@@ -176,14 +184,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               if (line.includes(letterData.senderOrganization) && letterData.senderOrganization) {
                 return (
                   <div key={index} className="text-center font-semibold text-base text-green-700 mb-4">
-                    {line}
-                  </div>
-                );
-              }
-              // Date alignment to the right
-              if (line.includes('التاريخ')) {
-                return (
-                  <div key={index} className="text-right font-medium text-green-600 mb-4">
                     {line}
                   </div>
                 );
@@ -255,21 +255,31 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           <div className="whitespace-pre-line text-right leading-loose text-purple-700 font-tajawal text-lg" dir="rtl">
             <div className="prose-letter">
               {generatedLetter.creativeVersion.split('\n').map((line, index) => {
-                // Center the recipient name and title
-                if (line.includes('إلى صاحب') || line.includes('إلى رمز')) {
+                // Always right-align the date
+                if (line.includes('التاريخ')) {
+                  return (
+                    <div key={index} className="text-right font-medium text-purple-600 mb-4">
+                      {line}
+                    </div>
+                  );
+                }
+                // Center all creative greetings and recipient names
+                if (line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                   return (
                     <div key={index} className="text-center font-bold text-xl text-purple-800 mb-2">
                       {line}
                     </div>
                   );
                 }
-                if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('في رحاب') && line.length < 50 && !line.includes('نقف')) {
+                // Center job titles
+                if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('في رحاب') && !line.includes('تحت ظلال') && !line.includes('في غمرة') && line.length < 50 && !line.includes('نقف') && !line.includes('نتشرف') && !line.includes('يسعدنا')) {
                   return (
                     <div key={index} className="text-center font-semibold text-lg text-purple-700 mb-4">
                       {line}
                     </div>
                   );
                 }
+                // Center sender name and organization
                 if (line.includes(letterData.senderName) && letterData.senderName) {
                   return (
                     <div key={index} className="text-center font-bold text-lg text-purple-800 mt-6">
