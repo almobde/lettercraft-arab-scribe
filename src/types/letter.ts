@@ -8,6 +8,7 @@ export interface LetterData {
   tone: 'رسمية' | 'تحفيزية' | 'أدبية' | 'ودية';
   needsTranslation: boolean;
   needsCreativeVersion: boolean;
+  needsDiacritics: boolean;
 }
 
 export interface GeneratedLetter {

@@ -14,7 +14,8 @@ const Index = () => {
     senderName: '',
     tone: 'رسمية',
     needsTranslation: false,
-    needsCreativeVersion: false
+    needsCreativeVersion: false,
+    needsDiacritics: false
   });
 
   const handleFormChange = (data: LetterData) => {
