@@ -1,10 +1,8 @@
-
 import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
 import { SavedLettersDialog } from '../components/SavedLettersDialog';
 import { LetterData } from '../types/letter';
-import { Archive } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -87,20 +85,20 @@ const Index = () => {
       {/* Header */}
       <header className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-xl relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <img 
-                src="/lovable-uploads/99b8a8ac-8711-4890-98bb-a58b23cfa7b8.png" 
-                alt="شعار ديوان المراسلات" 
-                className="w-16 h-16 object-contain"
-              />
-              <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
-                ديوان المراسلات
-              </h1>
+          <div className="flex items-center justify-center gap-8">
+            <img 
+              src="/lovable-uploads/e0ff1bcc-0a92-4e68-bc57-fca964ae7765.png" 
+              alt="ديوان المراسلات" 
+              className="w-20 h-20 object-contain"
+            />
+            <div className="text-center">
+              <p className="text-green-100 text-xl md:text-2xl font-medium leading-relaxed">
+                إنشاء خطابات رسمية احترافية وراقية
+              </p>
+              <p className="text-green-100 text-xl md:text-2xl font-medium leading-relaxed">
+                بأسلوب مميز وإبداعي
+              </p>
             </div>
-            <p className="text-green-100 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
-              إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز وإبداعي
-            </p>
           </div>
         </div>
       </header>
@@ -188,7 +186,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <p className="text-green-100 text-lg font-medium">
-              ديوان المراسلات - تطبيق احترافي لكتابة الخطابات الرسمية
+              تطبيق احترافي لكتابة الخطابات الرسمية
             </p>
             <div className="border-t border-green-700 pt-4">
               <p className="text-green-200 text-sm">
