@@ -91,35 +91,39 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      <main className="relative z-10">
         <div className="space-y-8">
           {/* Form Section - Full Width */}
           <div className="w-full">
-            <div className="bg-green-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-green-200 p-8 hover:shadow-3xl transition-all duration-300">
-              <h2 className="text-2xl font-bold text-white mb-8">
-                معلومات الخطاب
-              </h2>
-              <div className="bg-white rounded-xl p-6">
-                <LetterForm 
-                  letterData={letterData}
-                  onChange={handleFormChange}
-                />
+            <div className="bg-green-900/95 backdrop-blur-sm shadow-2xl border border-green-200 hover:shadow-3xl transition-all duration-300">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <h2 className="text-3xl font-bold text-white mb-8 text-center">
+                  معلومات الخطاب
+                </h2>
+                <div className="bg-white rounded-xl p-8">
+                  <LetterForm 
+                    letterData={letterData}
+                    onChange={handleFormChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Preview Section - Full Width */}
           <div className="w-full">
-            <div className="bg-green-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-green-200 p-8 hover:shadow-3xl transition-all duration-300">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                  <span className="text-white text-xl">📄</span>
+            <div className="bg-green-900/95 backdrop-blur-sm shadow-2xl border border-green-200 hover:shadow-3xl transition-all duration-300">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="flex items-center justify-center gap-3 mb-8">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
+                    <span className="text-white text-xl">📄</span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-white text-center">
+                    معاينة الخطاب
+                  </h2>
                 </div>
-                <h2 className="text-2xl font-bold text-white">
-                  معاينة الخطاب
-                </h2>
+                <LetterPreview letterData={letterData} />
               </div>
-              <LetterPreview letterData={letterData} />
             </div>
           </div>
         </div>
