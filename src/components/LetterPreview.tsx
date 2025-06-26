@@ -201,11 +201,22 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
       {/* English Translation */}
       {letterData.needsTranslation && generatedLetter.englishVersion && (
         <Card className="p-8 bg-gradient-to-br from-blue-50/50 to-white border-2 border-blue-200 shadow-xl">
-          <div className="flex items-center gap-2 mb-6">
-            <h3 className="font-bold text-blue-800 text-xl font-tajawal">
-              الترجمة الإنجليزية:
-            </h3>
-            <Sparkles className="w-5 h-5 text-blue-500" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-blue-800 text-xl font-tajawal">
+                الترجمة الإنجليزية:
+              </h3>
+              <Sparkles className="w-5 h-5 text-blue-500" />
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(generatedLetter.englishVersion!)}
+              className="font-tajawal text-blue-700 border-blue-300 hover:bg-blue-50"
+            >
+              <Copy className="w-4 h-4 ml-2" />
+              نسخ الترجمة
+            </Button>
           </div>
           <div className="whitespace-pre-line text-left leading-relaxed text-blue-700 font-medium text-base" dir="ltr">
             {generatedLetter.englishVersion.split('\n').map((line, index) => {
@@ -246,11 +257,22 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
       {/* Creative Version */}
       {letterData.needsCreativeVersion && generatedLetter.creativeVersion && (
         <Card className="p-8 bg-gradient-to-br from-purple-50/50 to-white border-2 border-purple-200 shadow-xl">
-          <div className="flex items-center gap-2 mb-6">
-            <h3 className="font-bold text-purple-800 text-xl font-tajawal">
-              الصيغة الإبداعية المميزة:
-            </h3>
-            <Sparkles className="w-5 h-5 text-purple-500 animate-pulse" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-purple-800 text-xl font-tajawal">
+                الصيغة الإبداعية المميزة:
+              </h3>
+              <Sparkles className="w-5 h-5 text-purple-500 animate-pulse" />
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(generatedLetter.creativeVersion!)}
+              className="font-tajawal text-purple-700 border-purple-300 hover:bg-purple-50"
+            >
+              <Copy className="w-4 h-4 ml-2" />
+              نسخ الإبداعي
+            </Button>
           </div>
           <div className="whitespace-pre-line text-right leading-loose text-purple-700 font-tajawal text-lg" dir="rtl">
             <div className="prose-letter">
