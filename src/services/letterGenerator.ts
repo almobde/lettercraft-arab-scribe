@@ -1,5 +1,4 @@
 
-import { generateWithGemini } from './geminiService';
 import { LetterData, GeneratedLetter } from '../types/letter';
 
 const getHijriDate = () => {
@@ -76,8 +75,6 @@ const getOccasionSpecificPrompt = (occasion: string, tone: string) => {
 const generateLocalLetter = (letterData: LetterData): GeneratedLetter => {
   const hijriDate = getHijriDate();
   const gregorianDate = getGregorianDate();
-  
-  const occasionPrompt = getOccasionSpecificPrompt(letterData.occasion, letterData.tone);
   
   // تحديد المحتوى بناءً على نوع المناسبة
   let mainContent = '';
@@ -183,39 +180,7 @@ ${letterData.senderOrganization}`;
   return result;
 };
 
-export const generateLetter = async (letterData: LetterData, forceRegenerate: boolean = false): Promise<GeneratedLetter> => {
-  try {
-    const lengthInstructions = getLetterLengthInstructions(letterData.letterLength);
-    const occasionPrompt = getOccasionSpecificPrompt(letterData.occasion, letterData.tone);
-    
-    const prompt = `
-    ${lengthInstructions}. ${occasionPrompt}
-    
-    معلومات الخطاب:
-    - المرسل إليه: ${letterData.recipientName}
-    - المنصب: ${letterData.recipientTitle}
-    - المناسبة: ${letterData.occasion}
-    - المرسل: ${letterData.senderName}
-    - المنظمة: ${letterData.senderOrganization}
-    - الأسلوب: ${letterData.tone}
-    - طول الخطاب: ${letterData.letterLength}
-    
-    اكتب خطاباً احترافياً باللغة العربية يتضمن:
-    1. البسملة في الوسط
-    2. التاريخ الهجري والميلادي
-    3. اسم المرسل إليه ومنصبه
-    4. السلام
-    5. محتوى مناسب للمناسبة بالطول المطلوب
-    6. الختام
-    7. اسم المرسل والمنظمة
-    
-    تأكد من أن المحتوى مناسب لنوع المناسبة ولا يحتوي على عبارات غير مناسبة.
-    `;
-
-    const result = await generateWithGemini(prompt, letterData.needsTranslation, letterData.needsCreativeVersion);
-    return result;
-  } catch (error) {
-    console.error('Gemini API failed, using local generation:', error);
-    return generateLocalLetter(letterData);
-  }
+export const generateLetter = async (letterData: LetterData): Promise<GeneratedLetter> => {
+  // استخدام التوليد المحلي مباشرة
+  return generateLocalLetter(letterData);
 };
