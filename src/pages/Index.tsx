@@ -81,10 +81,10 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-6">
-              مُولِّد الخطابات الرسمية
+              ديوان المراسلات
             </h1>
             <p className="text-green-100 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
-              إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز
+              إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز وإبداعي
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <p className="text-green-100 text-lg font-medium">
-              مُولِّد الخطابات الرسمية - تطبيق احترافي لكتابة الخطابات
+              ديوان المراسلات - تطبيق احترافي لكتابة الخطابات الرسمية
             </p>
             <div className="border-t border-green-700 pt-4">
               <p className="text-green-200 text-sm">
