@@ -1,3 +1,4 @@
+
 import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateWithGemini, createLetterPrompt, createEnglishPrompt } from './geminiService';
 
@@ -41,7 +42,7 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/سعادة/g, 'سَعادَةُ');
   diacritizedText = diacritizedText.replace(/التاريخ/g, 'التَّارِيخُ');
   
-  // Common verbs and expressions
+  // Common verbs and expressions - Enhanced coverage
   diacritizedText = diacritizedText.replace(/نتوجه/g, 'نَتَوَجَّهُ');
   diacritizedText = diacritizedText.replace(/نتشرف/g, 'نَتَشَرَّفُ');
   diacritizedText = diacritizedText.replace(/يطيب/g, 'يَطِيبُ');
@@ -56,6 +57,34 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/الجهود/g, 'الجُهُودُ');
   diacritizedText = diacritizedText.replace(/الأعمال/g, 'الأَعْمالُ');
   diacritizedText = diacritizedText.replace(/الإنجازات/g, 'الإِنْجازاتُ');
+  
+  // Additional common words
+  diacritizedText = diacritizedText.replace(/نسأل/g, 'نَسْأَلُ');
+  diacritizedText = diacritizedText.replace(/الله/g, 'اللهُ');
+  diacritizedText = diacritizedText.replace(/العلي/g, 'العَلِيُّ');
+  diacritizedText = diacritizedText.replace(/القدير/g, 'القَدِيرُ');
+  diacritizedText = diacritizedText.replace(/يبارك/g, 'يُبارِكَ');
+  diacritizedText = diacritizedText.replace(/يوفقكم/g, 'يُوَفِّقَكُمْ');
+  diacritizedText = diacritizedText.replace(/المبارك/g, 'المُبارَكُ');
+  diacritizedText = diacritizedText.replace(/المباركة/g, 'المُبارَكَةُ');
+  diacritizedText = diacritizedText.replace(/تقبلوا/g, 'تَقَبَّلُوا');
+  diacritizedText = diacritizedText.replace(/فائق/g, 'فائِقَ');
+  diacritizedText = diacritizedText.replace(/ما قدمتموه/g, 'ما قَدَّمْتُمُوهُ');
+  diacritizedText = diacritizedText.replace(/بذلتموه/g, 'بَذَلْتُمُوهُ');
+  diacritizedText = diacritizedText.replace(/أظهرتم/g, 'أَظْهَرْتُمْ');
+  diacritizedText = diacritizedText.replace(/كنتم/g, 'كُنْتُمْ');
+  diacritizedText = diacritizedText.replace(/ستبقى/g, 'سَتَبْقَى');
+  diacritizedText = diacritizedText.replace(/محفورة/g, 'مَحْفُورَةً');
+  diacritizedText = diacritizedText.replace(/قلوبنا/g, 'قُلُوبِنا');
+  diacritizedText = diacritizedText.replace(/الطيبة/g, 'الطَّيِّبَةُ');
+  diacritizedText = diacritizedText.replace(/النبيلة/g, 'النَّبِيلَةُ');
+  diacritizedText = diacritizedText.replace(/الصادقة/g, 'الصَّادِقَةُ');
+  diacritizedText = diacritizedText.replace(/المتواصل/g, 'المُتَواصِلُ');
+  diacritizedText = diacritizedText.replace(/المتواصلة/g, 'المُتَواصِلَةُ');
+  diacritizedText = diacritizedText.replace(/الدؤوب/g, 'الدَّؤُوبُ');
+  diacritizedText = diacritizedText.replace(/المتقن/g, 'المُتْقَنُ');
+  diacritizedText = diacritizedText.replace(/الإتقان/g, 'الإِتْقانُ');
+  diacritizedText = diacritizedText.replace(/والجودة/g, 'وَالجَوْدَةُ');
   
   return diacritizedText;
 };
