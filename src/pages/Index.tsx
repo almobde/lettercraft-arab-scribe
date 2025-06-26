@@ -2,7 +2,10 @@
 import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
+import { SavedLettersDialog } from '../components/SavedLettersDialog';
 import { LetterData } from '../types/letter';
+import { Archive } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -12,6 +15,7 @@ const Index = () => {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
+    letterLength: 'متوسط',
     needsTranslation: false,
     needsCreativeVersion: false,
     needsDiacritics: false
@@ -19,6 +23,10 @@ const Index = () => {
 
   const handleFormChange = (data: LetterData) => {
     setLetterData(data);
+  };
+
+  const handleLengthChange = (length: 'قصير' | 'متوسط' | 'طويل') => {
+    setLetterData(prev => ({ ...prev, letterLength: length }));
   };
 
   return (
@@ -80,9 +88,16 @@ const Index = () => {
       <header className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-xl relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-6">
-              ديوان المراسلات
-            </h1>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <img 
+                src="/lovable-uploads/99b8a8ac-8711-4890-98bb-a58b23cfa7b8.png" 
+                alt="شعار ديوان المراسلات" 
+                className="w-16 h-16 object-contain"
+              />
+              <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
+                ديوان المراسلات
+              </h1>
+            </div>
             <p className="text-green-100 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
               إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز وإبداعي
             </p>
@@ -97,14 +112,53 @@ const Index = () => {
           <div className="w-full">
             <div className="bg-green-900/95 backdrop-blur-sm shadow-2xl border border-green-200 hover:shadow-3xl transition-all duration-300">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <h2 className="text-3xl font-bold text-white mb-8 text-center">
-                  معلومات الخطاب
-                </h2>
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-3xl font-bold text-white">
+                    معلومات الخطاب
+                  </h2>
+                  <SavedLettersDialog />
+                </div>
                 <div className="bg-white rounded-xl p-8">
                   <LetterForm 
                     letterData={letterData}
                     onChange={handleFormChange}
                   />
+                  
+                  {/* Length Selection Buttons */}
+                  <div className="mt-6 pt-6 border-t border-gray-200">
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      اختر طول الخطاب المناسب:
+                    </label>
+                    <div className="flex gap-2 flex-wrap">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={letterData.letterLength === 'قصير' ? 'default' : 'outline'}
+                        onClick={() => handleLengthChange('قصير')}
+                        className="font-tajawal text-xs"
+                      >
+                        قصير (أقل من 400 حرف)
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={letterData.letterLength === 'متوسط' ? 'default' : 'outline'}
+                        onClick={() => handleLengthChange('متوسط')}
+                        className="font-tajawal text-xs"
+                      >
+                        متوسط (400-450 حرف)
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={letterData.letterLength === 'طويل' ? 'default' : 'outline'}
+                        onClick={() => handleLengthChange('طويل')}
+                        className="font-tajawal text-xs"
+                      >
+                        طويل (أكثر من 600 حرف)
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
