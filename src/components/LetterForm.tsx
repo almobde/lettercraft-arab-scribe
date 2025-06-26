@@ -20,10 +20,10 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-4">
-        <div className="space-y-3">
-          <Label htmlFor="recipientName" className="text-right block text-green-100 font-semibold text-lg flex items-center gap-2">
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-4">
+          <Label htmlFor="recipientName" className="text-right block text-green-800 font-semibold text-lg flex items-center gap-2">
             📛 اسم المرسل إليه
           </Label>
           <Input
@@ -31,13 +31,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientName}
             onChange={(e) => handleInputChange('recipientName', e.target.value)}
             placeholder="مثال: محمد بن ناصر العتيبي"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white h-14 px-4"
+            className="text-right font-tajawal text-lg bg-white h-16 px-6 text-gray-800 placeholder:text-gray-500"
             dir="rtl"
           />
         </div>
 
-        <div className="space-y-3">
-          <Label htmlFor="recipientTitle" className="text-right block text-emerald-100 font-semibold text-lg flex items-center gap-2">
+        <div className="space-y-4">
+          <Label htmlFor="recipientTitle" className="text-right block text-green-800 font-semibold text-lg flex items-center gap-2">
             🏷️ منصبه أو وظيفته
           </Label>
           <Input
@@ -45,13 +45,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientTitle}
             onChange={(e) => handleInputChange('recipientTitle', e.target.value)}
             placeholder="مثال: مدير إدارة التعليم - مشرف تربوي - رئيس قسم"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white h-14 px-4"
+            className="text-right font-tajawal text-lg bg-white h-16 px-6 text-gray-800 placeholder:text-gray-500"
             dir="rtl"
           />
         </div>
 
-        <div className="space-y-3">
-          <Label htmlFor="occasion" className="text-right block text-teal-100 font-semibold text-lg flex items-center gap-2">
+        <div className="space-y-4">
+          <Label htmlFor="occasion" className="text-right block text-green-800 font-semibold text-lg flex items-center gap-2">
             🎯 المناسبة أو الغرض من الخطاب
           </Label>
           <Input
@@ -59,13 +59,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.occasion}
             onChange={(e) => handleInputChange('occasion', e.target.value)}
             placeholder="مثال: شكر على جهوده المتميزة في تطوير العملية التعليمية"
-            className="text-right font-tajawal text-lg border-teal-300 focus:border-teal-500 bg-white h-14 px-4"
+            className="text-right font-tajawal text-lg bg-white h-16 px-6 text-gray-800 placeholder:text-gray-500"
             dir="rtl"
           />
         </div>
 
-        <div className="space-y-3">
-          <Label htmlFor="senderOrganization" className="text-right block text-green-100 font-semibold text-lg flex items-center gap-2">
+        <div className="space-y-4">
+          <Label htmlFor="senderOrganization" className="text-right block text-green-800 font-semibold text-lg flex items-center gap-2">
             🏢 اسم الجهة المرسِلة
           </Label>
           <Input
@@ -73,13 +73,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderOrganization}
             onChange={(e) => handleInputChange('senderOrganization', e.target.value)}
             placeholder="مثال: إدارة التعليم بمحافظة الخرج - وزارة التعليم"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white h-14 px-4"
+            className="text-right font-tajawal text-lg bg-white h-16 px-6 text-gray-800 placeholder:text-gray-500"
             dir="rtl"
           />
         </div>
 
-        <div className="space-y-3">
-          <Label htmlFor="senderName" className="text-right block text-emerald-100 font-semibold text-lg flex items-center gap-2">
+        <div className="space-y-4">
+          <Label htmlFor="senderName" className="text-right block text-green-800 font-semibold text-lg flex items-center gap-2">
             🧑‍💼 اسم المرسِل
           </Label>
           <Input
@@ -87,13 +87,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderName}
             onChange={(e) => handleInputChange('senderName', e.target.value)}
             placeholder="مثال: خالد العتيبي - مدير الإدارة"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white h-14 px-4"
+            className="text-right font-tajawal text-lg bg-white h-20 sm:h-24 px-6 text-green-800 font-semibold placeholder:text-gray-500"
             dir="rtl"
           />
         </div>
 
         <div className="space-y-4">
-          <Label className="text-right block text-green-100 font-bold text-lg flex items-center gap-2">
+          <Label className="text-right block text-green-800 font-bold text-lg flex items-center gap-2">
             🎨 نغمة الخطاب المطلوبة
           </Label>
           <div className="grid grid-cols-2 gap-3">
