@@ -1,126 +1,125 @@
 
 import { LetterData, GeneratedLetter } from '../types/letter';
 
-export const generateLetter = (data: LetterData): GeneratedLetter => {
-  if (!data.recipientName || !data.occasion) {
-    return { arabicVersion: '' };
+const generateArabicLetter = (data: LetterData): string => {
+  if (!data.recipientName && !data.occasion) {
+    return '';
   }
 
-  // Generate Arabic version
-  const arabicLetter = generateArabicLetter(data);
+  const greeting = data.recipientName ? `إلى ${data.recipientName}` : 'إلى من يهمه الأمر';
+  const title = data.recipientTitle ? ` - ${data.recipientTitle}` : '';
   
-  // Generate English version if requested
-  let englishVersion = undefined;
-  if (data.needsTranslation) {
-    englishVersion = generateEnglishLetter(data);
+  let body = '';
+  if (data.occasion) {
+    switch (data.tone) {
+      case 'تحفيزية':
+        body = `نتوجه إليكم بأسمى آيات الشكر والامتنان على ${data.occasion}. إن جهودكم المتميزة تستحق كل التقدير والإعجاب.`;
+        break;
+      case 'أدبية':
+        body = `نرفع إليكم عبارات الثناء والتقدير على ${data.occasion}. فقد كان لعملكم أثر طيب وبصمة واضحة.`;
+        break;
+      case 'ودية':
+        body = `نشكركم من القلب على ${data.occasion}. نقدر جهودكم الرائعة وتعاونكم المثمر معنا.`;
+        break;
+      default:
+        body = `نتشرف بتقديم الشكر والتقدير لكم على ${data.occasion}. نقدر جهودكم المبذولة في هذا الصدد.`;
+    }
   }
 
-  // Generate creative version if requested
-  let creativeVersion = undefined;
-  if (data.needsCreativeVersion) {
-    creativeVersion = generateCreativeLetter(data);
+  const closing = 'مع خالص التقدير والاحترام';
+  const signature = data.senderName || 'المرسل';
+  const organization = data.senderOrganization ? `\n${data.senderOrganization}` : '';
+
+  return `${greeting}${title}
+
+${body}
+
+${closing}،
+${signature}${organization}`;
+};
+
+const generateEnglishTranslation = (data: LetterData): string => {
+  if (!data.recipientName && !data.occasion) {
+    return '';
   }
+
+  const greeting = data.recipientName ? `To ${data.recipientName}` : 'To Whom It May Concern';
+  const title = data.recipientTitle ? ` - ${data.recipientTitle}` : '';
+  
+  let body = '';
+  if (data.occasion) {
+    switch (data.tone) {
+      case 'تحفيزية':
+        body = `We extend our highest appreciation and gratitude for ${data.occasion}. Your outstanding efforts deserve all recognition and admiration.`;
+        break;
+      case 'أدبية':
+        body = `We offer our praise and appreciation for ${data.occasion}. Your work has had a positive impact and left a clear mark.`;
+        break;
+      case 'ودية':
+        body = `We thank you from the heart for ${data.occasion}. We appreciate your wonderful efforts and fruitful cooperation with us.`;
+        break;
+      default:
+        body = `We are honored to express our thanks and appreciation for ${data.occasion}. We value your efforts in this regard.`;
+    }
+  }
+
+  const closing = 'With sincere appreciation and respect';
+  const signature = data.senderName || 'The Sender';
+  const organization = data.senderOrganization ? `\n${data.senderOrganization}` : '';
+
+  return `${greeting}${title}
+
+${body}
+
+${closing},
+${signature}${organization}`;
+};
+
+const generateCreativeVersion = (data: LetterData): string => {
+  if (!data.recipientName && !data.occasion) {
+    return '';
+  }
+
+  const greeting = data.recipientName ? `إلى الأستاذ المبدع / ${data.recipientName}` : 'إلى صاحب الإبداع والتميز';
+  const title = data.recipientTitle ? ` - ${data.recipientTitle}` : '';
+  
+  let body = '';
+  if (data.occasion) {
+    switch (data.tone) {
+      case 'تحفيزية':
+        body = `لقد أضأتم طريق النجاح من خلال ${data.occasion}. إبداعكم ملهم وجهودكم تستحق أن تُكتب بماء الذهب.`;
+        break;
+      case 'أدبية':
+        body = `في ${data.occasion}، رسمتم لوحة فنية رائعة من الإتقان والجمال. أنتم نجوم تضيء سماء العمل.`;
+        break;
+      case 'ودية':
+        body = `كم هو رائع ما قدمتموه في ${data.occasion}! قلوبنا تفيض بالامتنان لكم ولجهودكم النبيلة.`;
+        break;
+      default:
+        body = `إن ${data.occasion} شاهد على تميزكم وإبداعكم. نحتفي بإنجازكم ونقدر عطاءكم المتواصل.`;
+    }
+  }
+
+  const closing = 'بكل الحب والتقدير';
+  const signature = data.senderName || 'محبكم';
+  const organization = data.senderOrganization ? `\n${data.senderOrganization}` : '';
+
+  return `${greeting}${title}
+
+${body}
+
+${closing}،
+${signature}${organization}`;
+};
+
+export const generateLetter = (data: LetterData): GeneratedLetter => {
+  const arabicVersion = generateArabicLetter(data);
+  const englishVersion = data.needsTranslation ? generateEnglishTranslation(data) : undefined;
+  const creativeVersion = data.needsCreativeVersion ? generateCreativeVersion(data) : undefined;
 
   return {
-    arabicVersion: arabicLetter,
+    arabicVersion,
     englishVersion,
     creativeVersion
   };
-};
-
-const generateArabicLetter = (data: LetterData): string => {
-  const greeting = `إلى ${data.recipientTitle ? `${data.recipientTitle} الفاضل` : 'المحترم'} / ${data.recipientName}`;
-  
-  let content = '';
-  const toneStyles = {
-    'رسمية': {
-      opening: 'نتشرف بأن نرفع لكم',
-      thanks: 'خالص الشكر والتقدير',
-      closing: 'تقبلوا منا فائق الاحترام والتقدير'
-    },
-    'تحفيزية': {
-      opening: 'نرفع لكم بالغ',
-      thanks: 'الشكر والإعجاب',
-      closing: 'لكم منا خالص الدعوات بمزيد من النجاح والتميّز'
-    },
-    'أدبية': {
-      opening: 'يسعدنا أن نقدم لكم',
-      thanks: 'أسمى عبارات الشكر والثناء',
-      closing: 'دمتم بخير وعافية'
-    },
-    'ودية': {
-      opening: 'نتوجه إليكم بـ',
-      thanks: 'صادق الشكر والامتنان',
-      closing: 'مع أطيب التمنيات'
-    }
-  };
-
-  const style = toneStyles[data.tone];
-  
-  content = `${style.opening} ${style.thanks} على ${data.occasion}.
-جهودكم المتميزة تستحق كل التقدير والاحترام.
-${style.closing}.`;
-
-  const signature = `
-مع خالص التقدير،
-${data.senderName}
-${data.senderOrganization}`;
-
-  return `${greeting}
-
-${content}
-
-${signature}`;
-};
-
-const generateEnglishLetter = (data: LetterData): string => {
-  const greeting = `Dear ${data.recipientTitle ? `${data.recipientTitle}` : 'Mr./Ms.'} ${data.recipientName},`;
-  
-  const content = `We would like to express our sincere appreciation for ${data.occasion}.
-Your exceptional efforts deserve recognition and gratitude.
-Thank you for your continued dedication and professionalism.`;
-
-  const signature = `
-Respectfully,
-${data.senderName}
-${data.senderOrganization}`;
-
-  return `${greeting}
-
-${content}
-
-${signature}`;
-};
-
-const generateCreativeLetter = (data: LetterData): string => {
-  const greeting = `إلى النجم الساطع / ${data.recipientName}`;
-  
-  let content = '';
-  const creativeStyles = {
-    'رسمية': `بصمتكم الإبداعية في ${data.occasion} تضيء طريق التميز.
-أنتم مثال يُحتذى به في الإتقان والإبداع.
-شكرًا لكم على كونكم مصدر إلهام.`,
-    'تحفيزية': `إنجازكم الرائع في ${data.occasion} يُظهر عمق رؤيتكم وقوة عزيمتكم.
-أنتم محرك التقدم والإبداع.
-تستحقون التقدير والإعجاب.`,
-    'أدبية': `كالنجوم في سماء التميز، تضيئون طريق ${data.occasion}.
-بلسم الشكر يعجز عن وصف امتناننا.
-أنتم قصيدة من الإبداع والتفاني.`,
-    'ودية': `قلوبنا تنبض بالامتنان لجهودكم في ${data.occasion}.
-أنتم أكثر من زملاء، أنتم عائلة تستحق كل الحب.
-شكرًا لكونكم جزءًا من رحلة النجاح.`
-  };
-
-  content = creativeStyles[data.tone];
-
-  const signature = `
-بكل الحب والتقدير،
-${data.senderName}
-${data.senderOrganization}`;
-
-  return `${greeting}
-
-${content}
-
-${signature}`;
 };
