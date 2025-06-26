@@ -149,18 +149,25 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
         <div className="whitespace-pre-line text-right leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
           <div className="prose-letter">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
-              // Center the Basmala at the top
+              // Center the Basmala at the top with larger font
               if (line.includes('بسم الله الرحمن الرحيم')) {
                 return (
-                  <div key={index} className="text-center font-bold text-xl text-green-800 mb-6">
+                  <div key={index} className="text-center font-bold text-2xl text-green-800 mb-8">
                     {line}
                   </div>
                 );
               }
-              // Right-align dates
-              if (line.includes('التاريخ')) {
+              // Format dates - Hijri first, then Gregorian
+              if (line.includes('التاريخ الهجري')) {
                 return (
-                  <div key={index} className="text-right font-medium text-green-600 mb-4">
+                  <div key={index} className="text-right font-medium text-green-600 mb-2">
+                    {line}
+                  </div>
+                );
+              }
+              if (line.includes('التاريخ الميلادي')) {
+                return (
+                  <div key={index} className="text-right font-medium text-green-600 mb-6">
                     {line}
                   </div>
                 );
@@ -285,18 +292,25 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           <div className="whitespace-pre-line text-right leading-loose text-purple-700 font-tajawal text-lg" dir="rtl">
             <div className="prose-letter">
               {generatedLetter.creativeVersion.split('\n').map((line, index) => {
-                // Center the Basmala at the top
+                // Center the Basmala at the top with larger font
                 if (line.includes('بسم الله الرحمن الرحيم')) {
                   return (
-                    <div key={index} className="text-center font-bold text-xl text-purple-800 mb-6">
+                    <div key={index} className="text-center font-bold text-2xl text-purple-800 mb-8">
                       {line}
                     </div>
                   );
                 }
-                // Right-align dates
-                if (line.includes('التاريخ')) {
+                // Format dates - Hijri first, then Gregorian
+                if (line.includes('التاريخ الهجري')) {
                   return (
-                    <div key={index} className="text-right font-medium text-purple-600 mb-4">
+                    <div key={index} className="text-right font-medium text-purple-600 mb-2">
+                      {line}
+                    </div>
+                  );
+                }
+                if (line.includes('التاريخ الميلادي')) {
+                  return (
+                    <div key={index} className="text-right font-medium text-purple-600 mb-6">
                       {line}
                     </div>
                   );

@@ -40,7 +40,7 @@ const getHijriDate = (): string => {
   
   // Simple approximation for Hijri date (this is a basic conversion)
   const hijriYear = Math.floor((gregorianDate.getFullYear() - 622) * 1.030684) + 1;
-  const hijriMonth = Math.floor(Math.random() * 12); // Simplified for demo
+  const hijriMonth = gregorianDate.getMonth(); // Use same month index for simplicity
   const hijriDay = gregorianDate.getDate();
   
   return `${hijriDay} ${hijriMonths[hijriMonth]} ${hijriYear}هـ`;
@@ -49,18 +49,21 @@ const getHijriDate = (): string => {
 const addDiacritics = (text: string): string => {
   let diacritizedText = text;
   
-  // Add comprehensive diacritics to common words and phrases
+  // Comprehensive diacritics for common Arabic words and phrases
+  diacritizedText = diacritizedText.replace(/بسم الله الرحمن الرحيم/g, 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ');
   diacritizedText = diacritizedText.replace(/السلام عليكم/g, 'السَّلامُ عَلَيْكُمْ');
   diacritizedText = diacritizedText.replace(/ورحمة الله وبركاته/g, 'وَرَحْمَةُ اللهِ وَبَرَكاتُهُ');
-  diacritizedText = diacritizedText.replace(/بسم الله الرحمن الرحيم/g, 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ');
   diacritizedText = diacritizedText.replace(/سعادة/g, 'سَعادَةُ');
   diacritizedText = diacritizedText.replace(/التاريخ/g, 'التَّارِيخُ');
+  diacritizedText = diacritizedText.replace(/الهجري/g, 'الهِجْرِيُّ');
+  diacritizedText = diacritizedText.replace(/الميلادي/g, 'المِيلادِيُّ');
   
-  // Common verbs and expressions - Enhanced coverage
+  // Common verbs and expressions - Extended coverage
   diacritizedText = diacritizedText.replace(/نتوجه/g, 'نَتَوَجَّهُ');
   diacritizedText = diacritizedText.replace(/نتشرف/g, 'نَتَشَرَّفُ');
   diacritizedText = diacritizedText.replace(/يطيب/g, 'يَطِيبُ');
   diacritizedText = diacritizedText.replace(/نقدر/g, 'نُقَدِّرُ');
+  diacritizedText = diacritizedText.replace(/نشكر/g, 'نَشْكُرُ');
   diacritizedText = diacritizedText.replace(/الشكر/g, 'الشُّكْرُ');
   diacritizedText = diacritizedText.replace(/الجزيل/g, 'الجَزِيلُ');
   diacritizedText = diacritizedText.replace(/الامتنان/g, 'الامْتِنانُ');
@@ -71,19 +74,19 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/الجهود/g, 'الجُهُودُ');
   diacritizedText = diacritizedText.replace(/الأعمال/g, 'الأَعْمالُ');
   diacritizedText = diacritizedText.replace(/الإنجازات/g, 'الإِنْجازاتُ');
+  diacritizedText = diacritizedText.replace(/المباركة/g, 'المُبارَكَةُ');
+  diacritizedText = diacritizedText.replace(/المبارك/g, 'المُبارَكُ');
   
-  // Additional common words
+  // Additional comprehensive words
   diacritizedText = diacritizedText.replace(/نسأل/g, 'نَسْأَلُ');
   diacritizedText = diacritizedText.replace(/الله/g, 'اللهُ');
   diacritizedText = diacritizedText.replace(/العلي/g, 'العَلِيُّ');
   diacritizedText = diacritizedText.replace(/القدير/g, 'القَدِيرُ');
   diacritizedText = diacritizedText.replace(/يبارك/g, 'يُبارِكَ');
   diacritizedText = diacritizedText.replace(/يوفقكم/g, 'يُوَفِّقَكُمْ');
-  diacritizedText = diacritizedText.replace(/المبارك/g, 'المُبارَكُ');
-  diacritizedText = diacritizedText.replace(/المباركة/g, 'المُبارَكَةُ');
   diacritizedText = diacritizedText.replace(/تقبلوا/g, 'تَقَبَّلُوا');
   diacritizedText = diacritizedText.replace(/فائق/g, 'فائِقَ');
-  diacritizedText = diacritizedText.replace(/ما قدمتموه/g, 'ما قَدَّمْتُمُوهُ');
+  diacritizedText = diacritizedText.replace(/قدمتموه/g, 'قَدَّمْتُمُوهُ');
   diacritizedText = diacritizedText.replace(/بذلتموه/g, 'بَذَلْتُمُوهُ');
   diacritizedText = diacritizedText.replace(/أظهرتم/g, 'أَظْهَرْتُمْ');
   diacritizedText = diacritizedText.replace(/كنتم/g, 'كُنْتُمْ');
@@ -98,7 +101,74 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/الدؤوب/g, 'الدَّؤُوبُ');
   diacritizedText = diacritizedText.replace(/المتقن/g, 'المُتْقَنُ');
   diacritizedText = diacritizedText.replace(/الإتقان/g, 'الإِتْقانُ');
-  diacritizedText = diacritizedText.replace(/والجودة/g, 'وَالجَوْدَةُ');
+  diacritizedText = diacritizedText.replace(/الجودة/g, 'الجَوْدَةُ');
+  diacritizedText = diacritizedText.replace(/استطعتم/g, 'اسْتَطَعْتُمْ');
+  diacritizedText = diacritizedText.replace(/تحققوه/g, 'تُحَقِّقُوهُ');
+  diacritizedText = diacritizedText.replace(/جعلتكم/g, 'جَعَلَتْكُمْ');
+  diacritizedText = diacritizedText.replace(/منارة/g, 'مَنارَةً');
+  diacritizedText = diacritizedText.replace(/يهتدي/g, 'يَهْتَدِي');
+  diacritizedText = diacritizedText.replace(/الآخرون/g, 'الآخَرُونَ');
+  diacritizedText = diacritizedText.replace(/ظلمات/g, 'ظُلُماتِ');
+  diacritizedText = diacritizedText.replace(/الحيرة/g, 'الحَيْرَةِ');
+  diacritizedText = diacritizedText.replace(/التردد/g, 'التَّرَدُّدِ');
+  diacritizedText = diacritizedText.replace(/بوصلة/g, 'بُوصْلَةً');
+  diacritizedText = diacritizedText.replace(/توجه/g, 'تُوَجِّهُ');
+  diacritizedText = diacritizedText.replace(/السائرين/g, 'السَّائِرِينَ');
+  diacritizedText = diacritizedText.replace(/شواطئ/g, 'شَواطِئِ');
+  diacritizedText = diacritizedText.replace(/الأمان/g, 'الأَمانِ');
+  diacritizedText = diacritizedText.replace(/النجاح/g, 'النَّجاحِ');
+  diacritizedText = diacritizedText.replace(/الفلاح/g, 'الفَلاحِ');
+  diacritizedText = diacritizedText.replace(/بصماتكم/g, 'بَصَماتُكُمُ');
+  diacritizedText = diacritizedText.replace(/الواضحة/g, 'الواضِحَةُ');
+  diacritizedText = diacritizedText.replace(/الجلية/g, 'الجَلِيَّةُ');
+  diacritizedText = diacritizedText.replace(/مسيرة/g, 'مَسِيرَةِ');
+  diacritizedText = diacritizedText.replace(/الحياة/g, 'الحَياةِ');
+  diacritizedText = diacritizedText.replace(/شاهداً/g, 'شاهِداً');
+  diacritizedText = diacritizedText.replace(/حياً/g, 'حَيّاً');
+  diacritizedText = diacritizedText.replace(/نابضاً/g, 'نابِضاً');
+  diacritizedText = diacritizedText.replace(/الخير/g, 'الخَيْرُ');
+  diacritizedText = diacritizedText.replace(/يزول/g, 'يَزُولُ');
+  diacritizedText = diacritizedText.replace(/المعروف/g, 'المَعْرُوفُ');
+  diacritizedText = diacritizedText.replace(/محفوظ/g, 'مَحْفُوظٌ');
+  diacritizedText = diacritizedText.replace(/يضيع/g, 'يَضِيعُ');
+  diacritizedText = diacritizedText.replace(/مهما/g, 'مَهْما');
+  diacritizedText = diacritizedText.replace(/طال/g, 'طالَ');
+  diacritizedText = diacritizedText.replace(/الزمان/g, 'الزَّمانُ');
+  
+  // More comprehensive word coverage
+  diacritizedText = diacritizedText.replace(/عطاؤكم/g, 'عَطاؤُكُمُ');
+  diacritizedText = diacritizedText.replace(/المتدفق/g, 'المُتَدَفِّقُ');
+  diacritizedText = diacritizedText.replace(/الدائم/g, 'الدَّائِمُ');
+  diacritizedText = diacritizedText.replace(/النهر/g, 'النَّهْرُ');
+  diacritizedText = diacritizedText.replace(/الجاري/g, 'الجارِي');
+  diacritizedText = diacritizedText.replace(/العذب/g, 'العَذْبُ');
+  diacritizedText = diacritizedText.replace(/إخلاصكم/g, 'إِخْلاصُكُمُ');
+  diacritizedText = diacritizedText.replace(/النقي/g, 'النَّقِيُّ');
+  diacritizedText = diacritizedText.replace(/يشوبه/g, 'يَشُوبُهُ');
+  diacritizedText = diacritizedText.replace(/رياء/g, 'رِياءٌ');
+  diacritizedText = diacritizedText.replace(/نفاق/g, 'نِفاقٌ');
+  diacritizedText = diacritizedText.replace(/سيبقيان/g, 'سَيَبْقَيانِ');
+  diacritizedText = diacritizedText.replace(/محفورين/g, 'مَحْفُورَيْنِ');
+  diacritizedText = diacritizedText.replace(/بأحرف/g, 'بِأَحْرُفٍ');
+  diacritizedText = diacritizedText.replace(/نور/g, 'نُورٍ');
+  diacritizedText = diacritizedText.replace(/ساطع/g, 'ساطِعٍ');
+  diacritizedText = diacritizedText.replace(/ذاكرة/g, 'ذاكِرَةِ');
+  diacritizedText = diacritizedText.replace(/التاريخ/g, 'التَّارِيخِ');
+  diacritizedText = diacritizedText.replace(/الخالدة/g, 'الخالِدَةِ');
+  diacritizedText = diacritizedText.replace(/الأبدية/g, 'الأَبَدِيَّةِ');
+  diacritizedText = diacritizedText.replace(/منارتين/g, 'مَنارَتَيْنِ');
+  diacritizedText = diacritizedText.replace(/مضيئتين/g, 'مُضِيئَتَيْنِ');
+  diacritizedText = diacritizedText.replace(/ساطعتين/g, 'ساطِعَتَيْنِ');
+  diacritizedText = diacritizedText.replace(/تضيئان/g, 'تُضِيئانِ');
+  diacritizedText = diacritizedText.replace(/طريق/g, 'طَرِيقَ');
+  diacritizedText = diacritizedText.replace(/الأجيال/g, 'الأَجْيالِ');
+  diacritizedText = diacritizedText.replace(/القادمة/g, 'القادِمَةِ');
+  diacritizedText = diacritizedText.replace(/المتتالية/g, 'المُتَتالِيَةِ');
+  diacritizedText = diacritizedText.replace(/التميز/g, 'التَّمَيُّزِ');
+  diacritizedText = diacritizedText.replace(/المنشود/g, 'المَنْشُودِ');
+  diacritizedText = diacritizedText.replace(/الإبداع/g, 'الإِبْداعِ');
+  diacritizedText = diacritizedText.replace(/المأمول/g, 'المَأْمُولِ');
+  diacritizedText = diacritizedText.replace(/المرجو/g, 'المَرْجُوِّ');
   
   return diacritizedText;
 };
@@ -220,11 +290,11 @@ const generateFallbackLetter = (data: LetterData): string => {
   const closing = 'وتقبلوا منا فائق الاحترام والتقدير';
   const senderName = data.senderName || 'المرسل';
   const organization = data.senderOrganization || '';
-  const dateSection = `التاريخ الهجري: ${hijriDate}\nالتاريخ الميلادي: ${gregorianDate}`;
 
   let finalLetter = `بسم الله الرحمن الرحيم
 
-${dateSection}
+التاريخ الهجري: ${hijriDate}
+التاريخ الميلادي: ${gregorianDate}
 
 ${recipientTitle}
 ${recipientName}
@@ -368,7 +438,7 @@ const translateOccasion = (occasion: string): string => {
     .replace(/عملكم/g, 'your work');
 };
 
-// Define the missing expandedMiddleContent object
+// Define the expandedMiddleContent object with comprehensive content
 const expandedMiddleContent = {
   رسمية: [
     'إن التزامكم الراسخ بأعلى معايير الجودة والتميز في الأداء، وحرصكم الدائم على تطوير آليات العمل وتحسين النتائج، يجعلنا نقف بكل فخر واعتزاز أمام هذا النموذج المشرق من الإخلاص والتفاني في أداء الواجب. لقد استطعتم بحكمتكم وخبرتكم الواسعة أن تضعوا بصمة واضحة في مسيرة العمل المؤسسي وتساهموا في تحقيق الأهداف الاستراتيجية المنشودة.',
@@ -476,16 +546,13 @@ const generateCreativeVersion = (data: LetterData): string => {
   
   let body = '';
   if (data.occasion) {
-    const toneKey = data.tone as keyof typeof creativeOpenings;
-    const openingPhrase = getRandomItem(creativeOpenings[toneKey] || creativeOpenings.رسمية, 1);
+    const toneKey = data.tone as keyof typeof expandedMiddleContent;
     const middleContent = getRandomItem(expandedMiddleContent[toneKey] || expandedMiddleContent.رسمية, 2);
     const closingPhrase = getRandomItem(enhancedClosings, 3);
     
-    body = `${openingPhrase}
+    body = `لقد استطعتم بجدارة واقتدار كبير أن تحولوا ${data.occasion} إلى واقع مشرق باهر ينير دروب المستقبل الزاهر بنوره الساطع. إن عملكم المتقن الرائع وتفانيكم الصادق النبيل سيبقيان مثالاً يحتذى به للأجيال القادمة التي ستتعلم منكم معنى الإخلاص الحقيقي في العمل والتميز الأصيل في الأداء.
 
 ${middleContent}
-
-لقد استطعتم بجدارة واقتدار كبير أن تحولوا ${data.occasion} إلى واقع مشرق باهر ينير دروب المستقبل الزاهر بنوره الساطع. إن عملكم المتقن الرائع وتفانيكم الصادق النبيل سيبقيان مثالاً يحتذى به للأجيال القادمة التي ستتعلم منكم معنى الإخلاص الحقيقي في العمل والتميز الأصيل في الأداء.
 
 ${closingPhrase}`;
   }
@@ -493,11 +560,11 @@ ${closingPhrase}`;
   const closing = 'بكل الحب والتقدير والاحترام والامتنان العميق الصادق';  
   const signature = data.senderName || 'محبكم الصادق المخلص الوفي';
   const organization = data.senderOrganization || '';
-  const dateSection = `التاريخ الهجري: ${hijriDate}\nالتاريخ الميلادي: ${gregorianDate}`;
 
-  const finalLetter = `بسم الله الرحمن الرحيم
+  let finalLetter = `بسم الله الرحمن الرحيم
 
-${dateSection}
+التاريخ الهجري: ${hijriDate}
+التاريخ الميلادي: ${gregorianDate}
 
 ${fullGreeting}
 ${title}
@@ -518,7 +585,11 @@ ${organization}`;
 
 إن الكلمات تعجز عن وصف مدى تقديرنا العميق وامتناننا الصادق الخالص لجهودكم المباركة الطيبة وعطائكم المتميز الرائع الذي لا مثيل له. لقد كان لكم الأثر البالغ العميق في إثراء مسيرة العمل المباركة وإضافة لمسات إبداعية متميزة تستحق كل الثناء والتقدير والإعجاب من كل من شهدها ورآها.`;
     
-    return finalLetter + additionalPoetry;
+    finalLetter += additionalPoetry;
+  }
+
+  if (data.needsDiacritics) {
+    finalLetter = addDiacritics(finalLetter);
   }
 
   return finalLetter;
