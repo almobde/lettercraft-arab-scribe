@@ -80,16 +80,9 @@ const Index = () => {
       <header className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-xl relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="flex justify-center items-center gap-6 mb-6">
-              <img 
-                src="/lovable-uploads/f5f7ae11-1916-4f32-a973-67a81e6b38e7.png" 
-                alt="شعار مولد الخطابات" 
-                className="w-16 h-16 md:w-20 md:h-20 filter invert brightness-0 contrast-100"
-              />
-              <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
-                مُولِّد الخطابات الرسمية
-              </h1>
-            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-6">
+              مُولِّد الخطابات الرسمية
+            </h1>
             <p className="text-green-100 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
               إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز
             </p>
@@ -103,16 +96,9 @@ const Index = () => {
           {/* Form Section */}
           <div className="space-y-6">
             <div className="bg-green-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-green-200 p-8 hover:shadow-3xl transition-all duration-300">
-              <div className="flex items-center gap-3 mb-8">
-                <img 
-                  src="/lovable-uploads/f5f7ae11-1916-4f32-a973-67a81e6b38e7.png" 
-                  alt="أيقونة الكتابة" 
-                  className="w-10 h-10 filter invert brightness-0 contrast-100"
-                />
-                <h2 className="text-2xl font-bold text-white">
-                  معلومات الخطاب
-                </h2>
-              </div>
+              <h2 className="text-2xl font-bold text-white mb-8">
+                معلومات الخطاب
+              </h2>
               <div className="bg-white rounded-xl p-6">
                 <LetterForm 
                   letterData={letterData}
@@ -143,16 +129,9 @@ const Index = () => {
       <footer className="bg-gradient-to-r from-green-800 to-emerald-800 border-t border-green-200 mt-20 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
-            <div className="flex justify-center items-center gap-4">
-              <img 
-                src="/lovable-uploads/f5f7ae11-1916-4f32-a973-67a81e6b38e7.png" 
-                alt="شعار مولد الخطابات" 
-                className="w-8 h-8 filter invert brightness-0 contrast-100"
-              />
-              <p className="text-green-100 text-lg font-medium">
-                مُولِّد الخطابات الرسمية - تطبيق احترافي لكتابة الخطابات
-              </p>
-            </div>
+            <p className="text-green-100 text-lg font-medium">
+              مُولِّد الخطابات الرسمية - تطبيق احترافي لكتابة الخطابات
+            </p>
             <div className="border-t border-green-700 pt-4">
               <p className="text-green-200 text-sm">
                 فكرة وتصميم: عبد العزيز الخنين

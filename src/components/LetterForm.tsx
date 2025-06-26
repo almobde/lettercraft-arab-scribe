@@ -22,8 +22,8 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-6">
-        <div className="bg-green-50/50 p-6 rounded-xl border border-green-200">
-          <Label htmlFor="recipientName" className="text-right block mb-3 text-green-800 font-semibold text-lg">
+        <div className="bg-green-800/90 p-6 rounded-xl border border-green-600">
+          <Label htmlFor="recipientName" className="text-right block mb-3 text-green-100 font-semibold text-lg">
             📛 اسم المرسل إليه
           </Label>
           <Input
@@ -31,13 +31,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientName}
             onChange={(e) => handleInputChange('recipientName', e.target.value)}
             placeholder="مثال: محمد بن ناصر العتيبي"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white/80"
+            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-200">
-          <Label htmlFor="recipientTitle" className="text-right block mb-3 text-emerald-800 font-semibold text-lg">
+        <div className="bg-emerald-800/90 p-6 rounded-xl border border-emerald-600">
+          <Label htmlFor="recipientTitle" className="text-right block mb-3 text-emerald-100 font-semibold text-lg">
             🏷️ منصبه أو وظيفته
           </Label>
           <Input
@@ -45,13 +45,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.recipientTitle}
             onChange={(e) => handleInputChange('recipientTitle', e.target.value)}
             placeholder="مثال: مدير إدارة التعليم - مشرف تربوي - رئيس قسم"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white/80"
+            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-teal-50/50 p-6 rounded-xl border border-teal-200">
-          <Label htmlFor="occasion" className="text-right block mb-3 text-teal-800 font-semibold text-lg">
+        <div className="bg-teal-800/90 p-6 rounded-xl border border-teal-600">
+          <Label htmlFor="occasion" className="text-right block mb-3 text-teal-100 font-semibold text-lg">
             🎯 المناسبة أو الغرض من الخطاب
           </Label>
           <Input
@@ -59,13 +59,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.occasion}
             onChange={(e) => handleInputChange('occasion', e.target.value)}
             placeholder="مثال: شكر على جهوده المتميزة في تطوير العملية التعليمية"
-            className="text-right font-tajawal text-lg border-teal-300 focus:border-teal-500 bg-white/80"
+            className="text-right font-tajawal text-lg border-teal-300 focus:border-teal-500 bg-white"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-green-50/50 p-6 rounded-xl border border-green-200">
-          <Label htmlFor="senderOrganization" className="text-right block mb-3 text-green-800 font-semibold text-lg">
+        <div className="bg-green-800/90 p-6 rounded-xl border border-green-600">
+          <Label htmlFor="senderOrganization" className="text-right block mb-3 text-green-100 font-semibold text-lg">
             🏢 اسم الجهة المرسِلة
           </Label>
           <Input
@@ -73,13 +73,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderOrganization}
             onChange={(e) => handleInputChange('senderOrganization', e.target.value)}
             placeholder="مثال: إدارة التعليم بمحافظة الخرج - وزارة التعليم"
-            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white/80"
+            className="text-right font-tajawal text-lg border-green-300 focus:border-green-500 bg-white"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-emerald-50/50 p-6 rounded-xl border border-emerald-200">
-          <Label htmlFor="senderName" className="text-right block mb-3 text-emerald-800 font-semibold text-lg">
+        <div className="bg-emerald-800/90 p-6 rounded-xl border border-emerald-600">
+          <Label htmlFor="senderName" className="text-right block mb-3 text-emerald-100 font-semibold text-lg">
             🧑‍💼 اسم المرسِل
           </Label>
           <Input
@@ -87,13 +87,13 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
             value={letterData.senderName}
             onChange={(e) => handleInputChange('senderName', e.target.value)}
             placeholder="مثال: خالد العتيبي - مدير الإدارة"
-            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white/80"
+            className="text-right font-tajawal text-lg border-emerald-300 focus:border-emerald-500 bg-white"
             dir="rtl"
           />
         </div>
 
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border border-green-200">
-          <Label className="text-right block mb-4 text-green-800 font-bold text-lg">
+        <div className="bg-gradient-to-r from-green-800/90 to-emerald-800/90 p-6 rounded-xl border border-green-600">
+          <Label className="text-right block mb-4 text-green-100 font-bold text-lg">
             🎨 نغمة الخطاب المطلوبة
           </Label>
           <div className="grid grid-cols-2 gap-3">
@@ -114,7 +114,7 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-teal-50 to-green-50 p-6 rounded-xl border border-teal-200 space-y-4">
+        <div className="bg-gradient-to-r from-teal-800/90 to-green-800/90 p-6 rounded-xl border border-teal-600 space-y-4">
           <div className="flex items-center gap-4 p-4 bg-white/60 rounded-lg border border-teal-200">
             <input
               type="checkbox"
