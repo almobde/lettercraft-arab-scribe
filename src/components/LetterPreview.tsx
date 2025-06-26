@@ -1,17 +1,49 @@
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LetterData } from '../types/letter';
+import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateLetter } from '../services/letterGenerator';
-import { Copy, Download, FileText, Sparkles } from 'lucide-react';
+import { Copy, Download, FileText, Sparkles, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useState, useEffect } from 'react';
 
 interface LetterPreviewProps {
   letterData: LetterData;
 }
 
 export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
-  const generatedLetter = generateLetter(letterData);
+  const [generatedLetter, setGeneratedLetter] = useState<GeneratedLetter>({
+    arabicVersion: '',
+    englishVersion: undefined,
+    creativeVersion: undefined
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const generateLetterAsync = async () => {
+      if (!letterData.recipientName && !letterData.occasion) {
+        setGeneratedLetter({
+          arabicVersion: '',
+          englishVersion: undefined,
+          creativeVersion: undefined
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const result = await generateLetter(letterData);
+        setGeneratedLetter(result);
+      } catch (error) {
+        console.error('Error generating letter:', error);
+        toast.error('حدث خطأ في توليد الخطاب. يرجى المحاولة مرة أخرى.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    generateLetterAsync();
+  }, [letterData]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -40,7 +72,21 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           املأ المعلومات على اليسار لرؤية معاينة الخطاب الراقي
         </p>
         <p className="text-center text-sm font-tajawal text-green-600 mt-2">
-          ستحصل على خطاب مذهل ومفصل بأكثر من 600 حرف
+          ستحصل على خطاب مذهل ومفصل بأكثر من 600 حرف باستخدام الذكاء الاصطناعي
+        </p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96 text-green-600 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300">
+        <Loader2 className="w-12 h-12 animate-spin text-green-500 mb-4" />
+        <p className="text-center text-xl font-tajawal font-medium text-green-700">
+          جاري إنشاء الخطاب باستخدام الذكاء الاصطناعي...
+        </p>
+        <p className="text-center text-sm font-tajawal text-green-600 mt-2">
+          يرجى الانتظار، نحن نكتب لك خطاباً راقياً ومتميزاً
         </p>
       </div>
     );
@@ -76,7 +122,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           <div className="prose-letter text-center">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
               // Center the recipient name and title
-              if (line.includes('إلى حضرة') || line.includes('إلى من يهمه الأمر')) {
+              if (line.includes('سعادة')) {
                 return (
                   <div key={index} className="text-center font-bold text-xl text-green-800 mb-2">
                     {line}
@@ -190,7 +236,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               })}
             </div>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

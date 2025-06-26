@@ -1,4 +1,5 @@
 import { LetterData, GeneratedLetter } from '../types/letter';
+import { generateWithGemini, createLetterPrompt } from './geminiService';
 
 const interpretOccasion = (occasion: string): string => {
   // Convert third person to second person and enhance the context
@@ -54,31 +55,52 @@ const addDiacritics = (text: string): string => {
   return diacritizedText;
 };
 
-const generateArabicLetter = (data: LetterData): string => {
+const generateArabicLetter = async (data: LetterData): Promise<string> => {
   if (!data.recipientName && !data.occasion) {
     return '';
   }
 
+  try {
+    // Use Gemini AI to generate the letter
+    const prompt = createLetterPrompt(
+      data.recipientName,
+      data.recipientTitle || 'المحترم',
+      interpretOccasion(data.occasion),
+      data.tone,
+      data.senderName || 'المرسل',
+      data.senderOrganization || ''
+    );
+
+    let generatedLetter = await generateWithGemini(prompt);
+
+    // Apply diacritics if requested
+    if (data.needsDiacritics) {
+      generatedLetter = addDiacritics(generatedLetter);
+    }
+
+    return generatedLetter;
+  } catch (error) {
+    console.error('Error generating letter with Gemini:', error);
+    // Fallback to the original generation method
+    return generateFallbackLetter(data);
+  }
+};
+
+const generateFallbackLetter = (data: LetterData): string => {
   const currentDate = new Date().toLocaleDateString('ar-SA', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 
-  // Start with recipient title (using "سعادة" instead of "حضرة")
   const recipientTitle = data.recipientTitle ? 
     `سعادة ${data.recipientTitle}` : 
     'سعادة المحترم';
   
   const recipientName = data.recipientName || '';
-  
-  // Greeting
   const greeting = 'السلام عليكم ورحمة الله وبركاته';
-  
-  // Interpret and enhance the occasion
   const enhancedOccasion = interpretOccasion(data.occasion);
   
-  // Body content based on tone with rich details
   let body = '';
   if (enhancedOccasion) {
     switch (data.tone) {
@@ -123,12 +145,9 @@ const generateArabicLetter = (data: LetterData): string => {
     }
   }
 
-  // Closing and signature
   const closing = 'وتقبلوا منا فائق الاحترام والتقدير';
   const senderName = data.senderName || 'المرسل';
   const organization = data.senderOrganization || '';
-  
-  // Date on the right
   const dateSection = `التاريخ: ${currentDate}`;
 
   let finalLetter = `بسم الله الرحمن الرحيم
@@ -148,7 +167,6 @@ ${closing}،
 ${senderName}
 ${organization}`;
 
-  // Apply diacritics if requested
   if (data.needsDiacritics) {
     finalLetter = addDiacritics(finalLetter);
   }
@@ -167,7 +185,6 @@ const generateEnglishTranslation = (data: LetterData): string => {
     day: 'numeric'
   });
 
-  // Translate titles and names appropriately
   const translatedTitle = data.recipientTitle ? 
     translateTitle(data.recipientTitle) : 'The Honorable';
   const translatedName = data.recipientName ? 
@@ -227,7 +244,6 @@ ${translatedSenderName}
 ${translatedOrganization}`;
 };
 
-// Helper functions for translation
 const translateTitle = (title: string): string => {
   const titleMap: Record<string, string> = {
     'مدير إدارة التعليم': 'Director of Education Administration',
@@ -248,7 +264,6 @@ const translateTitle = (title: string): string => {
 };
 
 const translateArabicName = (name: string): string => {
-  // Simple transliteration for common Arabic names
   return name
     .replace(/محمد/g, 'Mohammed')
     .replace(/أحمد/g, 'Ahmed')
@@ -346,8 +361,8 @@ ${signature}
 ${organization}`;
 };
 
-export const generateLetter = (data: LetterData): GeneratedLetter => {
-  const arabicVersion = generateArabicLetter(data);
+export const generateLetter = async (data: LetterData): Promise<GeneratedLetter> => {
+  const arabicVersion = await generateArabicLetter(data);
   const englishVersion = data.needsTranslation ? generateEnglishTranslation(data) : undefined;
   const creativeVersion = data.needsCreativeVersion ? generateCreativeVersion(data) : undefined;
 
