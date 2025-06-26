@@ -16,3 +16,11 @@ export interface GeneratedLetter {
   englishVersion?: string;
   creativeVersion?: string;
 }
+
+export interface SavedLetter {
+  id: string;
+  letterData: LetterData;
+  generatedLetter: GeneratedLetter;
+  createdAt: Date;
+  updatedAt: Date;
+}

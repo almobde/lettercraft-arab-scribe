@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
-import { LetterData } from '../types/letter';
+import { LetterData, SavedLetter } from '../types/letter';
 
 const Index = () => {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -17,8 +17,18 @@ const Index = () => {
     needsDiacritics: false
   });
 
+  const [selectedLetter, setSelectedLetter] = useState<SavedLetter | null>(null);
+
   const handleFormChange = (data: LetterData) => {
     setLetterData(data);
+    setSelectedLetter(null); // Clear selected letter when form changes
+  };
+
+  const handleLetterSelect = (letter: SavedLetter | null) => {
+    setSelectedLetter(letter);
+    if (letter) {
+      setLetterData(letter.letterData);
+    }
   };
 
   return (
@@ -122,7 +132,11 @@ const Index = () => {
                     معاينة الخطاب
                   </h2>
                 </div>
-                <LetterPreview letterData={letterData} />
+                <LetterPreview 
+                  letterData={letterData} 
+                  selectedLetter={selectedLetter}
+                  onLetterSelect={handleLetterSelect}
+                />
               </div>
             </div>
           </div>
