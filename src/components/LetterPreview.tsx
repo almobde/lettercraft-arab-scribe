@@ -149,7 +149,15 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
         <div className="whitespace-pre-line text-right leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
           <div className="prose-letter">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
-              // Always right-align the date
+              // Center the Basmala at the top
+              if (line.includes('بسم الله الرحمن الرحيم')) {
+                return (
+                  <div key={index} className="text-center font-bold text-xl text-green-800 mb-6">
+                    {line}
+                  </div>
+                );
+              }
+              // Right-align dates
               if (line.includes('التاريخ')) {
                 return (
                   <div key={index} className="text-right font-medium text-green-600 mb-4">
@@ -157,33 +165,33 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
-              // Center recipient name and greeting lines
+              // Center recipient name and greeting lines with larger font
               if (line.includes('سعادة') || line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                 return (
-                  <div key={index} className="text-center font-bold text-xl text-green-800 mb-2">
+                  <div key={index} className="text-center font-bold text-2xl text-green-800 mb-3">
                     {line}
                   </div>
                 );
               }
-              // Center job title
+              // Center and enlarge job title
               if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('التاريخ') && line.length < 50 && !line.includes('نتوجه') && !line.includes('يطيب') && !line.includes('في رحاب') && !line.includes('تحت ظلال')) {
                 return (
-                  <div key={index} className="text-center font-semibold text-lg text-green-700 mb-4">
+                  <div key={index} className="text-center font-semibold text-xl text-green-700 mb-4">
                     {line}
                   </div>
                 );
               }
-              // Center sender name and organization
+              // Center and enlarge sender name and organization
               if (line.includes(letterData.senderName) && letterData.senderName) {
                 return (
-                  <div key={index} className="text-center font-bold text-lg text-green-800 mt-6">
+                  <div key={index} className="text-center font-bold text-xl text-green-800 mt-6">
                     {line}
                   </div>
                 );
               }
               if (line.includes(letterData.senderOrganization) && letterData.senderOrganization) {
                 return (
-                  <div key={index} className="text-center font-semibold text-base text-green-700 mb-4">
+                  <div key={index} className="text-center font-semibold text-lg text-green-700 mb-4">
                     {line}
                   </div>
                 );
@@ -277,7 +285,15 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           <div className="whitespace-pre-line text-right leading-loose text-purple-700 font-tajawal text-lg" dir="rtl">
             <div className="prose-letter">
               {generatedLetter.creativeVersion.split('\n').map((line, index) => {
-                // Always right-align the date
+                // Center the Basmala at the top
+                if (line.includes('بسم الله الرحمن الرحيم')) {
+                  return (
+                    <div key={index} className="text-center font-bold text-xl text-purple-800 mb-6">
+                      {line}
+                    </div>
+                  );
+                }
+                // Right-align dates
                 if (line.includes('التاريخ')) {
                   return (
                     <div key={index} className="text-right font-medium text-purple-600 mb-4">
@@ -285,33 +301,33 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
-                // Center all creative greetings and recipient names
+                // Center all creative greetings and recipient names with larger font
                 if (line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                   return (
-                    <div key={index} className="text-center font-bold text-xl text-purple-800 mb-2">
+                    <div key={index} className="text-center font-bold text-2xl text-purple-800 mb-3">
                       {line}
                     </div>
                   );
                 }
-                // Center job titles
+                // Center and enlarge job titles
                 if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('في رحاب') && !line.includes('تحت ظلال') && !line.includes('في غمرة') && line.length < 50 && !line.includes('نقف') && !line.includes('نتشرف') && !line.includes('يسعدنا')) {
                   return (
-                    <div key={index} className="text-center font-semibold text-lg text-purple-700 mb-4">
+                    <div key={index} className="text-center font-semibold text-xl text-purple-700 mb-4">
                       {line}
                     </div>
                   );
                 }
-                // Center sender name and organization
+                // Center and enlarge sender name and organization
                 if (line.includes(letterData.senderName) && letterData.senderName) {
                   return (
-                    <div key={index} className="text-center font-bold text-lg text-purple-800 mt-6">
+                    <div key={index} className="text-center font-bold text-xl text-purple-800 mt-6">
                       {line}
                     </div>
                   );
                 }
                 if (line.includes(letterData.senderOrganization) && letterData.senderOrganization) {
                   return (
-                    <div key={index} className="text-center font-semibold text-base text-purple-700 mb-4">
+                    <div key={index} className="text-center font-semibold text-lg text-purple-700 mb-4">
                       {line}
                     </div>
                   );
