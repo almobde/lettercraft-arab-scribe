@@ -1,35 +1,40 @@
 import { LetterData, GeneratedLetter } from '../types/letter';
-import { generateWithGemini, createLetterPrompt } from './geminiService';
+import { generateWithGemini, createLetterPrompt, createEnglishPrompt } from './geminiService';
 
 const interpretOccasion = (occasion: string): string => {
-  // Convert third person to second person and enhance the context
   let interpreted = occasion;
   
-  // Handle common patterns
-  interpreted = interpreted.replace(/جهوده/g, 'جهودكم');
-  interpreted = interpreted.replace(/عمله/g, 'عملكم');
-  interpreted = interpreted.replace(/أداءه/g, 'أداءكم');
-  interpreted = interpreted.replace(/إنجازه/g, 'إنجازكم');
-  interpreted = interpreted.replace(/تفانيه/g, 'تفانيكم');
-  interpreted = interpreted.replace(/اجتهاده/g, 'اجتهادكم');
+  // Handle common patterns and convert to second person
+  interpreted = interpreted.replace(/جهوده/g, 'جهودكم المباركة');
+  interpreted = interpreted.replace(/عمله/g, 'عملكم المتميز');
+  interpreted = interpreted.replace(/أداءه/g, 'أداءكم الرائع');
+  interpreted = interpreted.replace(/إنجازه/g, 'إنجازاتكم الباهرة');
+  interpreted = interpreted.replace(/تفانيه/g, 'تفانيكم النبيل');
+  interpreted = interpreted.replace(/اجتهاده/g, 'اجتهادكم المشكور');
+  interpreted = interpreted.replace(/مساهمته/g, 'مساهماتكم القيمة');
+  interpreted = interpreted.replace(/دوره/g, 'دوركم الفعال');
+  interpreted = interpreted.replace(/مشاركته/g, 'مشاركتكم الفاعلة');
   
-  // Add contextual enhancements
+  // Enhance with context-appropriate phrases
   if (interpreted.includes('شكر') && !interpreted.includes('الشكر')) {
-    interpreted = interpreted.replace('شكر', 'الشكر الجزيل والثناء العاطر');
+    interpreted = interpreted.replace('شكر', 'الثناء العطر والشكر الجزيل');
   }
   
-  if (interpreted.includes('جهود') && !interpreted.includes('المتميزة')) {
-    interpreted = interpreted.replace('جهود', 'الجهود المتميزة والمساعي الحثيثة');
+  if (interpreted.includes('تهنئة')) {
+    interpreted = interpreted.replace('تهنئة', 'أطيب التهاني وأجمل التبريكات');
+  }
+  
+  if (interpreted.includes('تقدير')) {
+    interpreted = interpreted.replace('تقدير', 'التقدير العميق والاعتراف الصادق');
   }
   
   return interpreted;
 };
 
 const addDiacritics = (text: string): string => {
-  // Add comprehensive diacritics to common words and phrases
   let diacritizedText = text;
   
-  // Common formal phrases
+  // Add comprehensive diacritics to common words and phrases
   diacritizedText = diacritizedText.replace(/السلام عليكم/g, 'السَّلامُ عَلَيْكُمْ');
   diacritizedText = diacritizedText.replace(/ورحمة الله وبركاته/g, 'وَرَحْمَةُ اللهِ وَبَرَكاتُهُ');
   diacritizedText = diacritizedText.replace(/بسم الله الرحمن الرحيم/g, 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ');
@@ -55,25 +60,25 @@ const addDiacritics = (text: string): string => {
   return diacritizedText;
 };
 
-const generateArabicLetter = async (data: LetterData): Promise<string> => {
+const generateArabicLetter = async (data: LetterData, forceRegenerate: boolean = false): Promise<string> => {
   if (!data.recipientName && !data.occasion) {
     return '';
   }
 
   try {
-    // Use Gemini AI to generate the letter
+    const enhancedOccasion = interpretOccasion(data.occasion);
     const prompt = createLetterPrompt(
       data.recipientName,
       data.recipientTitle || 'المحترم',
-      interpretOccasion(data.occasion),
+      enhancedOccasion,
       data.tone,
       data.senderName || 'المرسل',
-      data.senderOrganization || ''
+      data.senderOrganization || '',
+      forceRegenerate
     );
 
     let generatedLetter = await generateWithGemini(prompt);
 
-    // Apply diacritics if requested
     if (data.needsDiacritics) {
       generatedLetter = addDiacritics(generatedLetter);
     }
@@ -81,8 +86,31 @@ const generateArabicLetter = async (data: LetterData): Promise<string> => {
     return generatedLetter;
   } catch (error) {
     console.error('Error generating letter with Gemini:', error);
-    // Fallback to the original generation method
     return generateFallbackLetter(data);
+  }
+};
+
+const generateEnglishTranslation = async (data: LetterData): Promise<string> => {
+  if (!data.recipientName && !data.occasion) {
+    return '';
+  }
+
+  try {
+    const enhancedOccasion = interpretOccasion(data.occasion);
+    const prompt = createEnglishPrompt(
+      data.recipientName,
+      data.recipientTitle || 'The Honorable',
+      enhancedOccasion,
+      data.tone,
+      data.senderName || 'The Sender',
+      data.senderOrganization || ''
+    );
+
+    const translation = await generateWithGemini(prompt);
+    return translation;
+  } catch (error) {
+    console.error('Error generating English translation:', error);
+    return generateFallbackEnglishTranslation(data);
   }
 };
 
@@ -174,11 +202,7 @@ ${organization}`;
   return finalLetter;
 };
 
-const generateEnglishTranslation = (data: LetterData): string => {
-  if (!data.recipientName && !data.occasion) {
-    return '';
-  }
-
+const generateFallbackEnglishTranslation = (data: LetterData): string => {
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -256,11 +280,11 @@ const translateTitle = (title: string): string => {
   
   for (const [arabic, english] of Object.entries(titleMap)) {
     if (title.includes(arabic)) {
-      return `The Honorable ${english}`;
+      return `His Excellency the ${english}`;
     }
   }
   
-  return `The Honorable ${title}`;
+  return `His Excellency the ${title}`;
 };
 
 const translateArabicName = (name: string): string => {
@@ -286,8 +310,16 @@ const translateOrganization = (org: string): string => {
 
 const translateOccasion = (occasion: string): string => {
   return occasion
-    .replace(/الشكر الجزيل والثناء العاطر/g, 'sincere gratitude and heartfelt appreciation')
-    .replace(/الجهود المتميزة والمساعي الحثيثة/g, 'outstanding efforts and dedicated endeavors')
+    .replace(/الثناء العطر والشكر الجزيل/g, 'heartfelt appreciation and sincere gratitude')
+    .replace(/الجهود المباركة/g, 'blessed efforts')
+    .replace(/العمل المتميز/g, 'distinguished work')
+    .replace(/الأداء الرائع/g, 'excellent performance')
+    .replace(/الإنجازات الباهرة/g, 'brilliant achievements')
+    .replace(/التفاني النبيل/g, 'noble dedication')
+    .replace(/الاجتهاد المشكور/g, 'commendable diligence')
+    .replace(/المساهمات القيمة/g, 'valuable contributions')
+    .replace(/الدور الفعال/g, 'effective role')
+    .replace(/المشاركة الفاعلة/g, 'active participation')
     .replace(/جهودكم/g, 'your efforts')
     .replace(/عملكم/g, 'your work');
 };
@@ -361,9 +393,9 @@ ${signature}
 ${organization}`;
 };
 
-export const generateLetter = async (data: LetterData): Promise<GeneratedLetter> => {
-  const arabicVersion = await generateArabicLetter(data);
-  const englishVersion = data.needsTranslation ? generateEnglishTranslation(data) : undefined;
+export const generateLetter = async (data: LetterData, forceRegenerate: boolean = false): Promise<GeneratedLetter> => {
+  const arabicVersion = await generateArabicLetter(data, forceRegenerate);
+  const englishVersion = data.needsTranslation ? await generateEnglishTranslation(data) : undefined;
   const creativeVersion = data.needsCreativeVersion ? generateCreativeVersion(data) : undefined;
 
   return {

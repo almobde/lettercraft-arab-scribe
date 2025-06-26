@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateLetter } from '../services/letterGenerator';
-import { Copy, Download, FileText, Sparkles, Loader2 } from 'lucide-react';
+import { Copy, Download, FileText, Sparkles, Loader2, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 
@@ -44,6 +44,25 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
     generateLetterAsync();
   }, [letterData]);
+
+  const regenerateLetter = async () => {
+    if (!letterData.recipientName && !letterData.occasion) {
+      toast.error('يرجى إدخال البيانات المطلوبة أولاً');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await generateLetter(letterData, true); // Pass true for regeneration
+      setGeneratedLetter(result);
+      toast.success('تم إعادة كتابة الخطاب بأسلوب جديد!');
+    } catch (error) {
+      console.error('Error regenerating letter:', error);
+      toast.error('حدث خطأ في إعادة كتابة الخطاب. يرجى المحاولة مرة أخرى.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -96,6 +115,15 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
     <div className="space-y-6">
       {/* Action Buttons */}
       <div className="flex gap-3 justify-end">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={regenerateLetter}
+          className="font-tajawal text-purple-700 border-purple-300 hover:bg-purple-50"
+        >
+          <RefreshCw className="w-4 h-4 ml-2" />
+          إعادة كتابة الخطاب
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -180,7 +208,37 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
             <Sparkles className="w-5 h-5 text-blue-500" />
           </div>
           <div className="whitespace-pre-line text-left leading-relaxed text-blue-700 font-medium text-base" dir="ltr">
-            {generatedLetter.englishVersion}
+            {generatedLetter.englishVersion.split('\n').map((line, index) => {
+              // Center the recipient title and name
+              if (line.includes('The Honorable') || line.includes('His Excellency')) {
+                return (
+                  <div key={index} className="text-center font-bold text-xl text-blue-800 mb-2">
+                    {line}
+                  </div>
+                );
+              }
+              // Center job title and sender info
+              if (index > 0 && line.trim() && !line.includes('Peace') && !line.includes('Date') && line.length < 50 && !line.includes('We are') && !line.includes('extend')) {
+                return (
+                  <div key={index} className="text-center font-semibold text-lg text-blue-700 mb-4">
+                    {line}
+                  </div>
+                );
+              }
+              // Center sender name and organization
+              if (letterData.senderName && line.includes(letterData.senderName.replace(/محمد/g, 'Mohammed').replace(/أحمد/g, 'Ahmed').replace(/علي/g, 'Ali'))) {
+                return (
+                  <div key={index} className="text-center font-bold text-lg text-blue-800 mt-6">
+                    {line}
+                  </div>
+                );
+              }
+              return (
+                <div key={index} className={line.trim() === '' ? 'h-4' : ''}>
+                  {line}
+                </div>
+              );
+            })}
           </div>
         </Card>
       )}
@@ -205,7 +263,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
-                // Center job title
                 if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('في رحاب') && line.length < 50 && !line.includes('نقف')) {
                   return (
                     <div key={index} className="text-center font-semibold text-lg text-purple-700 mb-4">
@@ -213,7 +270,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
-                // Center sender name and organization
                 if (line.includes(letterData.senderName) && letterData.senderName) {
                   return (
                     <div key={index} className="text-center font-bold text-lg text-purple-800 mt-6">
@@ -236,7 +292,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               })}
             </div>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   );

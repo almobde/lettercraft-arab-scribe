@@ -32,7 +32,6 @@ export const generateWithGemini = async (prompt: string): Promise<string> => {
 
     const data = await response.json();
     
-    // Extract the generated text from Gemini's response
     if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
       return data.candidates[0].content.parts[0].text;
     }
@@ -44,7 +43,10 @@ export const generateWithGemini = async (prompt: string): Promise<string> => {
   }
 };
 
-export const createLetterPrompt = (recipientName: string, recipientTitle: string, occasion: string, tone: string, senderName: string, senderOrganization: string): string => {
+export const createLetterPrompt = (recipientName: string, recipientTitle: string, occasion: string, tone: string, senderName: string, senderOrganization: string, forceRegenerate: boolean = false): string => {
+  const regenerateInstruction = forceRegenerate ? `
+مهم جداً: اكتب الخطاب بأسلوب جديد ومختلف تماماً عن المرة السابقة. استخدم تعبيرات وعبارات وتراكيب مختلفة. نوّع في الأسلوب والمفردات.` : '';
+
   return `اكتب خطاب رسمي باللغة العربية بالمواصفات التالية:
 
 المرسل إليه: ${recipientName}
@@ -56,15 +58,46 @@ export const createLetterPrompt = (recipientName: string, recipientTitle: string
 
 متطلبات الخطاب:
 1. ابدأ بـ "بسم الله الرحمن الرحيم"
-2. اكتب التاريخ في الأعلى
+2. اكتب التاريخ في الأعلى يميناً
 3. اكتب "سعادة ${recipientTitle}" ثم اسم المرسل إليه في السطر التالي
 4. ابدأ بـ "السلام عليكم ورحمة الله وبركاته"
-5. اكتب نص الخطاب بأسلوب ${tone} وبتفاصيل غنية (لا يقل عن 600 حرف)
+5. اكتب نص الخطاب بأسلوب ${tone} وبتفاصيل غنية ومعبرة (لا يقل عن 600 حرف)
 6. اختتم بـ "وتقبلوا منا فائق الاحترام والتقدير"
 7. اكتب اسم المرسل والجهة في النهاية
 
 مهم جداً:
 - استخدم ضمير المخاطب "أنتم/كم" وليس الغائب "هو/ها"
-- اجعل النص راقياً ومفصلاً
-- تأكد من صحة النحو والإملاء`;
+- اجعل النص راقياً ومفصلاً وأنيقاً في التعبير
+- تأكد من صحة النحو والإملاء والبلاغة
+- استخدم أساليب بلاغية متنوعة ومعبرة
+- نوّع في استخدام المرادفات والتعبيرات${regenerateInstruction}`;
+};
+
+export const createEnglishPrompt = (recipientName: string, recipientTitle: string, occasion: string, tone: string, senderName: string, senderOrganization: string): string => {
+  return `Write a formal English letter with the following specifications:
+
+Recipient: ${recipientName}
+Title: ${recipientTitle}
+Occasion: ${occasion}
+Tone: ${tone}
+Sender: ${senderName}
+Organization: ${senderOrganization}
+
+Letter requirements:
+1. Start with the date at the top right
+2. Write "His Excellency ${recipientTitle}" then the recipient's name on the next line (centered)
+3. Begin with "Peace be upon you and Allah's mercy and blessings"
+4. Write the letter content in ${tone} style with rich and expressive details (at least 600 characters)
+5. End with "With highest respect and appreciation"
+6. Write the sender's name and organization at the end (centered)
+
+Very important:
+- Use formal English language
+- Make the text elegant, detailed, and refined in expression
+- Ensure proper grammar and spelling
+- Use varied expressions and vocabulary
+- Translate Arabic names appropriately (Mohammed, Ahmed, Ali, etc.)
+- Translate organization names (Ministry of Education, Education Administration, etc.)
+- Center the recipient information, sender name and organization
+- Maintain the same formatting structure as the Arabic version`;
 };

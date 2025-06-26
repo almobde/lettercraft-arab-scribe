@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
 import { LetterData } from '../types/letter';
-import { FileText, PenTool, Sparkles } from 'lucide-react';
 
 const Index = () => {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -28,12 +27,6 @@ const Index = () => {
       <header className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="flex items-center justify-center w-20 h-20 bg-white/20 rounded-full backdrop-blur-sm">
-                <FileText className="w-10 h-10 text-white" />
-              </div>
-              <Sparkles className="w-8 h-8 text-yellow-300 animate-pulse" />
-            </div>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               مُولِّد الخطابات الرسمية
             </h1>
@@ -57,7 +50,7 @@ const Index = () => {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-green-100 p-8 hover:shadow-3xl transition-all duration-300">
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl">
-                  <PenTool className="w-6 h-6 text-white" />
+                  <span className="text-white text-xl">✍️</span>
                 </div>
                 <h2 className="text-2xl font-bold text-green-800 bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
                   معلومات الخطاب
@@ -75,7 +68,7 @@ const Index = () => {
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-green-100 p-8 hover:shadow-3xl transition-all duration-300">
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl">
-                  <FileText className="w-6 h-6 text-white" />
+                  <span className="text-white text-xl">📄</span>
                 </div>
                 <h2 className="text-2xl font-bold text-green-800 bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
                   معاينة الخطاب
