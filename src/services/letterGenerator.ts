@@ -1,7 +1,113 @@
 import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateWithGemini, createLetterPrompt, createEnglishPrompt } from './geminiService';
 
+// تحليل نوع المناسبة وتحديد السياق المناسب
+const analyzeOccasionContext = (occasion: string): {
+  type: 'work' | 'personal' | 'religious' | 'social';
+  subtype: string;
+  requiresSpecialHandling: boolean;
+} => {
+  const lowerOccasion = occasion.toLowerCase();
+  
+  // مناسبات شخصية خاصة
+  if (lowerOccasion.includes('مولود') || lowerOccasion.includes('طفل') || lowerOccasion.includes('ولد') || 
+      lowerOccasion.includes('بنت') || lowerOccasion.includes('ابن') || lowerOccasion.includes('ابنة')) {
+    return { type: 'personal', subtype: 'newborn', requiresSpecialHandling: true };
+  }
+  
+  if (lowerOccasion.includes('زواج') || lowerOccasion.includes('عرس') || lowerOccasion.includes('نكاح')) {
+    return { type: 'personal', subtype: 'marriage', requiresSpecialHandling: true };
+  }
+  
+  if (lowerOccasion.includes('تخرج') || lowerOccasion.includes('شهادة') || lowerOccasion.includes('دراسة')) {
+    return { type: 'personal', subtype: 'graduation', requiresSpecialHandling: true };
+  }
+  
+  // مناسبات دينية
+  if (lowerOccasion.includes('حج') || lowerOccasion.includes('عمرة') || lowerOccasion.includes('رمضان') || 
+      lowerOccasion.includes('عيد') || lowerOccasion.includes('مبارك')) {
+    return { type: 'religious', subtype: 'worship', requiresSpecialHandling: true };
+  }
+  
+  // مناسبات العمل
+  if (lowerOccasion.includes('ترقية') || lowerOccasion.includes('عمل') || lowerOccasion.includes('وظيفة') ||
+      lowerOccasion.includes('مشروع') || lowerOccasion.includes('إنجاز') || lowerOccasion.includes('تفوق')) {
+    return { type: 'work', subtype: 'achievement', requiresSpecialHandling: false };
+  }
+  
+  // افتراضي: مناسبة اجتماعية
+  return { type: 'social', subtype: 'general', requiresSpecialHandling: false };
+};
+
+// إنشاء محتوى خاص للمواليد
+const generateNewbornContent = (recipientName: string, tone: string): string => {
+  const newbornGreetings = [
+    'بارك الله لكم في المولود الجديد، وأسعدكم بطول بقائه',
+    'ألف مبروك على المولود المبارك، أدامه الله لكم ذخراً وسنداً',
+    'بارك الله لكم فيما وهب، وشكرتم الواهب، وبلغ أشده، ورُزقتم بره',
+    'مبروك المولود الجديد، جعله الله من الذرية الصالحة المباركة'
+  ];
+  
+  const newbornPrayers = [
+    'نسأل الله العظيم أن يحفظه لكم من كل سوء ومكروه، وأن ينبته نباتاً حسناً، ويجعله من عباده الصالحين المصلحين',
+    'اللهم أنبته نباتاً حسناً، واجعله براً بوالديه، صالحاً في دينه ودنياه، نافعاً لأمته ووطنه',
+    'بارك الله لكم في الموهوب لكم، وشكرتم الواهب سبحانه، ورزقكم الله بره وطاعته، وأعانكم على تربيته وتنشئته النشأة الصالحة',
+    'نحمد الله على سلامة الوالدة الكريمة، ونسأله سبحانه أن يجعل هذا المولود قرة عين لكم في الدنيا والآخرة'
+  ];
+  
+  const newbornWisdom = [
+    'إن الأولاد نعمة عظيمة من نعم الله التي تستحق الشكر والحمد، وأمانة غالية في أعناقنا نسأل الله أن يعيننا على حسن تربيتهم وتنشئتهم',
+    'كما قال النبي صلى الله عليه وسلم: "إذا مات الإنسان انقطع عمله إلا من ثلاثة: إلا من صدقة جارية، أو علم ينتفع به، أو ولد صالح يدعو له"',
+    'الأطفال زينة الحياة الدنيا وأملنا في المستقبل المشرق، نسأل الله أن يجعلهم من البررة الأتقياء الذين يسعدون آباءهم في الدنيا والآخرة',
+    'إن فرحتنا بقدوم المولود الجديد تذكرنا بفضل الله ونعمه التي لا تحصى، ونعمة الذرية الطيبة التي هي من أجل الهبات الربانية'
+  ];
+  
+  // اختيار محتوى متنوع
+  const greeting = newbornGreetings[Math.floor(Math.random() * newbornGreetings.length)];
+  const prayer = newbornPrayers[Math.floor(Math.random() * newbornPrayers.length)];
+  const wisdom = newbornWisdom[Math.floor(Math.random() * newbornWisdom.length)];
+  
+  return `${greeting}
+
+${prayer}
+
+${wisdom}
+
+نشارككم فرحتكم الغالية بهذه المناسبة المباركة، ونتمنى لكم جميعاً السعادة والهناء. كل عام وأنتم بخير، وكل عام وطفلكم الحبيب في نمو وصحة وعافية.`;
+};
+
+// إنشاء محتوى خاص للزواج
+const generateMarriageContent = (recipientName: string): string => {
+  return `ألف مبروك على هذه المناسبة السعيدة المباركة! 
+
+بارك الله لكما وبارك عليكما وجمع بينكما في خير، كما دعا النبي صلى الله عليه وسلم للمتزوجين.
+
+نسأل الله العظيم أن يجعل زواجكما مباركاً سعيداً، مليئاً بالمودة والرحمة والسكينة، وأن يرزقكما الذرية الصالحة، ويديم عليكما نعمة الحب والوفاق.
+
+نشارككما فرحتكما الغالية، ونتمنى لكما حياة زوجية مليئة بالسعادة والهناء والبركة.`;
+};
+
+// إنشاء محتوى خاص للتخرج
+const generateGraduationContent = (recipientName: string): string => {
+  return `ألف مبروك على هذا الإنجاز الرائع والنجاح المستحق!
+
+لقد كان جهدكم المتواصل وصبركم الجميل واجتهادكم المثمر سبباً في تحقيق هذا النجاح الباهر. إن ما حققتموه اليوم هو ثمرة سنوات من الدراسة والمثابرة والعمل الجاد.
+
+نسأل الله أن يبارك لكم في شهادتكم الجديدة، وأن يجعلها بداية مشرقة لمستقبل مليء بالنجاحات والإنجازات، وأن يوفقكم في خدمة دينكم ووطنكم وأمتكم.
+
+نفتخر بإنجازكم ونتمنى لكم التوفيق في المرحلة القادمة من حياتكم العملية والعلمية.`;
+};
+
 const interpretOccasion = (occasion: string): string => {
+  // تحليل سياق المناسبة
+  const context = analyzeOccasionContext(occasion);
+  
+  // إذا كانت مناسبة خاصة، إرجاع النص كما هو للمعالجة الخاصة
+  if (context.requiresSpecialHandling) {
+    return occasion;
+  }
+  
+  // المعالجة العادية للمناسبات الأخرى
   let interpreted = occasion;
   
   // Handle common patterns and convert to second person
@@ -58,6 +164,54 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/الهجري/g, 'الهِجْرِيُّ');
   diacritizedText = diacritizedText.replace(/الميلادي/g, 'المِيلادِيُّ');
   
+  // Newborn-specific diacritics
+  diacritizedText = diacritizedText.replace(/المولود/g, 'المَوْلُودُ');
+  diacritizedText = diacritizedText.replace(/بارك الله/g, 'بارَكَ اللهُ');
+  diacritizedText = diacritizedText.replace(/مبروك/g, 'مَبْرُوكٌ');
+  diacritizedText = diacritizedText.replace(/الذرية/g, 'الذُّرِّيَّةُ');
+  diacritizedText = diacritizedText.replace(/الصالحة/g, 'الصَّالِحَةُ');
+  diacritizedText = diacritizedText.replace(/نباتاً/g, 'نَباتاً');
+  diacritizedText = diacritizedText.replace(/حسناً/g, 'حَسَناً');
+  diacritizedText = diacritizedText.replace(/الأولاد/g, 'الأَوْلادُ');
+  diacritizedText = diacritizedText.replace(/نعمة/g, 'نِعْمَةٌ');
+  diacritizedText = diacritizedText.replace(/عظيمة/g, 'عَظِيمَةٌ');
+  diacritizedText = diacritizedText.replace(/أمانة/g, 'أَمانَةٌ');
+  diacritizedText = diacritizedText.replace(/غالية/g, 'غالِيَةٌ');
+  diacritizedText = diacritizedText.replace(/تربيتهم/g, 'تَرْبِيَتِهِمْ');
+  diacritizedText = diacritizedText.replace(/تنشئتهم/g, 'تَنْشِئَتِهِمْ');
+  diacritizedText = diacritizedText.replace(/يحفظه/g, 'يَحْفَظَهُ');
+  diacritizedText = diacritizedText.replace(/مكروه/g, 'مَكْرُوهٍ');
+  diacritizedText = diacritizedText.replace(/ينبته/g, 'يُنْبِتَهُ');
+  diacritizedText = diacritizedText.replace(/الصالحين/g, 'الصَّالِحِينَ');
+  diacritizedText = diacritizedText.replace(/المصلحين/g, 'المُصْلِحِينَ');
+  diacritizedText = diacritizedText.replace(/براً/g, 'بَرّاً');
+  diacritizedText = diacritizedText.replace(/بوالديه/g, 'بِوالِدَيْهِ');
+  diacritizedText = diacritizedText.replace(/طاعته/g, 'طاعَتَهُ');
+  diacritizedText = diacritizedText.replace(/تربيته/g, 'تَرْبِيَتِهِ');
+  diacritizedText = diacritizedText.replace(/النشأة/g, 'النَّشْأَةَ');
+  diacritizedText = diacritizedText.replace(/سلامة/g, 'سَلامَةَ');
+  diacritizedText = diacritizedText.replace(/الوالدة/g, 'الوالِدَةِ');
+  diacritizedText = diacritizedText.replace(/الكريمة/g, 'الكَرِيمَةِ');
+  diacritizedText = diacritizedText.replace(/قرة عين/g, 'قُرَّةَ عَيْنٍ');
+  diacritizedText = diacritizedText.replace(/زينة/g, 'زِينَةُ');
+  diacritizedText = diacritizedText.replace(/الدنيا/g, 'الدُّنْيا');
+  diacritizedText = diacritizedText.replace(/أملنا/g, 'أَمَلُنا');
+  diacritizedText = diacritizedText.replace(/المستقبل/g, 'المُسْتَقْبَلِ');
+  diacritizedText = diacritizedText.replace(/المشرق/g, 'المُشْرِقِ');
+  diacritizedText = diacritizedText.replace(/البررة/g, 'البَرَرَةِ');
+  diacritizedText = diacritizedText.replace(/الأتقياء/g, 'الأَتْقِياءِ');
+  diacritizedText = diacritizedText.replace(/يسعدون/g, 'يُسْعِدُونَ');
+  diacritizedText = diacritizedText.replace(/آباءهم/g, 'آباءَهُمْ');
+  diacritizedText = diacritizedText.replace(/والآخرة/g, 'والآخِرَةِ');
+  diacritizedText = diacritizedText.replace(/فرحتنا/g, 'فَرْحَتُنا');
+  diacritizedText = diacritizedText.replace(/تذكرنا/g, 'تُذَكِّرُنا');
+  diacritizedText = diacritizedText.replace(/بفضل/g, 'بِفَضْلِ');
+  diacritizedText = diacritizedText.replace(/ونعمه/g, 'وَنِعَمِهِ');
+  diacritizedText = diacritizedText.replace(/تحصى/g, 'تُحْصَى');
+  diacritizedText = diacritizedText.replace(/الطيبة/g, 'الطَّيِّبَةِ');
+  diacritizedText = diacritizedText.replace(/الهبات/g, 'الهِباتِ');
+  diacritizedText = diacritizedText.replace(/الربانية/g, 'الرَّبّانِيَّةِ');
+  
   // Common verbs and expressions - Extended coverage
   diacritizedText = diacritizedText.replace(/نتوجه/g, 'نَتَوَجَّهُ');
   diacritizedText = diacritizedText.replace(/نتشرف/g, 'نَتَشَرَّفُ');
@@ -76,8 +230,6 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/الإنجازات/g, 'الإِنْجازاتُ');
   diacritizedText = diacritizedText.replace(/المباركة/g, 'المُبارَكَةُ');
   diacritizedText = diacritizedText.replace(/المبارك/g, 'المُبارَكُ');
-  
-  // Additional comprehensive words
   diacritizedText = diacritizedText.replace(/نسأل/g, 'نَسْأَلُ');
   diacritizedText = diacritizedText.replace(/الله/g, 'اللهُ');
   diacritizedText = diacritizedText.replace(/العلي/g, 'العَلِيُّ');
@@ -86,89 +238,6 @@ const addDiacritics = (text: string): string => {
   diacritizedText = diacritizedText.replace(/يوفقكم/g, 'يُوَفِّقَكُمْ');
   diacritizedText = diacritizedText.replace(/تقبلوا/g, 'تَقَبَّلُوا');
   diacritizedText = diacritizedText.replace(/فائق/g, 'فائِقَ');
-  diacritizedText = diacritizedText.replace(/قدمتموه/g, 'قَدَّمْتُمُوهُ');
-  diacritizedText = diacritizedText.replace(/بذلتموه/g, 'بَذَلْتُمُوهُ');
-  diacritizedText = diacritizedText.replace(/أظهرتم/g, 'أَظْهَرْتُمْ');
-  diacritizedText = diacritizedText.replace(/كنتم/g, 'كُنْتُمْ');
-  diacritizedText = diacritizedText.replace(/ستبقى/g, 'سَتَبْقَى');
-  diacritizedText = diacritizedText.replace(/محفورة/g, 'مَحْفُورَةً');
-  diacritizedText = diacritizedText.replace(/قلوبنا/g, 'قُلُوبِنا');
-  diacritizedText = diacritizedText.replace(/الطيبة/g, 'الطَّيِّبَةُ');
-  diacritizedText = diacritizedText.replace(/النبيلة/g, 'النَّبِيلَةُ');
-  diacritizedText = diacritizedText.replace(/الصادقة/g, 'الصَّادِقَةُ');
-  diacritizedText = diacritizedText.replace(/المتواصل/g, 'المُتَواصِلُ');
-  diacritizedText = diacritizedText.replace(/المتواصلة/g, 'المُتَواصِلَةُ');
-  diacritizedText = diacritizedText.replace(/الدؤوب/g, 'الدَّؤُوبُ');
-  diacritizedText = diacritizedText.replace(/المتقن/g, 'المُتْقَنُ');
-  diacritizedText = diacritizedText.replace(/الإتقان/g, 'الإِتْقانُ');
-  diacritizedText = diacritizedText.replace(/الجودة/g, 'الجَوْدَةُ');
-  diacritizedText = diacritizedText.replace(/استطعتم/g, 'اسْتَطَعْتُمْ');
-  diacritizedText = diacritizedText.replace(/تحققوه/g, 'تُحَقِّقُوهُ');
-  diacritizedText = diacritizedText.replace(/جعلتكم/g, 'جَعَلَتْكُمْ');
-  diacritizedText = diacritizedText.replace(/منارة/g, 'مَنارَةً');
-  diacritizedText = diacritizedText.replace(/يهتدي/g, 'يَهْتَدِي');
-  diacritizedText = diacritizedText.replace(/الآخرون/g, 'الآخَرُونَ');
-  diacritizedText = diacritizedText.replace(/ظلمات/g, 'ظُلُماتِ');
-  diacritizedText = diacritizedText.replace(/الحيرة/g, 'الحَيْرَةِ');
-  diacritizedText = diacritizedText.replace(/التردد/g, 'التَّرَدُّدِ');
-  diacritizedText = diacritizedText.replace(/بوصلة/g, 'بُوصْلَةً');
-  diacritizedText = diacritizedText.replace(/توجه/g, 'تُوَجِّهُ');
-  diacritizedText = diacritizedText.replace(/السائرين/g, 'السَّائِرِينَ');
-  diacritizedText = diacritizedText.replace(/شواطئ/g, 'شَواطِئِ');
-  diacritizedText = diacritizedText.replace(/الأمان/g, 'الأَمانِ');
-  diacritizedText = diacritizedText.replace(/النجاح/g, 'النَّجاحِ');
-  diacritizedText = diacritizedText.replace(/الفلاح/g, 'الفَلاحِ');
-  diacritizedText = diacritizedText.replace(/بصماتكم/g, 'بَصَماتُكُمُ');
-  diacritizedText = diacritizedText.replace(/الواضحة/g, 'الواضِحَةُ');
-  diacritizedText = diacritizedText.replace(/الجلية/g, 'الجَلِيَّةُ');
-  diacritizedText = diacritizedText.replace(/مسيرة/g, 'مَسِيرَةِ');
-  diacritizedText = diacritizedText.replace(/الحياة/g, 'الحَياةِ');
-  diacritizedText = diacritizedText.replace(/شاهداً/g, 'شاهِداً');
-  diacritizedText = diacritizedText.replace(/حياً/g, 'حَيّاً');
-  diacritizedText = diacritizedText.replace(/نابضاً/g, 'نابِضاً');
-  diacritizedText = diacritizedText.replace(/الخير/g, 'الخَيْرُ');
-  diacritizedText = diacritizedText.replace(/يزول/g, 'يَزُولُ');
-  diacritizedText = diacritizedText.replace(/المعروف/g, 'المَعْرُوفُ');
-  diacritizedText = diacritizedText.replace(/محفوظ/g, 'مَحْفُوظٌ');
-  diacritizedText = diacritizedText.replace(/يضيع/g, 'يَضِيعُ');
-  diacritizedText = diacritizedText.replace(/مهما/g, 'مَهْما');
-  diacritizedText = diacritizedText.replace(/طال/g, 'طالَ');
-  diacritizedText = diacritizedText.replace(/الزمان/g, 'الزَّمانُ');
-  
-  // More comprehensive word coverage
-  diacritizedText = diacritizedText.replace(/عطاؤكم/g, 'عَطاؤُكُمُ');
-  diacritizedText = diacritizedText.replace(/المتدفق/g, 'المُتَدَفِّقُ');
-  diacritizedText = diacritizedText.replace(/الدائم/g, 'الدَّائِمُ');
-  diacritizedText = diacritizedText.replace(/النهر/g, 'النَّهْرُ');
-  diacritizedText = diacritizedText.replace(/الجاري/g, 'الجارِي');
-  diacritizedText = diacritizedText.replace(/العذب/g, 'العَذْبُ');
-  diacritizedText = diacritizedText.replace(/إخلاصكم/g, 'إِخْلاصُكُمُ');
-  diacritizedText = diacritizedText.replace(/النقي/g, 'النَّقِيُّ');
-  diacritizedText = diacritizedText.replace(/يشوبه/g, 'يَشُوبُهُ');
-  diacritizedText = diacritizedText.replace(/رياء/g, 'رِياءٌ');
-  diacritizedText = diacritizedText.replace(/نفاق/g, 'نِفاقٌ');
-  diacritizedText = diacritizedText.replace(/سيبقيان/g, 'سَيَبْقَيانِ');
-  diacritizedText = diacritizedText.replace(/محفورين/g, 'مَحْفُورَيْنِ');
-  diacritizedText = diacritizedText.replace(/بأحرف/g, 'بِأَحْرُفٍ');
-  diacritizedText = diacritizedText.replace(/نور/g, 'نُورٍ');
-  diacritizedText = diacritizedText.replace(/ساطع/g, 'ساطِعٍ');
-  diacritizedText = diacritizedText.replace(/ذاكرة/g, 'ذاكِرَةِ');
-  diacritizedText = diacritizedText.replace(/التاريخ/g, 'التَّارِيخِ');
-  diacritizedText = diacritizedText.replace(/الخالدة/g, 'الخالِدَةِ');
-  diacritizedText = diacritizedText.replace(/الأبدية/g, 'الأَبَدِيَّةِ');
-  diacritizedText = diacritizedText.replace(/منارتين/g, 'مَنارَتَيْنِ');
-  diacritizedText = diacritizedText.replace(/مضيئتين/g, 'مُضِيئَتَيْنِ');
-  diacritizedText = diacritizedText.replace(/ساطعتين/g, 'ساطِعَتَيْنِ');
-  diacritizedText = diacritizedText.replace(/تضيئان/g, 'تُضِيئانِ');
-  diacritizedText = diacritizedText.replace(/طريق/g, 'طَرِيقَ');
-  diacritizedText = diacritizedText.replace(/الأجيال/g, 'الأَجْيالِ');
-  diacritizedText = diacritizedText.replace(/القادمة/g, 'القادِمَةِ');
-  diacritizedText = diacritizedText.replace(/المتتالية/g, 'المُتَتالِيَةِ');
-  diacritizedText = diacritizedText.replace(/التميز/g, 'التَّمَيُّزِ');
-  diacritizedText = diacritizedText.replace(/المنشود/g, 'المَنْشُودِ');
-  diacritizedText = diacritizedText.replace(/الإبداع/g, 'الإِبْداعِ');
-  diacritizedText = diacritizedText.replace(/المأمول/g, 'المَأْمُولِ');
-  diacritizedText = diacritizedText.replace(/المرجو/g, 'المَرْجُوِّ');
   
   return diacritizedText;
 };
@@ -178,6 +247,72 @@ const generateArabicLetter = async (data: LetterData, forceRegenerate: boolean =
     return '';
   }
 
+  // تحليل سياق المناسبة
+  const context = analyzeOccasionContext(data.occasion);
+  
+  // معالجة خاصة للمناسبات الشخصية
+  if (context.requiresSpecialHandling) {
+    let specialContent = '';
+    
+    switch (context.subtype) {
+      case 'newborn':
+        specialContent = generateNewbornContent(data.recipientName, data.tone);
+        break;
+      case 'marriage':
+        specialContent = generateMarriageContent(data.recipientName);
+        break;
+      case 'graduation':
+        specialContent = generateGraduationContent(data.recipientName);
+        break;
+      default:
+        specialContent = '';
+    }
+    
+    if (specialContent) {
+      const hijriDate = getHijriDate();
+      const gregorianDate = new Date().toLocaleDateString('ar-SA', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const recipientTitle = data.recipientTitle ? 
+        `${data.recipientTitle}` : 
+        '';
+      
+      const recipientName = data.recipientName || '';
+      const greeting = 'السلام عليكم ورحمة الله وبركاته';
+      const closing = 'بكل المحبة والتقدير والدعاء الصادق';
+      const senderName = data.senderName || 'محبكم في الله';
+      const organization = data.senderOrganization || '';
+
+      let finalLetter = `بسم الله الرحمن الرحيم
+
+التاريخ الهجري: ${hijriDate}
+التاريخ الميلادي: ${gregorianDate}
+
+${recipientTitle}
+${recipientName}
+
+${greeting}
+
+${specialContent}
+
+${closing}،
+
+
+${senderName}
+${organization}`;
+
+      if (data.needsDiacritics) {
+        finalLetter = addDiacritics(finalLetter);
+      }
+
+      return finalLetter;
+    }
+  }
+
+  // المعالجة العادية للمناسبات الأخرى
   try {
     const enhancedOccasion = interpretOccasion(data.occasion);
     const prompt = createLetterPrompt(
