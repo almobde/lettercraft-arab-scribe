@@ -1,11 +1,10 @@
 
-import { Card } from '@/components/ui/card';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { LetterData } from '../types/letter';
-import { User, Briefcase, Target, Building, UserCheck, Volume2, Sparkles, Globe } from 'lucide-react';
 
 interface LetterFormProps {
   letterData: LetterData;
@@ -21,138 +20,124 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Recipient Name */}
-      <div className="space-y-2">
-        <Label htmlFor="recipientName" className="flex items-center gap-2 text-right">
-          <User className="w-4 h-4 text-blue-600" />
-          اسم المرسل إليه
-        </Label>
-        <Input
-          id="recipientName"
-          placeholder="مثال: الأستاذ محمد بن ناصر"
-          value={letterData.recipientName}
-          onChange={(e) => handleInputChange('recipientName', e.target.value)}
-          className="text-right"
-          dir="rtl"
-        />
-      </div>
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-4">
+        <div>
+          <Label htmlFor="recipientName" className="text-right block mb-2">
+            📛 اسم المرسل إليه
+          </Label>
+          <Input
+            id="recipientName"
+            value={letterData.recipientName}
+            onChange={(e) => handleInputChange('recipientName', e.target.value)}
+            placeholder="مثال: الأستاذ محمد بن ناصر"
+            className="text-right"
+            dir="rtl"
+          />
+        </div>
 
-      {/* Recipient Title */}
-      <div className="space-y-2">
-        <Label htmlFor="recipientTitle" className="flex items-center gap-2 text-right">
-          <Briefcase className="w-4 h-4 text-green-600" />
-          صفته أو وظيفته
-        </Label>
-        <Input
-          id="recipientTitle"
-          placeholder="مثال: مشرف تربوي"
-          value={letterData.recipientTitle}
-          onChange={(e) => handleInputChange('recipientTitle', e.target.value)}
-          className="text-right"
-          dir="rtl"
-        />
-      </div>
+        <div>
+          <Label htmlFor="recipientTitle" className="text-right block mb-2">
+            🏷️ صفته أو وظيفته
+          </Label>
+          <Input
+            id="recipientTitle"
+            value={letterData.recipientTitle}
+            onChange={(e) => handleInputChange('recipientTitle', e.target.value)}
+            placeholder="مثال: مشرف تربوي"
+            className="text-right"
+            dir="rtl"
+          />
+        </div>
 
-      {/* Occasion */}
-      <div className="space-y-2">
-        <Label htmlFor="occasion" className="flex items-center gap-2 text-right">
-          <Target className="w-4 h-4 text-purple-600" />
-          المناسبة أو الغرض من الخطاب
-        </Label>
-        <Input
-          id="occasion"
-          placeholder="مثال: شكر على جهوده في متابعة المعلمين"
-          value={letterData.occasion}
-          onChange={(e) => handleInputChange('occasion', e.target.value)}
-          className="text-right"
-          dir="rtl"
-        />
-      </div>
+        <div>
+          <Label htmlFor="occasion" className="text-right block mb-2">
+            🎯 المناسبة أو الغرض من الخطاب
+          </Label>
+          <Input
+            id="occasion"
+            value={letterData.occasion}
+            onChange={(e) => handleInputChange('occasion', e.target.value)}
+            placeholder="مثال: شكر على جهوده في متابعة المعلمين"
+            className="text-right"
+            dir="rtl"
+          />
+        </div>
 
-      {/* Sender Organization */}
-      <div className="space-y-2">
-        <Label htmlFor="senderOrganization" className="flex items-center gap-2 text-right">
-          <Building className="w-4 h-4 text-indigo-600" />
-          اسم الجهة المرسِلة
-        </Label>
-        <Input
-          id="senderOrganization"
-          placeholder="مثال: إدارة التعليم بمحافظة الخرج"
-          value={letterData.senderOrganization}
-          onChange={(e) => handleInputChange('senderOrganization', e.target.value)}
-          className="text-right"
-          dir="rtl"
-        />
-      </div>
+        <div>
+          <Label htmlFor="senderOrganization" className="text-right block mb-2">
+            🏢 اسم الجهة المرسِلة
+          </Label>
+          <Input
+            id="senderOrganization"
+            value={letterData.senderOrganization}
+            onChange={(e) => handleInputChange('senderOrganization', e.target.value)}
+            placeholder="مثال: إدارة التعليم بمحافظة الخرج"
+            className="text-right"
+            dir="rtl"
+          />
+        </div>
 
-      {/* Sender Name */}
-      <div className="space-y-2">
-        <Label htmlFor="senderName" className="flex items-center gap-2 text-right">
-          <UserCheck className="w-4 h-4 text-teal-600" />
-          اسم المرسِل
-        </Label>
-        <Input
-          id="senderName"
-          placeholder="مثال: مدير الإدارة - خالد العتيبي"
-          value={letterData.senderName}
-          onChange={(e) => handleInputChange('senderName', e.target.value)}
-          className="text-right"
-          dir="rtl"
-        />
-      </div>
+        <div>
+          <Label htmlFor="senderName" className="text-right block mb-2">
+            🧑‍💼 اسم المرسِل
+          </Label>
+          <Input
+            id="senderName"
+            value={letterData.senderName}
+            onChange={(e) => handleInputChange('senderName', e.target.value)}
+            placeholder="مثال: مدير الإدارة - خالد العتيبي"
+            className="text-right"
+            dir="rtl"
+          />
+        </div>
 
-      {/* Tone */}
-      <div className="space-y-2">
-        <Label className="flex items-center gap-2 text-right">
-          <Volume2 className="w-4 h-4 text-orange-600" />
-          نغمة الخطاب المطلوبة
-        </Label>
-        <Select 
-          value={letterData.tone} 
-          onValueChange={(value) => handleInputChange('tone', value)}
-          dir="rtl"
-        >
-          <SelectTrigger className="text-right">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="رسمية">رسمية</SelectItem>
-            <SelectItem value="تحفيزية">تحفيزية</SelectItem>
-            <SelectItem value="أدبية">أدبية</SelectItem>
-            <SelectItem value="ودية">ودية</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Options */}
-      <Card className="p-4 bg-blue-50 border-blue-200">
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="translation" className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-blue-600" />
-              هل ترغب بترجمة الخطاب؟
-            </Label>
-            <Switch
-              id="translation"
-              checked={letterData.needsTranslation}
-              onCheckedChange={(checked) => handleInputChange('needsTranslation', checked)}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <Label htmlFor="creative" className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-600" />
-              هل ترغب بصيغة إبداعية مختلفة؟
-            </Label>
-            <Switch
-              id="creative"
-              checked={letterData.needsCreativeVersion}
-              onCheckedChange={(checked) => handleInputChange('needsCreativeVersion', checked)}
-            />
+        <div>
+          <Label className="text-right block mb-2">
+            🎨 نغمة الخطاب المطلوبة
+          </Label>
+          <div className="grid grid-cols-2 gap-2">
+            {(['رسمية', 'تحفيزية', 'أدبية', 'ودية'] as const).map((tone) => (
+              <Button
+                key={tone}
+                variant={letterData.tone === tone ? 'default' : 'outline'}
+                onClick={() => handleInputChange('tone', tone)}
+                className="text-sm"
+              >
+                {tone}
+              </Button>
+            ))}
           </div>
         </div>
-      </Card>
+
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="needsTranslation"
+              checked={letterData.needsTranslation}
+              onChange={(e) => handleInputChange('needsTranslation', e.target.checked)}
+              className="w-4 h-4"
+            />
+            <Label htmlFor="needsTranslation" className="text-right">
+              🌍 هل ترغب بترجمة الخطاب؟
+            </Label>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="needsCreativeVersion"
+              checked={letterData.needsCreativeVersion}
+              onChange={(e) => handleInputChange('needsCreativeVersion', e.target.checked)}
+              className="w-4 h-4"
+            />
+            <Label htmlFor="needsCreativeVersion" className="text-right">
+              ✍️ هل ترغب بصيغة إبداعية مختلفة للخطاب؟
+            </Label>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
