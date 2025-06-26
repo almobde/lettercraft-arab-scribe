@@ -1,5 +1,6 @@
+
 import { LetterData, GeneratedLetter } from '../types/letter';
-import { callGeminiAPI } from './geminiService';
+import { generateWithGemini } from './geminiService';
 import { generateFallbackLetter } from './fallbackLetterGenerator';
 
 export const generateLetter = async (letterData: LetterData, forceRegenerate: boolean = false): Promise<GeneratedLetter> => {
@@ -50,7 +51,7 @@ ${occasion.includes('تخرج') || occasion.includes('نجاح') || occasion.inc
 اكتب الخطاب باللغة العربية فقط ولا تضع أي تفسيرات أو ملاحظات خارجية.`;
 
   try {
-    const arabicVersion = await callGeminiAPI(prompt);
+    const arabicVersion = await generateWithGemini(prompt);
     
     const result: GeneratedLetter = {
       arabicVersion: arabicVersion
@@ -69,7 +70,7 @@ Requirements:
 - Keep it professional and well-formatted`;
 
       try {
-        result.englishVersion = await callGeminiAPI(translationPrompt);
+        result.englishVersion = await generateWithGemini(translationPrompt);
       } catch (error) {
         console.error('Translation failed:', error);
         result.englishVersion = generateBasicEnglishTranslation(letterData);
@@ -90,7 +91,7 @@ ${arabicVersion}
 - لا يقل عن 600 حرف`;
 
       try {
-        result.creativeVersion = await callGeminiAPI(creativePrompt);
+        result.creativeVersion = await generateWithGemini(creativePrompt);
       } catch (error) {
         console.error('Creative version failed:', error);
         result.creativeVersion = generateBasicCreativeVersion(letterData);
