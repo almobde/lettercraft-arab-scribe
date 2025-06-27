@@ -11,21 +11,29 @@ interface OpenAIRequest {
 }
 
 async function sendToChatGPT(promptText: string) {
+  // الحصول على مفتاح API من localStorage
+  const apiKey = localStorage.getItem('openai_api_key');
+  
+  if (!apiKey) {
+    throw new Error('يرجى إدخال مفتاح OpenAI API أولاً');
+  }
+
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer sk-proj-nT4_gOJhKHl-hKp8OHCZ5J5uUe9EiE2c_JhE8cFjS7vM-Kf8c4i-oT8hUQfQvgMmcnb2bCmWZdT3BlbkFJdZHxFHHJX_5c8k4DZQqLV4T_kJqJwYgGcq8Kf3PXsT_yFzDJi8cV2S8cYYqQGqLcRz9fGf9"` // استخدام مفتاحك المقدم
+      "Authorization": `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      model: "gpt-4",
+      model: "gpt-4.1-2025-04-14",
       messages: [{ role: "user", content: promptText }],
       temperature: 0.7
     })
   });
 
   if (!response.ok) {
-    throw new Error(`OpenAI API Error: ${response.status}`);
+    const errorData = await response.json();
+    throw new Error(`OpenAI API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
   }
 
   const data = await response.json();

@@ -3,6 +3,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { LetterData } from '../types/letter';
+import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface LetterFormProps {
   letterData: LetterData;
@@ -10,6 +12,16 @@ interface LetterFormProps {
 }
 
 export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
+  const [apiKey, setApiKey] = useState('');
+
+  useEffect(() => {
+    // تحميل مفتاح API المحفوظ
+    const savedApiKey = localStorage.getItem('openai_api_key');
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+    }
+  }, []);
+
   const handleInputChange = (field: keyof LetterData, value: string | boolean) => {
     onChange({
       ...letterData,
@@ -17,9 +29,38 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
     });
   };
 
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value);
+    if (value.trim()) {
+      localStorage.setItem('openai_api_key', value.trim());
+      toast.success('تم حفظ مفتاح API بنجاح!');
+    } else {
+      localStorage.removeItem('openai_api_key');
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 gap-8">
+        {/* حقل مفتاح OpenAI API */}
+        <div className="space-y-4 p-6 bg-red-50 border-2 border-red-200 rounded-lg">
+          <Label htmlFor="apiKey" className="text-right block text-red-800 font-bold text-xl flex items-center gap-2">
+            🔑 مفتاح OpenAI API (مطلوب)
+          </Label>
+          <Input
+            id="apiKey"
+            type="password"
+            value={apiKey}
+            onChange={(e) => handleApiKeyChange(e.target.value)}
+            placeholder="sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            className="text-left font-mono text-lg bg-white h-16 px-6 border-2 border-red-300"
+            dir="ltr"
+          />
+          <p className="text-sm text-red-600 text-right">
+            احصل على مفتاحك من: https://platform.openai.com/api-keys
+          </p>
+        </div>
+
         <div className="space-y-4">
           <Label htmlFor="recipientName" className="text-right block text-green-800 font-semibold text-xl flex items-center gap-2">
             📛 اسم المرسل إليه
