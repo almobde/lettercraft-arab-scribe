@@ -1,9 +1,8 @@
+
 import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
-import { SavedLettersDialog } from '../components/SavedLettersDialog';
 import { LetterData } from '../types/letter';
-import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -13,7 +12,6 @@ const Index = () => {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
-    letterLength: 'متوسط',
     needsTranslation: false,
     needsCreativeVersion: false,
     needsDiacritics: false
@@ -21,10 +19,6 @@ const Index = () => {
 
   const handleFormChange = (data: LetterData) => {
     setLetterData(data);
-  };
-
-  const handleLengthChange = (length: 'قصير' | 'متوسط' | 'طويل') => {
-    setLetterData(prev => ({ ...prev, letterLength: length }));
   };
 
   return (
@@ -85,20 +79,13 @@ const Index = () => {
       {/* Header */}
       <header className="bg-gradient-to-r from-green-600 to-emerald-600 shadow-xl relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex items-center justify-center gap-8">
-            <img 
-              src="/lovable-uploads/e0ff1bcc-0a92-4e68-bc57-fca964ae7765.png" 
-              alt="ديوان المراسلات" 
-              className="w-20 h-20 object-contain"
-            />
-            <div className="text-center">
-              <p className="text-green-100 text-xl md:text-2xl font-medium leading-relaxed">
-                إنشاء خطابات رسمية احترافية وراقية
-              </p>
-              <p className="text-green-100 text-xl md:text-2xl font-medium leading-relaxed">
-                بأسلوب مميز وإبداعي
-              </p>
-            </div>
+          <div className="text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-6">
+              ديوان المراسلات
+            </h1>
+            <p className="text-green-100 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed">
+              إنشاء خطابات رسمية احترافية وراقية بأسلوب مميز وإبداعي
+            </p>
           </div>
         </div>
       </header>
@@ -110,53 +97,14 @@ const Index = () => {
           <div className="w-full">
             <div className="bg-green-900/95 backdrop-blur-sm shadow-2xl border border-green-200 hover:shadow-3xl transition-all duration-300">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-3xl font-bold text-white">
-                    معلومات الخطاب
-                  </h2>
-                  <SavedLettersDialog />
-                </div>
+                <h2 className="text-3xl font-bold text-white mb-8 text-center">
+                  معلومات الخطاب
+                </h2>
                 <div className="bg-white rounded-xl p-8">
                   <LetterForm 
                     letterData={letterData}
                     onChange={handleFormChange}
                   />
-                  
-                  {/* Length Selection Buttons */}
-                  <div className="mt-6 pt-6 border-t border-gray-200">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      اختر طول الخطاب المناسب:
-                    </label>
-                    <div className="flex gap-2 flex-wrap">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant={letterData.letterLength === 'قصير' ? 'default' : 'outline'}
-                        onClick={() => handleLengthChange('قصير')}
-                        className="font-tajawal text-xs"
-                      >
-                        قصير
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant={letterData.letterLength === 'متوسط' ? 'default' : 'outline'}
-                        onClick={() => handleLengthChange('متوسط')}
-                        className="font-tajawal text-xs"
-                      >
-                        متوسط
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant={letterData.letterLength === 'طويل' ? 'default' : 'outline'}
-                        onClick={() => handleLengthChange('طويل')}
-                        className="font-tajawal text-xs"
-                      >
-                        طويل
-                      </Button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -186,7 +134,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center space-y-4">
             <p className="text-green-100 text-lg font-medium">
-              تطبيق احترافي لكتابة الخطابات الرسمية
+              ديوان المراسلات - تطبيق احترافي لكتابة الخطابات الرسمية
             </p>
             <div className="border-t border-green-700 pt-4">
               <p className="text-green-200 text-sm">

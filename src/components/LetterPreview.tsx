@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateLetter } from '../services/letterGenerator';
-import { Copy, Download, FileText, Sparkles, Loader2, RefreshCw, Save } from 'lucide-react';
+import { Copy, Download, FileText, Sparkles, Loader2, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 
@@ -53,7 +53,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
     setIsLoading(true);
     try {
-      const result = await generateLetter(letterData);
+      const result = await generateLetter(letterData, true); // Pass true for regeneration
       setGeneratedLetter(result);
       toast.success('تم إعادة كتابة الخطاب بأسلوب جديد!');
     } catch (error) {
@@ -62,30 +62,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const saveLetter = () => {
-    if (!generatedLetter.arabicVersion) {
-      toast.error('لا يوجد خطاب للحفظ');
-      return;
-    }
-
-    // حفظ الخطاب في التخزين المحلي
-    const savedLetters = JSON.parse(localStorage.getItem('savedLetters') || '[]');
-    const newLetter = {
-      id: Date.now().toString(),
-      recipientName: letterData.recipientName,
-      recipientTitle: letterData.recipientTitle,
-      occasion: letterData.occasion,
-      senderName: letterData.senderName,
-      senderOrganization: letterData.senderOrganization,
-      letterContent: generatedLetter.arabicVersion,
-      createdAt: new Date()
-    };
-    
-    savedLetters.push(newLetter);
-    localStorage.setItem('savedLetters', JSON.stringify(savedLetters));
-    toast.success('تم حفظ الخطاب بنجاح!');
   };
 
   const copyToClipboard = (text: string) => {
@@ -115,7 +91,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           املأ المعلومات على اليسار لرؤية معاينة الخطاب الراقي
         </p>
         <p className="text-center text-sm font-tajawal text-green-600 mt-2">
-          ستحصل على خطاب مذهل ومفصل باستخدام الذكاء الاصطناعي
+          ستحصل على خطاب مذهل ومفصل بأكثر من 600 حرف باستخدام الذكاء الاصطناعي
         </p>
       </div>
     );
@@ -139,15 +115,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
     <div className="space-y-6">
       {/* Action Buttons */}
       <div className="flex gap-3 justify-end">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={saveLetter}
-          className="font-tajawal text-blue-700 border-blue-300 hover:bg-blue-50"
-        >
-          <Save className="w-4 h-4 ml-2" />
-          حفظ الخطاب
-        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -190,6 +157,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Format dates - Hijri first, then Gregorian
               if (line.includes('التاريخ الهجري')) {
                 return (
                   <div key={index} className="text-right font-medium text-green-600 mb-2">
@@ -204,6 +172,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center recipient name and greeting lines with larger font
               if (line.includes('سعادة') || line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                 return (
                   <div key={index} className="text-center font-bold text-2xl text-green-800 mb-3">
@@ -211,6 +180,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center and enlarge job title
               if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('التاريخ') && line.length < 50 && !line.includes('نتوجه') && !line.includes('يطيب') && !line.includes('في رحاب') && !line.includes('تحت ظلال')) {
                 return (
                   <div key={index} className="text-center font-semibold text-xl text-green-700 mb-4">
@@ -218,6 +188,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center and enlarge sender name and organization
               if (line.includes(letterData.senderName) && letterData.senderName) {
                 return (
                   <div key={index} className="text-center font-bold text-xl text-green-800 mt-6">
@@ -264,6 +235,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           </div>
           <div className="whitespace-pre-line text-left leading-relaxed text-blue-700 font-medium text-base" dir="ltr">
             {generatedLetter.englishVersion.split('\n').map((line, index) => {
+              // Center the recipient title and name
               if (line.includes('The Honorable') || line.includes('His Excellency')) {
                 return (
                   <div key={index} className="text-center font-bold text-xl text-blue-800 mb-2">
@@ -271,6 +243,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center job title and sender info
               if (index > 0 && line.trim() && !line.includes('Peace') && !line.includes('Date') && line.length < 50 && !line.includes('We are') && !line.includes('extend')) {
                 return (
                   <div key={index} className="text-center font-semibold text-lg text-blue-700 mb-4">
@@ -278,6 +251,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center sender name and organization
               if (letterData.senderName && line.includes(letterData.senderName.replace(/محمد/g, 'Mohammed').replace(/أحمد/g, 'Ahmed').replace(/علي/g, 'Ali'))) {
                 return (
                   <div key={index} className="text-center font-bold text-lg text-blue-800 mt-6">
@@ -295,6 +269,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
         </Card>
       )}
 
+      {/* Creative Version */}
       {letterData.needsCreativeVersion && generatedLetter.creativeVersion && (
         <Card className="p-8 bg-gradient-to-br from-purple-50/50 to-white border-2 border-purple-200 shadow-xl">
           <div className="flex items-center justify-between mb-6">
@@ -317,6 +292,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
           <div className="whitespace-pre-line text-right leading-loose text-purple-700 font-tajawal text-lg" dir="rtl">
             <div className="prose-letter">
               {generatedLetter.creativeVersion.split('\n').map((line, index) => {
+                // Center the Basmala at the top with larger font
                 if (line.includes('بسم الله الرحمن الرحيم')) {
                   return (
                     <div key={index} className="text-center font-bold text-2xl text-purple-800 mb-8">
@@ -324,6 +300,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
+                // Format dates - Hijri first, then Gregorian
                 if (line.includes('التاريخ الهجري')) {
                   return (
                     <div key={index} className="text-right font-medium text-purple-600 mb-2">
@@ -338,6 +315,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
+                // Center all creative greetings and recipient names with larger font
                 if (line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                   return (
                     <div key={index} className="text-center font-bold text-2xl text-purple-800 mb-3">
@@ -345,6 +323,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
+                // Center and enlarge job titles
                 if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && !line.includes('في رحاب') && !line.includes('تحت ظلال') && !line.includes('في غمرة') && line.length < 50 && !line.includes('نقف') && !line.includes('نتشرف') && !line.includes('يسعدنا')) {
                   return (
                     <div key={index} className="text-center font-semibold text-xl text-purple-700 mb-4">
@@ -352,6 +331,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                     </div>
                   );
                 }
+                // Center and enlarge sender name and organization
                 if (line.includes(letterData.senderName) && letterData.senderName) {
                   return (
                     <div key={index} className="text-center font-bold text-xl text-purple-800 mt-6">
