@@ -12,6 +12,7 @@ const Index = () => {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
+    letterLength: 'متوسط',
     needsTranslation: false,
     needsCreativeVersion: false,
     needsDiacritics: false

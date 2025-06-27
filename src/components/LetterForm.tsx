@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -108,6 +109,28 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
                 }`}
               >
                 {tone}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <Label className="text-right block text-green-800 font-bold text-lg flex items-center gap-2">
+            📏 طول الخطاب المطلوب
+          </Label>
+          <div className="grid grid-cols-3 gap-3">
+            {(['قصير', 'متوسط', 'طويل'] as const).map((length) => (
+              <Button
+                key={length}
+                variant={letterData.letterLength === length ? 'default' : 'outline'}
+                onClick={() => handleInputChange('letterLength', length)}
+                className={`text-base font-tajawal py-3 h-12 ${
+                  letterData.letterLength === length 
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' 
+                    : 'border-blue-300 text-blue-700 hover:bg-blue-50'
+                }`}
+              >
+                {length}
               </Button>
             ))}
           </div>
