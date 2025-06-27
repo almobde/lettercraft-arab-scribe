@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +11,8 @@ interface LetterFormProps {
 }
 
 export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
+  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+
   const handleInputChange = (field: keyof LetterData, value: string | boolean) => {
     onChange({
       ...letterData,
@@ -19,8 +20,36 @@ export const LetterForm = ({ letterData, onChange }: LetterFormProps) => {
     });
   };
 
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value);
+    if (value.trim()) {
+      localStorage.setItem('openai_api_key', value.trim());
+    } else {
+      localStorage.removeItem('openai_api_key');
+    }
+  };
+
   return (
     <div className="space-y-8">
+      {/* حقل مفتاح OpenAI API */}
+      <div className="space-y-4 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border-2 border-indigo-200">
+        <Label htmlFor="apiKey" className="text-right block text-indigo-800 font-bold text-xl flex items-center gap-2">
+          🔑 مفتاح OpenAI API (مطلوب)
+        </Label>
+        <Input
+          id="apiKey"
+          type="password"
+          value={apiKey}
+          onChange={(e) => handleApiKeyChange(e.target.value)}
+          placeholder="sk-proj-..."
+          className="text-left font-mono text-sm bg-white h-12 px-4 text-gray-800 placeholder:text-gray-500 border-2"
+          dir="ltr"
+        />
+        <p className="text-sm text-indigo-600 text-right">
+          سيتم حفظ المفتاح محلياً في متصفحك فقط. احصل على مفتاحك من platform.openai.com
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 gap-8">
         <div className="space-y-4">
           <Label htmlFor="recipientName" className="text-right block text-green-800 font-semibold text-xl flex items-center gap-2">
