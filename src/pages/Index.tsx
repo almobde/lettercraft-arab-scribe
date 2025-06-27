@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { LetterForm } from '../components/LetterForm';
 import { LetterPreview } from '../components/LetterPreview';
@@ -12,6 +11,7 @@ const Index = () => {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
+    letterLength: 'متوسط',
     needsTranslation: false,
     needsCreativeVersion: false,
     needsDiacritics: false
