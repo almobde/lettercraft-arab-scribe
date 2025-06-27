@@ -6,7 +6,6 @@ export interface LetterData {
   senderOrganization: string;
   senderName: string;
   tone: 'رسمية' | 'تحفيزية' | 'أدبية' | 'ودية';
-  letterLength: 'قصير' | 'متوسط' | 'طويل';
   needsTranslation: boolean;
   needsCreativeVersion: boolean;
   needsDiacritics: boolean;
