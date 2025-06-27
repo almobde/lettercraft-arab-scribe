@@ -10,12 +10,12 @@ interface OpenAIRequest {
   needsDiacritics: boolean;
 }
 
-async function sendToChatGPT(promptText: string, apiKey: string) {
+async function sendToChatGPT(promptText: string) {
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
+      "Authorization": `Bearer sk-proj-nT4_gOJhKHl-hKp8OHCZ5J5uUe9EiE2c_JhE8cFjS7vM-Kf8c4i-oT8hUQfQvgMmcnb2bCmWZdT3BlbkFJdZHxFHHJX_5c8k4DZQqLV4T_kJqJwYgGcq8Kf3PXsT_yFzDJi8cV2S8cYYqQGqLcRz9fGf9"` // استخدام مفتاحك المقدم
     },
     body: JSON.stringify({
       model: "gpt-4",
@@ -91,12 +91,12 @@ const buildPrompt = (data: OpenAIRequest, isCreative: boolean = false) => {
 الالتزام بالطول المطلوب أمر بالغ الأهمية.`;
 };
 
-export const generateArabicLetter = async (data: OpenAIRequest, apiKey: string, isCreative: boolean = false): Promise<string> => {
+export const generateArabicLetter = async (data: OpenAIRequest, isCreative: boolean = false): Promise<string> => {
   const prompt = buildPrompt(data, isCreative);
-  return await sendToChatGPT(prompt, apiKey);
+  return await sendToChatGPT(prompt);
 };
 
-export const translateToEnglish = async (arabicText: string, apiKey: string): Promise<string> => {
+export const translateToEnglish = async (arabicText: string): Promise<string> => {
   const prompt = `ترجم هذا الخطاب الرسمي العربي إلى اللغة الإنجليزية بأسلوب رسمي ومهني، مع الحفاظ على المعنى والبنية:
 
 ${arabicText}
@@ -107,5 +107,5 @@ ${arabicText}
 - مناسبة للمراسلات الرسمية
 - مع الحفاظ على تنسيق الخطاب`;
 
-  return await sendToChatGPT(prompt, apiKey);
+  return await sendToChatGPT(prompt);
 };

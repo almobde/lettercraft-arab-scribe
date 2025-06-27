@@ -6,13 +6,6 @@ export const generateLetter = async (
   data: LetterData, 
   forceRegenerate: boolean = false
 ): Promise<GeneratedLetter> => {
-  // الحصول على API key من localStorage
-  const apiKey = localStorage.getItem('openai_api_key');
-  
-  if (!apiKey) {
-    throw new Error('يرجى إدخال مفتاح OpenAI API أولاً');
-  }
-
   try {
     console.log('Generating letter with data:', data);
     
@@ -26,7 +19,7 @@ export const generateLetter = async (
       tone: data.tone,
       letterLength: data.letterLength,
       needsDiacritics: data.needsDiacritics
-    }, apiKey);
+    });
 
     const result: GeneratedLetter = {
       arabicVersion: arabicVersion
@@ -35,7 +28,7 @@ export const generateLetter = async (
     // ترجمة للإنجليزية إذا طُلبت
     if (data.needsTranslation) {
       console.log('Translating to English...');
-      result.englishVersion = await translateToEnglish(arabicVersion, apiKey);
+      result.englishVersion = await translateToEnglish(arabicVersion);
     }
 
     // توليد النسخة الإبداعية إذا طُلبت
@@ -50,7 +43,7 @@ export const generateLetter = async (
         tone: data.tone,
         letterLength: data.letterLength,
         needsDiacritics: data.needsDiacritics
-      }, apiKey, true); // isCreative = true
+      }, true); // isCreative = true
     }
 
     console.log('Letter generation completed:', result);
