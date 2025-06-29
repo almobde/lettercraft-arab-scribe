@@ -1,27 +1,48 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+import { useState } from 'react';
+import { LetterData } from './types/letter';
+import { LetterPreview } from './components/LetterPreview';
+import { LetterForm } from './components/LetterForm';
+import { Toaster } from 'sonner';
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+function App() {
+  const [letterData, setLetterData] = useState<LetterData>({
+    recipientName: '',
+    recipientTitle: '',
+    occasion: '',
+    senderOrganization: '',
+    senderName: '',
+    tone: 'رسمية',
+    needsTranslation: false,
+    needsCreativeVersion: false,
+    needsDiacritics: false,
+  });
+
+  return (
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-green-800 mb-2 font-tajawal">
+            🏛️ ديوان المراسلات الرسمية
+          </h1>
+          <p className="text-green-600 text-lg font-tajawal">
+            منصة إنشاء الخطابات الرسمية بالذكاء الاصطناعي
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
+            <LetterForm letterData={letterData} setLetterData={setLetterData} />
+          </div>
+          
+          <div className="space-y-6">
+            <LetterPreview letterData={letterData} />
+          </div>
+        </div>
+      </div>
       <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    </div>
+  );
+}
 
 export default App;
