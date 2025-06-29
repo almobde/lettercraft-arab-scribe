@@ -11,8 +11,9 @@ export interface LetterData {
   needsDiacritics: boolean;
 }
 
-export interface GeneratedLetter {
-  arabicVersion: string;
-  englishVersion?: string;
-  creativeVersion?: string;
+export interface GeneratedContent {
+  arabicLetter: string;
+  englishTranslation?: string;
+  creativeLetter?: string;
+  diacriticLetter?: string;
 }
