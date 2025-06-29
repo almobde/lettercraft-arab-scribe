@@ -9,28 +9,14 @@ interface OpenAIResponse {
   }[];
 }
 
-const getTargetCharacterCount = (length: 'قصير' | 'متوسط' | 'طويل'): { min: number; max: number } => {
-  switch (length) {
-    case 'قصير':
-      return { min: 200, max: 300 };
-    case 'متوسط':
-      return { min: 350, max: 450 };
-    case 'طويل':
-      return { min: 550, max: 700 };
-  }
-};
-
 const createLetterPrompt = (
   recipientName: string,
   recipientTitle: string,
   occasion: string,
   tone: string,
   senderName: string,
-  senderOrganization: string,
-  letterLength: 'قصير' | 'متوسط' | 'طويل'
+  senderOrganization: string
 ): string => {
-  const { min, max } = getTargetCharacterCount(letterLength);
-  
   // Determine if it's congratulations or thanks
   const isGraduationOrCongrats = occasion.includes('تخرج') || occasion.includes('نجاح') || 
     occasion.includes('ترقية') || occasion.includes('إنجاز') || occasion.includes('تفوق') ||
@@ -39,7 +25,7 @@ const createLetterPrompt = (
   const mainVerb = isGraduationOrCongrats ? 'نهنئكم' : 'نشكركم';
   const mainPhrase = isGraduationOrCongrats ? 'أطيب التهاني' : 'جزيل الشكر';
   
-  return `اكتب خطاب رسمي باللغة العربية ${letterLength === 'قصير' ? 'قصير ومركز' : letterLength === 'متوسط' ? 'متوسط الطول' : 'مفصل'} بطول ${min}-${max} حرف تقريباً.
+  return `اكتب خطاب رسمي باللغة العربية متوسط الطول.
 
 المعلومات:
 - المرسل إليه: ${recipientName}
@@ -50,12 +36,11 @@ const createLetterPrompt = (
 - الجهة: ${senderOrganization}
 
 متطلبات مهمة:
-1. ابدأ بـ "بسم الله الرحمن الرحيم" ثم التاريخ الهجري والميلادي
+1. ابدأ بـ "بسم الله الرحمن الرحيم" فقط بدون تاريخ
 2. لا تستخدم "سعادة" أو "المحترم" أو "المحترمة" - استخدم الاسم مباشرة
 3. استخدم "${mainVerb}" و"${mainPhrase}" كأساس للخطاب
 4. اجعل النبرة ${tone}
 5. اختتم بالسلام والتوقيع
-6. التزم بالطول المطلوب: ${min}-${max} حرف
 
 اكتب الخطاب مباشرة بدون مقدمات.`;
 };
@@ -66,12 +51,9 @@ const createEnglishPrompt = (
   occasion: string,
   tone: string,
   senderName: string,
-  senderOrganization: string,
-  letterLength: 'قصير' | 'متوسط' | 'طويل'
+  senderOrganization: string
 ): string => {
-  const { min, max } = getTargetCharacterCount(letterLength);
-  
-  return `Write a formal English letter of ${min}-${max} characters approximately.
+  return `Write a formal English letter of medium length.
 
 Information:
 - Recipient: ${recipientName}
@@ -82,11 +64,10 @@ Information:
 - Organization: ${senderOrganization}
 
 Requirements:
-1. Start with date
+1. Do not include date at the beginning
 2. Use "Dear" + name directly (no "The Honorable")
 3. Match the ${tone} tone
 4. End with formal closing and signature
-5. Keep length between ${min}-${max} characters
 
 Write the letter directly without introductions.`;
 };
