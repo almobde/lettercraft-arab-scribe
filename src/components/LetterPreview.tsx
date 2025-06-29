@@ -1,4 +1,3 @@
-
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData, GeneratedLetter } from '../types/letter';
@@ -53,7 +52,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
     setIsLoading(true);
     try {
-      const result = await generateLetter(letterData, true); // Pass true for regeneration
+      const result = await generateLetter(letterData);
       setGeneratedLetter(result);
       toast.success('تم إعادة كتابة الخطاب بأسلوب جديد!');
     } catch (error) {
