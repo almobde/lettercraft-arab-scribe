@@ -17,3 +17,9 @@ export interface GeneratedContent {
   creativeLetter?: string;
   diacriticLetter?: string;
 }
+
+export interface GeneratedLetter {
+  arabicVersion: string;
+  englishVersion?: string;
+  creativeVersion?: string;
+}
