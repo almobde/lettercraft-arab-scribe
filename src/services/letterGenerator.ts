@@ -1,68 +1,39 @@
 
 import { LetterData, GeneratedLetter } from '../types/letter';
-import { generateWithOpenAI, createLetterPrompt, createEnglishPrompt } from './openaiService';
+import { supabase } from '@/integrations/supabase/client';
 
 export const generateLetter = async (letterData: LetterData): Promise<GeneratedLetter> => {
   try {
-    // Generate Arabic letter
-    const arabicPrompt = createLetterPrompt(
-      letterData.recipientName,
-      letterData.recipientTitle,
-      letterData.occasion,
-      letterData.tone,
-      letterData.senderName,
-      letterData.senderOrganization
-    );
-    
-    const arabicVersion = await generateWithOpenAI(arabicPrompt);
-    
-    const result: GeneratedLetter = {
-      arabicVersion
-    };
+    const { data, error } = await supabase.functions.invoke('generate-letter', {
+      body: {
+        recipientName: letterData.recipientName,
+        recipientTitle: letterData.recipientTitle,
+        occasion: letterData.occasion,
+        tone: letterData.tone,
+        senderName: letterData.senderName,
+        senderOrganization: letterData.senderOrganization,
+        needsTranslation: letterData.needsTranslation,
+        needsCreativeVersion: letterData.needsCreativeVersion,
+        needsDiacritics: letterData.needsDiacritics,
+      },
+    });
 
-    // Generate English translation if requested
-    if (letterData.needsTranslation) {
-      const englishPrompt = createEnglishPrompt(
-        letterData.recipientName,
-        letterData.recipientTitle,
-        letterData.occasion,
-        letterData.tone,
-        letterData.senderName,
-        letterData.senderOrganization
-      );
-      
-      result.englishVersion = await generateWithOpenAI(englishPrompt);
+    if (error) {
+      console.error('Supabase function error:', error);
+      throw new Error(error.message || 'فشل في توليد الخطاب من الخادم');
     }
 
-    // Generate creative version if requested
-    if (letterData.needsCreativeVersion) {
-      const creativePrompt = `${arabicPrompt}
-
-اكتب نسخة إبداعية من نفس الخطاب بأسلوب أدبي راقي مع استخدام:
-- عبارات بلاغية جميلة
-- تشبيهات واستعارات مناسبة
-- أسلوب شاعري مهذب
-- مفردات راقية ومتنوعة
-
-احتفظ بنفس المعنى والغرض لكن بأسلوب أكثر إبداعاً.`;
-      
-      result.creativeVersion = await generateWithOpenAI(creativePrompt);
+    if (!data) {
+      throw new Error('لم يتم استلام استجابة من الخادم');
     }
 
-    // Add diacritics if requested
-    if (letterData.needsDiacritics && result.arabicVersion) {
-      const diacriticsPrompt = `أضف التشكيل الكامل (الحركات) للنص التالي:
-
-${result.arabicVersion}
-
-المطلوب: إضافة جميع الحركات (الفتحة، الضمة، الكسرة، السكون، الشدة، التنوين) للنص بشكل صحيح نحوياً.`;
-      
-      result.arabicVersion = await generateWithOpenAI(diacriticsPrompt);
-    }
-
-    return result;
+    return data as GeneratedLetter;
   } catch (error) {
     console.error('Error generating letter:', error);
-    throw new Error('فشل في توليد الخطاب. الرجاء المحاولة مرة أخرى.');
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('فشل في توليد الخطاب. الرجاء المحاولة مرة أخرى.');
+    }
   }
 };
