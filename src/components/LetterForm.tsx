@@ -2,7 +2,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData } from '../types/letter';
-import { FileText, Sparkles, User, Building, Calendar, Palette, Globe, PenTool, Type } from 'lucide-react';
+import { FileText, Sparkles, User, Building, Calendar, Palette, Globe, PenTool, Type, Key, Eye, EyeOff } from 'lucide-react';
+import { getStoredApiKey, setStoredApiKey, validateApiKey } from '../services/openaiService';
+import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface LetterFormProps {
   letterData: LetterData;
@@ -10,8 +13,35 @@ interface LetterFormProps {
 }
 
 export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
+  const [apiKey, setApiKey] = useState('');
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [apiKeySet, setApiKeySet] = useState(false);
+
+  useEffect(() => {
+    const storedKey = getStoredApiKey();
+    if (storedKey) {
+      setApiKey(storedKey);
+      setApiKeySet(true);
+    }
+  }, []);
+
   const updateField = (field: keyof LetterData, value: any) => {
     setLetterData({ ...letterData, [field]: value });
+  };
+
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value);
+    if (value) {
+      setStoredApiKey(value);
+      setApiKeySet(true);
+      if (validateApiKey(value)) {
+        toast.success('تم حفظ مفتاح OpenAI بنجاح!');
+      } else {
+        toast.error('تنسيق مفتاح OpenAI غير صحيح. يجب أن يبدأ بـ sk-');
+      }
+    } else {
+      setApiKeySet(false);
+    }
   };
 
   return (
@@ -25,6 +55,42 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
       </CardHeader>
       
       <CardContent className="p-8 space-y-8">
+        {/* API Key Section */}
+        <div className="space-y-4 bg-orange-50/50 p-6 rounded-xl border-2 border-orange-200">
+          <div className="flex items-center gap-2 mb-4">
+            <Key className="w-6 h-6 text-orange-600" />
+            <h3 className="text-orange-800 font-bold text-xl font-tajawal">
+              إعدادات OpenAI API
+            </h3>
+            {apiKeySet && <div className="w-3 h-3 bg-green-500 rounded-full"></div>}
+          </div>
+          
+          <div className="space-y-3">
+            <label className="text-orange-700 font-semibold text-base font-tajawal block">
+              مفتاح OpenAI API (مطلوب لتشغيل التطبيق)
+            </label>
+            <div className="relative">
+              <input
+                type={showApiKey ? "text" : "password"}
+                value={apiKey}
+                onChange={(e) => handleApiKeyChange(e.target.value)}
+                className="w-full p-4 border-2 border-orange-200 rounded-lg focus:border-orange-500 focus:outline-none text-base font-mono bg-white pr-12"
+                placeholder="sk-..."
+                dir="ltr"
+              />
+              <button
+                type="button"
+                onClick={() => setShowApiKey(!showApiKey)}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-700"
+              >
+                {showApiKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+            <p className="text-sm text-orange-600 font-tajawal">
+              ستحتاج إلى مفتاح OpenAI صالح لتوليد الخطابات. يتم حفظه محلياً في متصفحك.
+            </p>
+          </div>
+        </div>
         {/* Recipient Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3">

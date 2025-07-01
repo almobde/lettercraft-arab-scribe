@@ -1,16 +1,37 @@
 
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // ضع مفتاح OpenAI الخاص بك هنا
+// API Key Management
+export const getStoredApiKey = (): string | null => {
+  return localStorage.getItem('openai_api_key');
+};
+
+export const setStoredApiKey = (apiKey: string): void => {
+  localStorage.setItem('openai_api_key', apiKey);
+};
+
+export const validateApiKey = (apiKey: string): boolean => {
+  return apiKey && apiKey.startsWith('sk-') && apiKey.length > 20;
+};
 
 export const generateWithOpenAI = async (prompt: string): Promise<string> => {
+  const apiKey = getStoredApiKey();
+  
+  if (!apiKey) {
+    throw new Error('لم يتم إدخال مفتاح OpenAI. يرجى إدخال المفتاح في الإعدادات.');
+  }
+
+  if (!validateApiKey(apiKey)) {
+    throw new Error('مفتاح OpenAI غير صحيح. يرجى التأكد من صحة المفتاح.');
+  }
+
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4.1-2025-04-14',
         messages: [
           {
             role: 'user',
@@ -23,14 +44,34 @@ export const generateWithOpenAI = async (prompt: string): Promise<string> => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      
+      if (response.status === 401) {
+        throw new Error('مفتاح OpenAI غير صحيح أو منتهي الصلاحية. يرجى التحقق من المفتاح.');
+      } else if (response.status === 429) {
+        throw new Error('تم تجاوز حد الاستخدام. يرجى المحاولة لاحقاً.');
+      } else if (response.status === 403) {
+        throw new Error('ليس لديك صلاحية للوصول لهذا النموذج. يرجى التحقق من اشتراكك.');
+      } else {
+        throw new Error(`خطأ في الخدمة: ${response.status} - ${errorData.error?.message || 'خطأ غير معروف'}`);
+      }
     }
 
     const data = await response.json();
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('استجابة غير صحيحة من الخدمة. يرجى المحاولة مرة أخرى.');
+    }
+    
     return data.choices[0].message.content;
   } catch (error) {
     console.error('Error calling OpenAI API:', error);
-    throw error;
+    
+    if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('فشل في الاتصال بخدمة OpenAI. يرجى التحقق من الاتصال بالإنترنت.');
+    }
   }
 };
 
