@@ -1,26 +1,8 @@
 
-// API Key Management
-export const getStoredApiKey = (): string | null => {
-  return localStorage.getItem('openai_api_key');
-};
-
-export const setStoredApiKey = (apiKey: string): void => {
-  localStorage.setItem('openai_api_key', apiKey);
-};
-
-export const validateApiKey = (apiKey: string): boolean => {
-  return apiKey && apiKey.startsWith('sk-') && apiKey.length > 20;
-};
-
+const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // ضع مفتاح OpenAI الخاص بك هنا
 export const generateWithOpenAI = async (prompt: string): Promise<string> => {
-  const apiKey = getStoredApiKey();
-  
-  if (!apiKey) {
-    throw new Error('لم يتم إدخال مفتاح OpenAI. يرجى إدخال المفتاح في الإعدادات.');
-  }
-
-  if (!validateApiKey(apiKey)) {
-    throw new Error('مفتاح OpenAI غير صحيح. يرجى التأكد من صحة المفتاح.');
+  if (!OPENAI_API_KEY || OPENAI_API_KEY === 'YOUR_OPENAI_API_KEY_HERE') {
+    throw new Error('لم يتم تكوين مفتاح OpenAI. يرجى التواصل مع المطور.');
   }
 
   try {
@@ -28,7 +10,7 @@ export const generateWithOpenAI = async (prompt: string): Promise<string> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4.1-2025-04-14',
