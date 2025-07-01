@@ -20,10 +20,15 @@ interface LetterRequest {
 const generateWithOpenAI = async (prompt: string): Promise<string> => {
   const openaiApiKey = Deno.env.get('OPENAI_API_KEY');
   
+  console.log('OpenAI API Key available:', openaiApiKey ? 'Yes' : 'No');
+  
   if (!openaiApiKey) {
+    console.error('OpenAI API key not found in environment variables');
     throw new Error('مفتاح OpenAI غير متوفر في إعدادات الخادم');
   }
 
+  console.log('Making request to OpenAI...');
+  
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -31,7 +36,7 @@ const generateWithOpenAI = async (prompt: string): Promise<string> => {
       'Authorization': `Bearer ${openaiApiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4',
+      model: 'gpt-4.1-2025-04-14',
       messages: [
         {
           role: 'user',
@@ -43,8 +48,11 @@ const generateWithOpenAI = async (prompt: string): Promise<string> => {
     }),
   });
 
+  console.log('OpenAI response status:', response.status);
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
+    console.error('OpenAI API error:', errorData);
     
     if (response.status === 401) {
       throw new Error('مفتاح OpenAI غير صحيح أو منتهي الصلاحية');
@@ -58,8 +66,10 @@ const generateWithOpenAI = async (prompt: string): Promise<string> => {
   }
 
   const data = await response.json();
+  console.log('OpenAI response received successfully');
   
   if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+    console.error('Invalid OpenAI response structure:', data);
     throw new Error('استجابة غير صحيحة من الخدمة');
   }
   
