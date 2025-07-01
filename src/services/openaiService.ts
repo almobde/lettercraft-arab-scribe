@@ -1,5 +1,5 @@
 
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // ضع مفتاح OpenAI الخاص بك هنا
+const OPENAI_API_KEY = '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'; // ضع مفتاح OpenAI الخاص بك هنا
 export const generateWithOpenAI = async (prompt: string): Promise<string> => {
   if (!OPENAI_API_KEY || OPENAI_API_KEY === 'YOUR_OPENAI_API_KEY_HERE') {
     throw new Error('لم يتم تكوين مفتاح OpenAI. يرجى التواصل مع المطور.');
