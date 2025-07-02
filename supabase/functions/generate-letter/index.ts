@@ -13,7 +13,6 @@ interface LetterRequest {
   senderName: string;
   senderOrganization: string;
   needsTranslation?: boolean;
-  needsCreativeVersion?: boolean;
   needsDiacritics?: boolean;
 }
 
@@ -95,13 +94,12 @@ const createLetterPrompt = (
 
 المطلوب:
 1. ابدأ بالبسملة في المنتصف
-2. اكتب التاريخ الهجري والميلادي
-3. اكتب اسم المرسل إليه ومنصبه في المنتصف
-4. اكتب خطاباً مفصلاً (أكثر من 600 حرف) بأسلوب راقي ومهذب
-5. استخدم عبارات الترحيب والتقدير المناسبة
-6. اختتم بالتوقيع في المنتصف
+2. اكتب اسم المرسل إليه ومنصبه في المنتصف
+3. اكتب خطاباً مفصلاً (أكثر من 800 حرف) بأسلوب راقي ومهذب
+4. استخدم عبارات الترحيب والتقدير المناسبة
+5. اختتم بالتوقيع في المنتصف
 
-يجب أن يكون الخطاب مفصلاً وباللغة العربية الفصحى.`;
+يجب أن يكون الخطاب مفصلاً وباللغة العربية الفصحى. لا تضع التاريخ في الخطاب.`;
 };
 
 const createEnglishPrompt = (
@@ -123,13 +121,12 @@ Organization: ${senderOrganization}
 
 Requirements:
 1. Start with appropriate formal greeting
-2. Include the date
-3. Write recipient's name and title
-4. Write a detailed letter (more than 600 characters) in professional and respectful style
-5. Use appropriate courtesy phrases and expressions of respect
-6. End with proper formal closing and signature
+2. Write recipient's name and title
+3. Write a detailed letter (more than 800 characters) in professional and respectful style
+4. Use appropriate courtesy phrases and expressions of respect
+5. End with proper formal closing and signature
 
-The letter should be detailed and in proper formal English.`;
+The letter should be detailed and in proper formal English. Do not include any dates in the letter.`;
 };
 
 serve(async (req) => {
@@ -170,21 +167,6 @@ serve(async (req) => {
       );
       
       result.englishVersion = await generateWithOpenAI(englishPrompt);
-    }
-
-    // Generate creative version if requested
-    if (letterRequest.needsCreativeVersion) {
-      const creativePrompt = `${arabicPrompt}
-
-اكتب نسخة إبداعية من نفس الخطاب بأسلوب أدبي راقي مع استخدام:
-- عبارات بلاغية جميلة
-- تشبيهات واستعارات مناسبة
-- أسلوب شاعري مهذب
-- مفردات راقية ومتنوعة
-
-احتفظ بنفس المعنى والغرض لكن بأسلوب أكثر إبداعاً.`;
-      
-      result.creativeVersion = await generateWithOpenAI(creativePrompt);
     }
 
     // Add diacritics if requested

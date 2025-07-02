@@ -13,7 +13,6 @@ export const generateLetter = async (letterData: LetterData): Promise<GeneratedL
         senderName: letterData.senderName,
         senderOrganization: letterData.senderOrganization,
         needsTranslation: letterData.needsTranslation,
-        needsCreativeVersion: letterData.needsCreativeVersion,
         needsDiacritics: letterData.needsDiacritics,
       },
     });

@@ -14,7 +14,6 @@ function Index() {
     senderName: '',
     tone: 'رسمية',
     needsTranslation: false,
-    needsCreativeVersion: false,
     needsDiacritics: false,
   });
 

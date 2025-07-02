@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData } from '../types/letter';
-import { FileText, Sparkles, User, Building, Calendar, Palette, Globe, PenTool, Type } from 'lucide-react';
+import { FileText, Sparkles, User, Building, Calendar, Palette, Globe, Type } from 'lucide-react';
 
 interface LetterFormProps {
   letterData: LetterData;
@@ -60,14 +60,24 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
         <div className="space-y-3">
           <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
             <Calendar className="w-5 h-5" />
-            المناسبة أو الموضوع
+            المناسبة أو الموضوع (100 حرف على الأقل)
           </label>
           <textarea
             value={letterData.occasion}
             onChange={(e) => updateField('occasion', e.target.value)}
-            className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none text-lg font-tajawal bg-white/70 min-h-[120px]"
-            placeholder="مثال: دعوة لحضور المؤتمر السنوي للشركة..."
+            className={`w-full p-4 border-2 rounded-lg focus:outline-none text-lg font-tajawal bg-white/70 min-h-[120px] ${
+              letterData.occasion.length < 100 
+                ? 'border-red-300 focus:border-red-500' 
+                : 'border-green-200 focus:border-green-500'
+            }`}
+            placeholder="مثال: دعوة لحضور المؤتمر السنوي للشركة... (يجب أن يكون النص 100 حرف على الأقل)"
+            minLength={100}
           />
+          <div className={`text-sm font-tajawal ${
+            letterData.occasion.length < 100 ? 'text-red-600' : 'text-green-600'
+          }`}>
+            عدد الأحرف: {letterData.occasion.length}/100
+          </div>
         </div>
 
         {/* Sender Information */}
@@ -144,21 +154,6 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
                 <Globe className="w-5 h-5 text-blue-600" />
                 <span className="text-lg font-tajawal text-green-700">
                   إنشاء ترجمة إنجليزية للخطاب
-                </span>
-              </div>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={letterData.needsCreativeVersion}
-                onChange={(e) => updateField('needsCreativeVersion', e.target.checked)}
-                className="w-5 h-5 text-green-600 border-2 border-green-300 rounded focus:ring-green-500"
-              />
-              <div className="flex items-center gap-2">
-                <PenTool className="w-5 h-5 text-purple-600" />
-                <span className="text-lg font-tajawal text-green-700">
-                  إنشاء نسخة إبداعية بأسلوب أدبي راقي
                 </span>
               </div>
             </label>

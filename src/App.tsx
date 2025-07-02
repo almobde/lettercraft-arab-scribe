@@ -14,7 +14,6 @@ function App() {
     senderName: '',
     tone: 'رسمية',
     needsTranslation: false,
-    needsCreativeVersion: false,
     needsDiacritics: false,
   });
 

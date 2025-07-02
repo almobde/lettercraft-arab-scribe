@@ -7,7 +7,6 @@ export interface LetterData {
   senderName: string;
   tone: 'رسمية' | 'تحفيزية' | 'أدبية' | 'ودية';
   needsTranslation: boolean;
-  needsCreativeVersion: boolean;
   needsDiacritics: boolean;
 }
 
@@ -21,5 +20,4 @@ export interface GeneratedContent {
 export interface GeneratedLetter {
   arabicVersion: string;
   englishVersion?: string;
-  creativeVersion?: string;
 }
