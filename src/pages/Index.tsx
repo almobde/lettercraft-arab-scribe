@@ -13,18 +13,19 @@ function Index() {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
+    length: 'متوسط',
     needsTranslation: false,
     needsDiacritics: false,
   });
 
   return (
-    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-green-800 mb-2 font-tajawal">
+          <h1 className="text-4xl font-bold text-primary mb-2 font-tajawal">
             🏛️ ديوان المراسلات الرسمية
           </h1>
-          <p className="text-green-600 text-lg font-tajawal">
+          <p className="text-primary/70 text-lg font-tajawal">
             منصة إنشاء الخطابات الرسمية بالذكاء الاصطناعي
           </p>
         </div>

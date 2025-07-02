@@ -5,7 +5,8 @@ export interface LetterData {
   occasion: string;
   senderOrganization: string;
   senderName: string;
-  tone: 'رسمية' | 'تحفيزية' | 'أدبية' | 'ودية';
+  tone: 'رسمية' | 'تحفيزية' | 'ودية';
+  length: 'قصير' | 'متوسط' | 'طويل';
   needsTranslation: boolean;
   needsDiacritics: boolean;
 }

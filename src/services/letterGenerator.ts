@@ -10,6 +10,7 @@ export const generateLetter = async (letterData: LetterData): Promise<GeneratedL
         recipientTitle: letterData.recipientTitle,
         occasion: letterData.occasion,
         tone: letterData.tone,
+        length: letterData.length,
         senderName: letterData.senderName,
         senderOrganization: letterData.senderOrganization,
         needsTranslation: letterData.needsTranslation,

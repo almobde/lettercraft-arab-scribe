@@ -10,6 +10,7 @@ interface LetterRequest {
   recipientTitle: string;
   occasion: string;
   tone: string;
+  length: string;
   senderName: string;
   senderOrganization: string;
   needsTranslation?: boolean;
@@ -80,9 +81,18 @@ const createLetterPrompt = (
   recipientTitle: string,
   occasion: string,
   tone: string,
+  length: string,
   senderName: string,
   senderOrganization: string
 ): string => {
+  let lengthRequirement = '';
+  if (length === 'قصير') {
+    lengthRequirement = 'من 230 إلى 300 حرف';
+  } else if (length === 'متوسط') {
+    lengthRequirement = 'من 300 إلى 350 حرف';
+  } else {
+    lengthRequirement = 'لا يقل عن 500 حرف';
+  }
   return `اكتب خطاباً رسمياً باللغة العربية بالمواصفات التالية:
 
 المرسل إليه: ${recipientName}
@@ -95,7 +105,7 @@ const createLetterPrompt = (
 المطلوب:
 1. ابدأ بالبسملة في المنتصف
 2. اكتب اسم المرسل إليه ومنصبه في المنتصف
-3. اكتب خطاباً مفصلاً (لا يقل عن 500 حرف) بأسلوب راقي ومهذب
+3. اكتب خطاباً مفصلاً (${lengthRequirement}) بأسلوب راقي ومهذب
 4. استخدم عبارات الترحيب والتقدير المناسبة
 5. اختتم بالتوقيع من المرسل (${senderName}) والمؤسسة (${senderOrganization}) في المنتصف
 
@@ -107,9 +117,18 @@ const createEnglishPrompt = (
   recipientTitle: string,
   occasion: string,
   tone: string,
+  length: string,
   senderName: string,
   senderOrganization: string
 ): string => {
+  let lengthRequirement = '';
+  if (length === 'قصير') {
+    lengthRequirement = '230 to 300 characters';
+  } else if (length === 'متوسط') {
+    lengthRequirement = '300 to 350 characters';
+  } else {
+    lengthRequirement = 'more than 500 characters';
+  }
   return `Write a formal letter in English with the following specifications:
 
 Recipient: ${recipientName}
@@ -122,7 +141,7 @@ Organization: ${senderOrganization}
 Requirements:
 1. Start with appropriate formal greeting
 2. Write recipient's name and title
-3. Write a detailed letter (more than 800 characters) in professional and respectful style
+3. Write a detailed letter (${lengthRequirement}) in professional and respectful style
 4. Use appropriate courtesy phrases and expressions of respect
 5. End with proper formal closing and signature
 
@@ -145,6 +164,7 @@ serve(async (req) => {
       letterRequest.recipientTitle,
       letterRequest.occasion,
       letterRequest.tone,
+      letterRequest.length,
       letterRequest.senderName,
       letterRequest.senderOrganization
     );
@@ -162,6 +182,7 @@ serve(async (req) => {
         letterRequest.recipientTitle,
         letterRequest.occasion,
         letterRequest.tone,
+        letterRequest.length,
         letterRequest.senderName,
         letterRequest.senderOrganization
       );

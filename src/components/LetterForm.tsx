@@ -15,8 +15,8 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
   };
 
   return (
-    <Card className="shadow-xl border-2 border-green-200 bg-gradient-to-br from-white to-green-50/30">
-      <CardHeader className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-t-lg">
+    <Card className="shadow-xl border-2 border-primary/20 bg-gradient-to-br from-white to-secondary/30">
+      <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg">
         <CardTitle className="flex items-center gap-3 text-2xl font-tajawal">
           <FileText className="w-8 h-8" />
           معلومات الخطاب
@@ -28,7 +28,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
         {/* Recipient Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+            <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
               <User className="w-5 h-5" />
               اسم المرسل إليه
             </label>
@@ -36,13 +36,13 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
               type="text"
               value={letterData.recipientName}
               onChange={(e) => updateField('recipientName', e.target.value)}
-              className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none text-lg font-tajawal bg-white/70"
+              className="w-full p-4 border-2 border-border rounded-lg focus:border-primary focus:outline-none text-lg font-tajawal bg-white/70"
               placeholder="مثال: محمد أحمد السعودي"
             />
           </div>
           
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+            <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
               <Building className="w-5 h-5" />
               المنصب أو الصفة
             </label>
@@ -50,7 +50,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
               type="text"
               value={letterData.recipientTitle}
               onChange={(e) => updateField('recipientTitle', e.target.value)}
-              className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none text-lg font-tajawal bg-white/70"
+              className="w-full p-4 border-2 border-border rounded-lg focus:border-primary focus:outline-none text-lg font-tajawal bg-white/70"
               placeholder="مثال: مدير عام الشركة"
             />
           </div>
@@ -58,7 +58,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
 
         {/* Occasion */}
         <div className="space-y-3">
-          <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+          <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
             <Calendar className="w-5 h-5" />
             المناسبة أو الموضوع (50 حرف على الأقل)
           </label>
@@ -68,13 +68,13 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
             className={`w-full p-4 border-2 rounded-lg focus:outline-none text-lg font-tajawal bg-white/70 min-h-[120px] ${
               letterData.occasion.length < 50 
                 ? 'border-red-300 focus:border-red-500' 
-                : 'border-green-200 focus:border-green-500'
+                : 'border-border focus:border-primary'
             }`}
             placeholder="مثال: دعوة لحضور المؤتمر السنوي للشركة... (يجب أن يكون النص 50 حرف على الأقل)"
             minLength={50}
           />
           <div className={`text-sm font-tajawal ${
-            letterData.occasion.length < 50 ? 'text-red-600' : 'text-green-600'
+            letterData.occasion.length < 50 ? 'text-red-600' : 'text-primary'
           }`}>
             عدد الأحرف: {letterData.occasion.length}/50
           </div>
@@ -83,7 +83,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
         {/* Sender Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+            <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
               <User className="w-5 h-5" />
               اسم المرسل
             </label>
@@ -91,13 +91,13 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
               type="text"
               value={letterData.senderName}
               onChange={(e) => updateField('senderName', e.target.value)}
-              className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none text-lg font-tajawal bg-white/70"
+              className="w-full p-4 border-2 border-border rounded-lg focus:border-primary focus:outline-none text-lg font-tajawal bg-white/70"
               placeholder="مثال: علي محمد الأحمد"
             />
           </div>
           
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+            <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
               <Building className="w-5 h-5" />
               المؤسسة أو الجهة
             </label>
@@ -105,7 +105,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
               type="text"
               value={letterData.senderOrganization}
               onChange={(e) => updateField('senderOrganization', e.target.value)}
-              className="w-full p-4 border-2 border-green-200 rounded-lg focus:border-green-500 focus:outline-none text-lg font-tajawal bg-white/70"
+              className="w-full p-4 border-2 border-border rounded-lg focus:border-primary focus:outline-none text-lg font-tajawal bg-white/70"
               placeholder="مثال: شركة التقنية المتقدمة"
             />
           </div>
@@ -113,20 +113,20 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
 
         {/* Tone Selection */}
         <div className="space-y-4">
-          <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
+          <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
             <Palette className="w-5 h-5" />
             طبيعة ونبرة الخطاب
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {(['رسمية', 'تحفيزية', 'أدبية', 'ودية'] as const).map((tone) => (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {(['رسمية', 'تحفيزية', 'ودية'] as const).map((tone) => (
               <Button
                 key={tone}
                 type="button"
                 variant={letterData.tone === tone ? "default" : "outline"}
                 className={`p-4 text-base font-tajawal h-auto ${
                   letterData.tone === tone
-                    ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
-                    : 'border-green-300 text-green-700 hover:bg-green-50'
+                    ? 'bg-primary hover:bg-primary/90 text-primary-foreground border-primary'
+                    : 'border-border text-primary hover:bg-secondary'
                 }`}
                 onClick={() => updateField('tone', tone)}
               >
@@ -136,9 +136,39 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
           </div>
         </div>
 
+        {/* Letter Length */}
+        <div className="space-y-4">
+          <label className="flex items-center gap-2 text-primary font-semibold text-lg font-tajawal">
+            <FileText className="w-5 h-5" />
+            طول الخطاب
+          </label>
+          <div className="grid grid-cols-3 gap-4">
+            {(['قصير', 'متوسط', 'طويل'] as const).map((length) => (
+              <Button
+                key={length}
+                type="button"
+                variant={letterData.length === length ? "default" : "outline"}
+                className={`p-4 text-base font-tajawal h-auto ${
+                  letterData.length === length
+                    ? 'bg-primary hover:bg-primary/90 text-primary-foreground border-primary'
+                    : 'border-border text-primary hover:bg-secondary'
+                }`}
+                onClick={() => updateField('length', length)}
+              >
+                {length}
+              </Button>
+            ))}
+          </div>
+          <div className="text-sm font-tajawal text-primary/70">
+            {letterData.length === 'قصير' && 'من 230 إلى 300 حرف'}
+            {letterData.length === 'متوسط' && 'من 300 إلى 350 حرف'}
+            {letterData.length === 'طويل' && '500 حرف فأكثر'}
+          </div>
+        </div>
+
         {/* Additional Options */}
-        <div className="space-y-4 bg-green-50/50 p-6 rounded-xl border-2 border-green-100">
-          <h3 className="text-green-800 font-bold text-xl font-tajawal mb-4">
+        <div className="space-y-4 bg-secondary/50 p-6 rounded-xl border-2 border-border">
+          <h3 className="text-primary font-bold text-xl font-tajawal mb-4">
             خيارات إضافية متقدمة
           </h3>
           
@@ -148,11 +178,11 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
                 type="checkbox"
                 checked={letterData.needsTranslation}
                 onChange={(e) => updateField('needsTranslation', e.target.checked)}
-                className="w-5 h-5 text-green-600 border-2 border-green-300 rounded focus:ring-green-500"
+                className="w-5 h-5 text-primary border-2 border-border rounded focus:ring-primary"
               />
               <div className="flex items-center gap-2">
                 <Globe className="w-5 h-5 text-blue-600" />
-                <span className="text-lg font-tajawal text-green-700">
+                <span className="text-lg font-tajawal text-primary">
                   إنشاء ترجمة إنجليزية للخطاب
                 </span>
               </div>
@@ -163,11 +193,11 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
                 type="checkbox"
                 checked={letterData.needsDiacritics}
                 onChange={(e) => updateField('needsDiacritics', e.target.checked)}
-                className="w-5 h-5 text-green-600 border-2 border-green-300 rounded focus:ring-green-500"
+                className="w-5 h-5 text-primary border-2 border-border rounded focus:ring-primary"
               />
               <div className="flex items-center gap-2">
                 <Type className="w-5 h-5 text-orange-600" />
-                <span className="text-lg font-tajawal text-green-700">
+                <span className="text-lg font-tajawal text-primary">
                   إضافة التشكيل (الحركات) للنص العربي
                 </span>
               </div>
