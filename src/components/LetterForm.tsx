@@ -60,23 +60,23 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
         <div className="space-y-3">
           <label className="flex items-center gap-2 text-green-700 font-semibold text-lg font-tajawal">
             <Calendar className="w-5 h-5" />
-            المناسبة أو الموضوع (100 حرف على الأقل)
+            المناسبة أو الموضوع (50 حرف على الأقل)
           </label>
           <textarea
             value={letterData.occasion}
             onChange={(e) => updateField('occasion', e.target.value)}
             className={`w-full p-4 border-2 rounded-lg focus:outline-none text-lg font-tajawal bg-white/70 min-h-[120px] ${
-              letterData.occasion.length < 100 
+              letterData.occasion.length < 50 
                 ? 'border-red-300 focus:border-red-500' 
                 : 'border-green-200 focus:border-green-500'
             }`}
-            placeholder="مثال: دعوة لحضور المؤتمر السنوي للشركة... (يجب أن يكون النص 100 حرف على الأقل)"
-            minLength={100}
+            placeholder="مثال: دعوة لحضور المؤتمر السنوي للشركة... (يجب أن يكون النص 50 حرف على الأقل)"
+            minLength={50}
           />
           <div className={`text-sm font-tajawal ${
-            letterData.occasion.length < 100 ? 'text-red-600' : 'text-green-600'
+            letterData.occasion.length < 50 ? 'text-red-600' : 'text-green-600'
           }`}>
-            عدد الأحرف: {letterData.occasion.length}/100
+            عدد الأحرف: {letterData.occasion.length}/50
           </div>
         </div>
 

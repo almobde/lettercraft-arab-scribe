@@ -95,9 +95,9 @@ const createLetterPrompt = (
 المطلوب:
 1. ابدأ بالبسملة في المنتصف
 2. اكتب اسم المرسل إليه ومنصبه في المنتصف
-3. اكتب خطاباً مفصلاً (أكثر من 800 حرف) بأسلوب راقي ومهذب
+3. اكتب خطاباً مفصلاً (لا يقل عن 500 حرف) بأسلوب راقي ومهذب
 4. استخدم عبارات الترحيب والتقدير المناسبة
-5. اختتم بالتوقيع في المنتصف
+5. اختتم بالتوقيع من المرسل (${senderName}) والمؤسسة (${senderOrganization}) في المنتصف
 
 يجب أن يكون الخطاب مفصلاً وباللغة العربية الفصحى. لا تضع التاريخ في الخطاب.`;
 };
@@ -171,13 +171,22 @@ serve(async (req) => {
 
     // Add diacritics if requested
     if (letterRequest.needsDiacritics && result.arabicVersion) {
-      const diacriticsPrompt = `أضف التشكيل الكامل (الحركات) للنص التالي:
+      const diacriticsPrompt = `أضف التشكيل الكامل (الحركات) للنص التالي مع الحفاظ على اسم المرسل (${letterRequest.senderName}) ومعلومات المؤسسة (${letterRequest.senderOrganization}):
 
 ${result.arabicVersion}
 
-المطلوب: إضافة جميع الحركات (الفتحة، الضمة، الكسرة، السكون، الشدة، التنوين) للنص بشكل صحيح نحوياً.`;
+المطلوب: 
+1. إضافة جميع الحركات (الفتحة، الضمة، الكسرة، السكون، الشدة، التنوين) للنص بشكل صحيح نحوياً
+2. الحفاظ على اسم المرسل ومعلومات المؤسسة في نهاية الخطاب
+3. عدم إضافة أي عبارات إضافية مثل "بالطبع، إليك النص مُشكّلًا تشكيلًا كاملًا" أو ما شابه
+4. إرجاع النص مُشكّلاً فقط دون أي تعليقات`;
       
-      result.arabicVersion = await generateWithOpenAI(diacriticsPrompt);
+      const diacriticResult = await generateWithOpenAI(diacriticsPrompt);
+      // Remove any introductory phrases that might be added
+      result.arabicVersion = diacriticResult
+        .replace(/^.*إليك النص.*:?\s*-*\s*/g, '')
+        .replace(/^.*بالطبع.*:?\s*-*\s*/g, '')
+        .trim();
     }
 
     console.log('Letter generated successfully');
