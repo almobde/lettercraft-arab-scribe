@@ -142,8 +142,8 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
             <FileText className="w-5 h-5" />
             طول الخطاب
           </label>
-          <div className="grid grid-cols-3 gap-4">
-            {(['قصير', 'متوسط', 'طويل'] as const).map((length) => (
+          <div className="grid grid-cols-2 gap-4">
+            {(['قصير', 'طويل'] as const).map((length) => (
               <Button
                 key={length}
                 type="button"
@@ -160,8 +160,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
             ))}
           </div>
           <div className="text-sm font-tajawal text-primary/70">
-            {letterData.length === 'قصير' && 'من 230 إلى 300 حرف'}
-            {letterData.length === 'متوسط' && 'من 300 إلى 350 حرف'}
+            {letterData.length === 'قصير' && 'من 300 إلى 350 حرف'}
             {letterData.length === 'طويل' && '500 حرف فأكثر'}
           </div>
         </div>

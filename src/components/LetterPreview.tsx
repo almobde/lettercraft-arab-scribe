@@ -79,16 +79,16 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
   if (!letterData.recipientName && !letterData.occasion) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-green-600 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-dashed border-green-300">
+      <div className="flex flex-col items-center justify-center h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-dashed border-secondary">
         <div className="flex items-center gap-2 mb-4">
-          <FileText className="w-20 h-20 text-green-300" />
-          <Sparkles className="w-8 h-8 text-emerald-400 animate-pulse" />
+          <FileText className="w-20 h-20 text-primary/40" />
+          <Sparkles className="w-8 h-8 text-primary/60 animate-pulse" />
         </div>
-        <p className="text-center text-xl font-tajawal font-medium text-green-700">
-          املأ المعلومات على اليسار لرؤية معاينة الخطاب الراقي
+        <p className="text-center text-xl font-tajawal font-medium text-primary">
+          املأ المعلومات لرؤية الخطاب بشكل احترافي
         </p>
-        <p className="text-center text-sm font-tajawal text-green-600 mt-2">
-          ستحصل على خطاب مذهل ومفصل بأكثر من 600 حرف باستخدام الذكاء الاصطناعي
+        <p className="text-center text-sm font-tajawal text-primary/70 mt-2">
+          ستحصل على خطاب راقي ومتميز باستخدام الذكاء الاصطناعي
         </p>
       </div>
     );
@@ -96,12 +96,12 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-green-600 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300">
-        <Loader2 className="w-12 h-12 animate-spin text-green-500 mb-4" />
-        <p className="text-center text-xl font-tajawal font-medium text-green-700">
+      <div className="flex flex-col items-center justify-center h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-secondary">
+        <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
+        <p className="text-center text-xl font-tajawal font-medium text-primary">
           جاري إنشاء الخطاب باستخدام الذكاء الاصطناعي...
         </p>
-        <p className="text-center text-sm font-tajawal text-green-600 mt-2">
+        <p className="text-center text-sm font-tajawal text-primary/70 mt-2">
           يرجى الانتظار، نحن نكتب لك خطاباً راقياً ومتميزاً
         </p>
       </div>
@@ -142,7 +142,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
       </div>
 
       {/* Arabic Version */}
-      <Card className="p-8 bg-gradient-to-br from-green-50/50 to-white border-2 border-green-200 shadow-xl">
+      <Card className="p-8 bg-gradient-to-br from-secondary/30 to-accent/10 border-2 border-secondary shadow-xl">
         <div className="whitespace-pre-line text-right leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
           <div className="prose-letter">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {

@@ -87,8 +87,6 @@ const createLetterPrompt = (
 ): string => {
   let lengthRequirement = '';
   if (length === 'قصير') {
-    lengthRequirement = 'من 230 إلى 300 حرف';
-  } else if (length === 'متوسط') {
     lengthRequirement = 'من 300 إلى 350 حرف';
   } else {
     lengthRequirement = 'لا يقل عن 500 حرف';
@@ -123,8 +121,6 @@ const createEnglishPrompt = (
 ): string => {
   let lengthRequirement = '';
   if (length === 'قصير') {
-    lengthRequirement = '230 to 300 characters';
-  } else if (length === 'متوسط') {
     lengthRequirement = '300 to 350 characters';
   } else {
     lengthRequirement = 'more than 500 characters';

@@ -14,7 +14,7 @@ function App() {
     senderOrganization: '',
     senderName: '',
     tone: 'رسمية',
-    length: 'متوسط',
+    length: 'طويل',
     needsTranslation: false,
     needsDiacritics: false,
   });
@@ -51,6 +51,22 @@ function App() {
             <LetterPreview letterData={letterData} />
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="mt-16 border-t border-border/50 pt-8 pb-6">
+          <div className="text-center text-primary/60 font-tajawal">
+            <p className="text-sm mb-2">فكرة وتصميم</p>
+            <p className="text-lg font-semibold text-primary">عبد العزيز بن محمد بن خنين</p>
+            <a 
+              href="https://linktr.ee/alkhonin837" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-primary/50 hover:text-primary transition-colors duration-200 mt-2 inline-block"
+            >
+              linktr.ee/alkhonin837
+            </a>
+          </div>
+        </footer>
       </div>
       <Toaster />
     </div>
