@@ -22,3 +22,12 @@ export interface GeneratedLetter {
   arabicVersion: string;
   englishVersion?: string;
 }
+
+export interface LetterTemplate {
+  id: string;
+  title: string;
+  icon: string;
+  occasion: string;
+  tone: 'رسمية' | 'تحفيزية' | 'ودية';
+  length: 'قصير' | 'متوسط' | 'طويل';
+}
