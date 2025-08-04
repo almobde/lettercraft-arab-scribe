@@ -155,7 +155,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
       {/* Arabic Version */}
       <Card className="p-8 bg-gradient-to-br from-secondary/30 to-accent/10 border-2 border-secondary shadow-xl">
-        <div className="whitespace-pre-line text-right leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
+        <div className="whitespace-pre-line text-center leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
           <div className="prose-letter">
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
               // Center the Basmala at the top with larger font
@@ -197,8 +197,9 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
                   </div>
                 );
               }
+              // Center all other text content
               return (
-                <div key={index} className={line.trim() === '' ? 'h-4' : ''}>
+                <div key={index} className={`text-center ${line.trim() === '' ? 'h-4' : ''}`}>
                   {line}
                 </div>
               );

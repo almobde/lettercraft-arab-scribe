@@ -78,7 +78,7 @@ html {
 
 .prose-letter {
   line-height: 2;
-  text-align: right;
+  text-align: center;
 }
 
 /* Fix for development environment instability */
