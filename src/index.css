@@ -80,3 +80,45 @@ html {
   line-height: 2;
   text-align: right;
 }
+
+/* Fix for development environment instability */
+[id*="sider-trans"] {
+  position: fixed !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  visibility: hidden !important;
+  transform: translateZ(0) !important;
+}
+
+/* Prevent layout shifts from external scripts */
+body {
+  position: relative;
+}
+
+/* Stable viewport for mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Prevent zoom and movement on mobile inputs */
+  input, textarea, select {
+    font-size: 16px !important;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Smooth hardware acceleration */
+.grid, .card, .button {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
