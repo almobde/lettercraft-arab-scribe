@@ -121,19 +121,19 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
             رسمية حازمة: للمخاطبات الرسمية والطلبات الإدارية • ودية هادئة: للتهاني والشكر والمناسبات
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {(['رسمية', 'ودية'] as const).map((tone) => (
+            {([{value: 'رسمية', label: 'رسمية حازمة'}, {value: 'ودية', label: 'ودية هادئة'}] as const).map((tone) => (
               <Button
-                key={tone}
+                key={tone.value}
                 type="button"
-                variant={letterData.tone === tone ? "default" : "outline"}
+                variant={letterData.tone === tone.value ? "default" : "outline"}
                 className={`p-4 text-base font-tajawal h-auto ${
-                  letterData.tone === tone
+                  letterData.tone === tone.value
                     ? 'bg-primary hover:bg-primary/90 text-primary-foreground border-primary'
                     : 'border-border text-primary hover:bg-secondary'
                 }`}
-                onClick={() => updateField('tone', tone)}
+                onClick={() => updateField('tone', tone.value)}
               >
-                {tone}
+                {tone.label}
               </Button>
             ))}
           </div>
