@@ -27,6 +27,15 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
         return;
       }
 
+      // التحقق من أن البيانات مكتملة بما فيه الكفاية قبل إرسال الطلب
+      if (!letterData.recipientName.trim() || 
+          !letterData.occasion.trim() || 
+          letterData.occasion.length < 50 ||
+          !letterData.senderName.trim() ||
+          !letterData.senderOrganization.trim()) {
+        return;
+      }
+
       setIsLoading(true);
       try {
         const result = await generateLetter(letterData);
@@ -39,7 +48,10 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
       }
     };
 
-    generateLetterAsync();
+    // تأخير لتجنب الطلبات المتعددة أثناء الكتابة
+    const timer = setTimeout(generateLetterAsync, 1500);
+    
+    return () => clearTimeout(timer);
   }, [letterData]);
 
   const regenerateLetter = async () => {
