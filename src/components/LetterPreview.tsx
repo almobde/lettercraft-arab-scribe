@@ -79,7 +79,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
   if (!letterData.recipientName && !letterData.occasion) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-dashed border-secondary">
+      <div className="flex flex-col items-center justify-center min-h-96 h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-dashed border-secondary">
         <div className="flex items-center gap-2 mb-4">
           <FileText className="w-20 h-20 text-primary/40" />
           <Sparkles className="w-8 h-8 text-primary/60 animate-pulse" />
@@ -96,7 +96,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-secondary">
+      <div className="flex flex-col items-center justify-center min-h-96 h-96 text-primary bg-gradient-to-br from-secondary/30 to-accent/20 rounded-xl border-2 border-secondary">
         <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
         <p className="text-center text-xl font-tajawal font-medium text-primary">
           جاري إنشاء الخطاب باستخدام الذكاء الاصطناعي...

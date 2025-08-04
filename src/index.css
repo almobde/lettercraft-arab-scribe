@@ -57,6 +57,18 @@
   }
   body {
     @apply bg-background text-foreground font-tajawal;
+    overflow-x: hidden;
+  }
+  
+  /* Prevent layout shifts and ensure stability */
+  .grid {
+    min-height: 0;
+  }
+  
+  /* Stable container sizing */
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
   }
 }
 

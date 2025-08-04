@@ -42,12 +42,12 @@ function App() {
         
         <TemplateSelector onTemplateSelect={handleTemplateSelect} />
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+          <div className="space-y-6 lg:max-w-xl">
             <LetterForm letterData={letterData} setLetterData={setLetterData} />
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-6 lg:max-w-xl">
             <LetterPreview letterData={letterData} />
           </div>
         </div>
