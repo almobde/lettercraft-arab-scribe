@@ -117,8 +117,11 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
             <Palette className="w-5 h-5" />
             طبيعة ونبرة الخطاب
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {(['رسمية', 'تحفيزية', 'ودية'] as const).map((tone) => (
+          <div className="text-sm text-primary/70 font-tajawal mb-2">
+            رسمية حازمة: للمخاطبات الرسمية والطلبات الإدارية • ودية هادئة: للتهاني والشكر والمناسبات
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {(['رسمية', 'ودية'] as const).map((tone) => (
               <Button
                 key={tone}
                 type="button"
