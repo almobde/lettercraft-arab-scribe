@@ -155,13 +155,13 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
 
       {/* Arabic Version */}
       <Card className="p-8 bg-gradient-to-br from-secondary/30 to-accent/10 border-2 border-secondary shadow-xl">
-        <div className="whitespace-pre-line text-center leading-loose text-gray-800 font-tajawal text-lg" dir="rtl">
-          <div className="prose-letter">
+        <div className="whitespace-pre-line leading-loose text-gray-800 font-tajawal text-lg" style={{textAlign: 'center', direction: 'rtl'}}>
+          <div className="prose-letter" style={{textAlign: 'center'}}>
             {generatedLetter.arabicVersion.split('\n').map((line, index) => {
               // Center the Basmala at the top with larger font
               if (line.includes('بسم الله الرحمن الرحيم')) {
                 return (
-                  <div key={index} className="text-center font-bold text-2xl text-green-800 mb-8">
+                  <div key={index} className="font-bold text-2xl text-green-800 mb-8" style={{textAlign: 'center'}}>
                     {line}
                   </div>
                 );
@@ -169,7 +169,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               // Center recipient name and greeting lines with larger font
               if (line.includes('سعادة') || line.includes('إلى ') || (line.includes('/') && letterData.recipientName)) {
                 return (
-                  <div key={index} className="text-center font-bold text-2xl text-green-800 mb-3">
+                  <div key={index} className="font-bold text-2xl text-green-800 mb-3" style={{textAlign: 'center'}}>
                     {line}
                   </div>
                 );
@@ -177,7 +177,7 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               // Center and enlarge job title
               if (index > 0 && line.trim() && !line.includes('السلام') && !line.includes('بسم الله') && line.length < 50 && !line.includes('نتوجه') && !line.includes('يطيب') && !line.includes('في رحاب') && !line.includes('تحت ظلال')) {
                 return (
-                  <div key={index} className="text-center font-semibold text-xl text-green-700 mb-4">
+                  <div key={index} className="font-semibold text-xl text-green-700 mb-4" style={{textAlign: 'center'}}>
                     {line}
                   </div>
                 );
@@ -185,21 +185,21 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
               // Center and enlarge sender name and organization
               if (line.includes(letterData.senderName) && letterData.senderName) {
                 return (
-                  <div key={index} className="text-center font-bold text-xl text-green-800 mt-6">
+                  <div key={index} className="font-bold text-xl text-green-800 mt-6" style={{textAlign: 'center'}}>
                     {line}
                   </div>
                 );
               }
               if (line.includes(letterData.senderOrganization) && letterData.senderOrganization) {
                 return (
-                  <div key={index} className="text-center font-semibold text-lg text-green-700 mb-4">
+                  <div key={index} className="font-semibold text-lg text-green-700 mb-4" style={{textAlign: 'center'}}>
                     {line}
                   </div>
                 );
               }
               // Center all other text content
               return (
-                <div key={index} className={`text-center ${line.trim() === '' ? 'h-4' : ''}`}>
+                <div key={index} className={line.trim() === '' ? 'h-4' : ''} style={{textAlign: 'center'}}>
                   {line}
                 </div>
               );
