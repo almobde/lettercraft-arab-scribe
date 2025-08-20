@@ -44,7 +44,7 @@ const generateWithOpenAI = async (prompt: string): Promise<string> => {
         }
       ],
       max_tokens: 1000,
-      temperature: 0.7,
+      temperature: 0.3,
     }),
   });
 
@@ -87,9 +87,9 @@ const createLetterPrompt = (
 ): string => {
   let lengthRequirement = '';
   if (length === 'قصير') {
-    lengthRequirement = 'من 300 إلى 350 حرف';
+    lengthRequirement = 'لا يتجاوز 400 حرف';
   } else {
-    lengthRequirement = 'لا يقل عن 500 حرف';
+    lengthRequirement = 'من 800 إلى 1200 حرف';
   }
   return `اكتب خطاباً رسمياً باللغة العربية بالمواصفات التالية:
 
@@ -103,11 +103,11 @@ const createLetterPrompt = (
 المطلوب:
 1. ابدأ بالبسملة في المنتصف
 2. اكتب اسم المرسل إليه ومنصبه في المنتصف
-3. اكتب خطاباً مفصلاً (${lengthRequirement}) بأسلوب راقي ومهذب
+3. اكتب خطاباً (${lengthRequirement}) بأسلوب راقي ومهذب، والتزم بعدد الأحرف بدقة ولا تتجاوزه
 4. استخدم عبارات الترحيب والتقدير المناسبة
 5. اختتم بالتوقيع من المرسل (${senderName}) والمؤسسة (${senderOrganization}) في المنتصف
 
-يجب أن يكون الخطاب مفصلاً وباللغة العربية الفصحى. لا تضع التاريخ في الخطاب.`;
+يجب أن يكون الخطاب باللغة العربية الفصحى. لا تضع التاريخ في الخطاب. أعِد نص الخطاب فقط دون أي شروحات أو عناوين إضافية.`;
 };
 
 const createEnglishPrompt = (
@@ -121,9 +121,9 @@ const createEnglishPrompt = (
 ): string => {
   let lengthRequirement = '';
   if (length === 'قصير') {
-    lengthRequirement = '300 to 350 characters';
+    lengthRequirement = 'no more than 400 characters';
   } else {
-    lengthRequirement = 'more than 500 characters';
+    lengthRequirement = '800 to 1200 characters';
   }
   return `Write a formal letter in English with the following specifications:
 
@@ -137,11 +137,11 @@ Organization: ${senderOrganization}
 Requirements:
 1. Start with appropriate formal greeting
 2. Write recipient's name and title
-3. Write a detailed letter (${lengthRequirement}) in professional and respectful style
+3. Write a letter (${lengthRequirement}) in professional and respectful style. Strictly adhere to the character count and do not exceed it.
 4. Use appropriate courtesy phrases and expressions of respect
 5. End with proper formal closing and signature
 
-The letter should be detailed and in proper formal English. Do not include any dates in the letter.`;
+The letter should be in proper formal English. Do not include any dates in the letter. Return only the letter text with no explanations or headings.`;
 };
 
 serve(async (req) => {

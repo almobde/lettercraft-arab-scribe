@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LetterData, GeneratedLetter } from '../types/letter';
 import { generateLetter } from '../services/letterGenerator';
-import { Copy, Download, FileText, Sparkles, Loader2, RefreshCw } from 'lucide-react';
+import { Copy, FileText, Sparkles, Loader2, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 
@@ -78,16 +78,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
     toast.success('تم نسخ الخطاب إلى الحافظة!');
   };
 
-  const downloadLetter = () => {
-    const element = document.createElement('a');
-    const file = new Blob([generatedLetter.arabicVersion], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = 'letter.txt';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    toast.success('تم تحميل الخطاب!');
-  };
 
   if (!letterData.recipientName && !letterData.occasion) {
     return (
@@ -141,15 +131,6 @@ export const LetterPreview = ({ letterData }: LetterPreviewProps) => {
         >
           <Copy className="w-4 h-4 ml-2" />
           نسخ الخطاب
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={downloadLetter}
-          className="font-tajawal text-emerald-700 border-emerald-300 hover:bg-emerald-50"
-        >
-          <Download className="w-4 h-4 ml-2" />
-          تحميل الخطاب
         </Button>
       </div>
 
