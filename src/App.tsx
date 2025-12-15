@@ -6,6 +6,7 @@ import { LetterForm } from './components/LetterForm';
 import { TemplateSelector } from './components/TemplateSelector';
 import { Toaster } from 'sonner';
 import logoTitle from '@/assets/logo-title.png';
+import authorName from '@/assets/author-name.png';
 
 function App() {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -58,16 +59,12 @@ function App() {
         {/* Footer */}
         <footer className="mt-16 border-t border-border/50 pt-8 pb-6">
           <div className="text-center text-primary/60 font-tajawal">
-            <p className="text-sm mb-2">فكرة وتصميم</p>
-            <p className="text-lg font-semibold text-primary">عبد العزيز بن محمد بن خنين</p>
-            <a 
-              href="https://linktr.ee/alkhonin837" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-sm text-primary/50 hover:text-primary transition-colors duration-200 mt-2 inline-block"
-            >
-              linktr.ee/alkhonin837
-            </a>
+            <p className="text-sm mb-4">فكرة وتصميم</p>
+            <img
+              src={authorName}
+              alt="عبد العزيز بن محمد آل خنين"
+              className="h-12 md:h-14 mx-auto"
+            />
           </div>
         </footer>
       </div>
