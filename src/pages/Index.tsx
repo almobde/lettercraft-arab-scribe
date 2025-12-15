@@ -5,6 +5,7 @@ import { LetterPreview } from '../components/LetterPreview';
 import { LetterForm } from '../components/LetterForm';
 import { TemplateSelector } from '../components/TemplateSelector';
 import { Toaster } from 'sonner';
+import logoTitle from '@/assets/logo-title.png';
 
 function Index() {
   const [letterData, setLetterData] = useState<LetterData>({
@@ -32,9 +33,11 @@ function Index() {
     <div dir="rtl" className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2 font-tajawal">
-            🏛️ ديوان المراسلات الرسمية
-          </h1>
+          <img 
+            src={logoTitle} 
+            alt="ديوان المراسلات الرسمية" 
+            className="h-20 md:h-24 mx-auto mb-4"
+          />
           <p className="text-primary/70 text-lg font-tajawal">
             منصة إنشاء الخطابات الرسمية بالذكاء الاصطناعي
           </p>
