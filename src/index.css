@@ -26,6 +26,10 @@
     --input: 200 50% 80%;
     --ring: 220 100% 15%;
     --radius: 0.5rem;
+    
+    /* Gradient colors */
+    --gradient-dark: 220 100% 15%;
+    --gradient-light: 195 100% 50%;
   }
 
   .dark {
