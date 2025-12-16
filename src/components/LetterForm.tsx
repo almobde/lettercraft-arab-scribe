@@ -16,7 +16,7 @@ export const LetterForm = ({ letterData, setLetterData }: LetterFormProps) => {
 
   return (
     <Card className="shadow-xl border-2 border-primary/20 bg-gradient-to-br from-white to-secondary/30">
-      <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg">
+      <CardHeader className="bg-gradient-to-l from-[hsl(220,100%,15%)] to-[hsl(195,100%,40%)] text-white rounded-t-lg">
         <CardTitle className="flex items-center gap-3 text-2xl font-tajawal">
           <FileText className="w-8 h-8" />
           معلومات الخطاب
