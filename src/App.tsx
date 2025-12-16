@@ -63,8 +63,23 @@ function App() {
             <img
               src={authorName}
               alt="عبد العزيز بن محمد آل خنين"
-              className="h-12 md:h-14 mx-auto"
+              className="h-12 md:h-14 mx-auto mb-4"
             />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-sm">
+              <a 
+                href="mailto:almobde.com@gmail.com" 
+                className="hover:text-primary transition-colors"
+              >
+                almobde.com@gmail.com
+              </a>
+              <a 
+                href="tel:+966555255837" 
+                className="hover:text-primary transition-colors"
+                dir="ltr"
+              >
+                +966 555 255 837
+              </a>
+            </div>
           </div>
         </footer>
       </div>
